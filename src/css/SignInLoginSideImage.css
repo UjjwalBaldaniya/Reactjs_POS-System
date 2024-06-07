@@ -1,0 +1,128 @@
+.sign-sideImg {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  padding: 2rem 0px 2rem 2rem;
+  background: rgba(150, 145, 172, 0.08);
+  overflow: auto;
+}
+
+@media (min-width: 768px) {
+  .sign-sideImg {
+    padding: 3.5rem 0px 3.5rem 3.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .sign-sideImg {
+    /* height: 100vh; */
+    padding-bottom: 0px;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sign-sideImg {
+    padding: 3.5rem 0px 3.5rem 3.5rem;
+  }
+}
+
+.crousel-btn {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 1rem;
+  transition: all 0.3s ease 0s;
+  background-color: rgb(233, 233, 238);
+  color: rgb(14, 7, 47);
+  height: 3rem;
+  padding: 0px 1.5rem;
+}
+.crousel-dots {
+  height: 7px;
+  width: 10px;
+  border-radius: 1rem;
+  background-color: rgba(14, 7, 47, 0.24);
+}
+.second {
+  height: 7px;
+  width: 20px;
+  border-radius: 1rem;
+  background-color: rgba(45, 4, 226, 0.925);
+}
+
+@media (min-width: 768px) {
+  .crousel-heder {
+    padding-right: 3.5rem;
+  }
+}
+.logo {
+  display: inline-flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.logo-discription h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(14, 7, 47);
+  margin-bottom: 1rem;
+}
+.logo-discription h5 {
+  font-size: 0.875rem;
+  color: rgb(79, 74, 104);
+  margin-bottom: 1rem;
+}
+
+.side-img-effrct {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, transparent, rgb(242, 242, 244)),
+    linear-gradient(transparent, rgb(242, 242, 244));
+  pointer-events: none;
+}
+
+.curousel-img {
+  height: 50px;
+  width: 50px;
+}
+
+.slick-slider {
+}
+.slick-dots li {
+  color: red !important;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.shadow-transperent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the last value for transparency */
+}
+
