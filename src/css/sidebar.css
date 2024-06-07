@@ -1,0 +1,55 @@
+.sidebar {
+  height: 100vh;
+  padding: 2rem 2rem 0.75rem;
+  /* background-color: rgb(242, 242, 244); */
+  overflow-y: auto;
+  transition: left 0.3s ease-out 0s;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  width: 10rem;
+  aspect-ratio: auto;
+  margin-right: auto;
+}
+
+.sidebar-menu-name {
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(150, 145, 172);
+  letter-spacing: 1px;
+}
+
+.sidebar-menu-heading {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgb(64, 58, 94);
+  margin-bottom: 1.75rem;
+}
+
+.sidebar-dot-icon {
+  margin-right: 5px;
+  font-size: 20px;
+  color: transparent;
+}
+
+.sidebar-menu:hover .sidebar-dot-icon {
+  color: rgb(41, 0, 238);
+}
+.sidebar-menu:hover .sidebar-menu-name {
+  color: rgb(41, 0, 238);
+  font-weight: bold;
+}
+.sidebar-menu:hover svg path {
+  fill: rgb(41, 0, 238);
+}
+
+.active {
+  color: rgb(41, 0, 238);
+  font-weight: bold;
+}
+.active svg path {
+  fill: rgb(41, 0, 238);
+}
