@@ -52,6 +52,9 @@ const Dashboard = ({ language, setLanguage }) => {
     }
   }, [setLanguage]);
 
+  const handelLogout = () => {
+    localStorage.setItem("authUser", false);
+  };
   return (
     <div className="dashboard">
       {/* NAVBAR */}
@@ -76,7 +79,9 @@ const Dashboard = ({ language, setLanguage }) => {
               <Dropdown.Item onClick={changeLanguage}>
                 {language === "EN" ? "العربية" : "English"}
               </Dropdown.Item>
-              <Dropdown.Item>Sign Out</Dropdown.Item>
+              <Dropdown.Item href="/sign-in" onClick={() => handelLogout()}>
+                Sign Out
+              </Dropdown.Item>
             </DropdownButton>
           </div>
         </div>

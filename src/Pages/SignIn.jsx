@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pos from "../assets/img/sign-In/pos-logo.png";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SignInLoginSideImage from "./SignInLoginSideImage";
 import Abc from "../Components/validationSchema/Abc";
+import { useAuth } from "../Context/AuthContext";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [showError, setShowError] = useState(false);
+  console.log("🚀 ~ file: SignIn.jsx:12 ~ SignIn ~ showError:", showError);
+  const [errorWrongPass, setErrorWrongPass] = useState(false);
+  console.log(
+    "🚀 ~ file: SignIn.jsx:13 ~ SignIn ~ errorWrongPass:",
+    errorWrongPass
+  );
+
+  const handelShowError = () => {
+    setErrorWrongPass(true);
+    setShowError(false);
+  };
 
   const handleRegisterClick = () => {
     navigate("/sign-up");
+  };
+  const handleLogin = () => {
+    localStorage.setItem("authUser", true);
+    login();
   };
   return (
     <div className="container-fluid">
@@ -26,9 +44,33 @@ const SignIn = () => {
                 }}
                 validationSchema={Abc}
                 onSubmit={(values) => {
-                  // Handle form submission
-                  localStorage.setItem("userData", JSON.stringify(values));
-                  handleRegisterClick();
+                  // Retrieve userData from localStorage
+                  const userData = JSON.parse(localStorage.getItem("userData"));
+                  console.log("userData", userData);
+                  if (userData === null) {
+                    setShowError(true);
+                  }
+                  // Check if username or email and password match
+                  if (
+                    (values.usernameOrEmail === userData.username ||
+                      values.usernameOrEmail === userData.email) &&
+                    values.password === userData.password
+                  ) {
+                    // Redirect to dashboard
+
+                    handleLogin();
+                    setShowError(false);
+                    navigate("/dashboard");
+                  } else {
+                    // Handle incorrect credentials
+                    values.usernameOrEmail === userData.username ||
+                    (values.usernameOrEmail === userData.email &&
+                      values.password !== userData.password)
+                      ? handelShowError()
+                      : setShowError(true);
+
+                    console.log("Invalid username/email or password");
+                  }
                 }}
               >
                 {({ errors, touched }) => (
@@ -103,6 +145,17 @@ const SignIn = () => {
                         </div>
                       </div>
                     </div>
+                    {showError ? (
+                      <div className="error-msg">
+                        {" "}
+                        User does not exist , please Register
+                      </div>
+                    ) : errorWrongPass ? (
+                      <div className="error-msg"> Password incorrect</div>
+                    ) : (
+                      ""
+                    )}
+
                     <a className="forgotpass" href="/">
                       Forgot Password?
                     </a>

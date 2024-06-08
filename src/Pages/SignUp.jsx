@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 // import SignUpSchema from "../components/validationSchema/SignUpSchema";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SignInLoginSideImage from "./SignInLoginSideImage";
-import SignUpSchema from './../Components/validationSchema/SignUpSchema';
+import SignUpSchema from "./../Components/validationSchema/SignUpSchema";
+import Select from "react-select";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,10 +15,18 @@ const SignUp = () => {
     navigate("/sign-in");
   };
 
+  const countryCodes = [
+    { label: "Afghanistan +93", value: "+93" },
+    { label: "Albania", value: "+355" },
+    { label: "Algeria", value: "+213" },
+    { label: "American Samoa", value: "+1-684" },
+    { label: "Andorra", value: "+376" },
+  ];
+
   return (
     <div className="container-fluid">
       <secrtion className="">
-        <div className="row">
+        <div className="row flex-column-reverse flex-lg-row">
           <div className="col-12 col-lg-6 px-5">
             <div className="sign-in-inner">
               <img src={pos} className="pos-logo" alt="" />
@@ -37,7 +46,7 @@ const SignUp = () => {
                   handleRegisterClick();
                 }}
               >
-                {({ errors, touched }) => (
+                {({ values, errors, touched, setFieldValue }) => (
                   <Form action="">
                     <div className="sign-up">
                       <h1>Create New Account</h1>
@@ -130,6 +139,26 @@ const SignUp = () => {
                                 className="error-message"
                               />
                             </div>
+                            {/* <div className="input-div-inner">
+                              {console.log("fdfhdfgh", errors?.countryCode)}
+                              <Select
+                                value={values.countryCode}
+                                options={countryCodes}
+                                name="countryCode"
+                                className={`${
+                                  errors?.countryCode
+                                    ? "form-control-invalid"
+                                    : ""
+                                }`}
+                                onChange={(values)=>setFieldValue("countryCode",values)}
+                                placeholder="Country Code"
+                              />
+                              <ErrorMessage
+                                name="countryCode"
+                                component="div"
+                                className="error-message"
+                              />
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -230,8 +259,9 @@ const SignUp = () => {
           </div>
 
           <div
-            className="col-12 col-lg-6 pe-0"
-            style={{ height: "100vh", overflow: "auto" }}
+            // className="col-12 col-lg-6 pe-0"
+            // style={{ height: "100vh", overflow: "auto" }}
+            className="col-12 col-lg-6 pe-0 signin-side"
           >
             <SignInLoginSideImage />
           </div>

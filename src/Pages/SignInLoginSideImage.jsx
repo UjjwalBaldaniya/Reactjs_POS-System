@@ -73,12 +73,13 @@ const SignInLoginSideImage = () => {
               <div></div>
             </div>
           </Slider>
-          <div>
+          <div className="position-relative">
             <img
               className="w-100  d-none d-lg-block"
               src={LoginSideIMG}
               alt=""
             />
+            <div className="c-shadow"></div>
           </div>
         </div>
       </div>
