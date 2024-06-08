@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginSideIMG from "../assets/img/sign-In/login-sideIMG.png";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const SignInLoginSideImage = () => {
+import { Dropdown, DropdownButton } from "react-bootstrap";
+import i18n from "../utils/i18next";
+import { t } from "i18next";
+
+const SignInLoginSideImage = ({ language, setLanguage }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -15,6 +19,22 @@ const SignInLoginSideImage = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  const changeLanguage = () => {
+    const newLanguage = language === "EN" ? "AR" : "EN";
+    localStorage.setItem("language", newLanguage);
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+  };
+
+  useEffect(() => {
+    const defaultLanguage = localStorage.getItem("language");
+    if (defaultLanguage) {
+      setLanguage(defaultLanguage);
+      i18n.changeLanguage(defaultLanguage);
+    }
+  }, [setLanguage]);
+
   return (
     <div className="sign-sideImg">
       <div className="">
@@ -28,8 +48,16 @@ const SignInLoginSideImage = () => {
             </div>
           </div>
           <div className="col-6">
-            <div className="d-flex justify-content-end me-4 ">
-              <button className="crousel-btn">English</button>
+            <div className="d-flex align-items-center justify-content-end">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={language === "EN" ? "English" : "العربية"}
+                className="crousel-btn"
+                variant="secondary"
+              >
+                <Dropdown.Item onClick={changeLanguage}>English</Dropdown.Item>
+                <Dropdown.Item onClick={changeLanguage}>العربية</Dropdown.Item>
+              </DropdownButton>
             </div>
           </div>
         </div>
@@ -37,39 +65,26 @@ const SignInLoginSideImage = () => {
           <Slider {...settings}>
             <div className="logo-discription">
               <div className="logo">🤹</div>
-              <h1>Flavours is a seamless system with a simple interface</h1>
-              <h5>
-                It gives you a comprehensive view of making decisions to improve
-                your overall performance
-              </h5>
+              <h1>{t("slider.heading1")}</h1>
+              <h5>{t("slider.subHeading1")}</h5>
               <div></div>
             </div>
             <div className="logo-discription">
               <div className="logo">🗂️</div>
-              <h1>
-                Flavours provides you with accurate data for your business
-              </h1>
-              <h5>
-                It gives you a comprehensive view of making decisions to improve
-                your overall performance
-              </h5>
+              <h1>{t("slider.heading2")}</h1>
+              <h5>{t("slider.subHeading2")}</h5>
               <div></div>
             </div>
             <div className="logo-discription">
               <div className="logo">🍕</div>
-              <h1>You can coordinate and prepare menus</h1>
-              <h5>
-                Ease of adding products, with the ability to update and remove
-                them as needed
-              </h5>
+              <h1>{t("slider.heading3")}</h1>
+              <h5>{t("slider.subHeading3")}</h5>
               <div></div>
             </div>
             <div className="logo-discription">
               <div className="logo">🦾</div>
-              <h1>Secure / the system is approved by the ZATCA</h1>
-              <h5>
-                You can try all the benefits of the system for free for 14 days
-              </h5>
+              <h1>{t("slider.heading4")}</h1>
+              <h5>{t("slider.subHeading4")}</h5>
               <div></div>
             </div>
           </Slider>

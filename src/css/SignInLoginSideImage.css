@@ -27,7 +27,9 @@
   }
 }
 
-.crousel-btn {
+.crousel-btn button {
+  height: 3rem;
+  padding: 0px 1.5rem;
   position: relative;
   cursor: pointer;
   display: flex;
@@ -36,17 +38,17 @@
   -webkit-box-align: center;
   align-items: center;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   text-align: center;
   border-radius: 1rem;
   transition: all 0.3s ease 0s;
-  background-color: rgb(233, 233, 238);
+  background-color: rgb(228, 227, 227);
   color: rgb(14, 7, 47);
-  height: 3rem;
-  padding: 0px 1.5rem;
-  background-color: #d9d8d8;
-  /* background-color: rgb(233, 233, 238); */
+}
+
+.crousel-btn .dropdown-toggle::after {
+  display: none;
 }
 .crousel-dots {
   height: 7px;

@@ -6,8 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import SignInLoginSideImage from "./SignInLoginSideImage";
 import Abc from "../Components/validationSchema/Abc";
 import { useAuth } from "../Context/AuthContext";
+import { t } from "i18next";
 
-const SignIn = () => {
+const SignIn = ({ language, setLanguage }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [showError, setShowError] = useState(false);
@@ -30,6 +31,7 @@ const SignIn = () => {
     localStorage.setItem("authUser", true);
     login();
   };
+
   return (
     <div className="container-fluid">
       <secrtion className="">
@@ -76,16 +78,16 @@ const SignIn = () => {
                 {({ errors, touched }) => (
                   <Form action="">
                     <div className="sign-in">
-                      <h1>Login</h1>
+                      <h1>{t("login.login")}</h1>
                       <div className="sign-in-btn d-flex justify-content-between">
-                        <p>Not registered yet?</p>
+                        <p>{t("login.notRegister")}</p>
                         <button onClick={() => handleRegisterClick()}>
                           <div className="d-flex">
                             <i>
                               <FaUser />
                             </i>
 
-                            <div>Register</div>
+                            <div>{t("login.register")}</div>
                           </div>
                         </button>
                       </div>
@@ -93,7 +95,7 @@ const SignIn = () => {
                     <div className="user-pass row mb-3">
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Username or Email Address</label>
+                          <label htmlFor="">{t("login.username")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -107,7 +109,7 @@ const SignIn = () => {
                                 }`}
                                 id="username"
                                 name="usernameOrEmail"
-                                placeholder="Enter username or email address"
+                                placeholder={t("login.enterEmail")}
                               />
                               <ErrorMessage
                                 name="usernameOrEmail"
@@ -120,7 +122,7 @@ const SignIn = () => {
                       </div>
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Password</label>
+                          <label htmlFor="">{t("login.password")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -133,7 +135,7 @@ const SignIn = () => {
                                 }`}
                                 id="username"
                                 name="password"
-                                placeholder="Enter password"
+                                placeholder={t("login.enterPassword")}
                               />
                               <ErrorMessage
                                 name="password"
@@ -146,21 +148,20 @@ const SignIn = () => {
                       </div>
                     </div>
                     {showError ? (
-                      <div className="error-msg">
-                        {" "}
-                        User does not exist , please Register
-                      </div>
+                      <div className="error-msg">{t("login.userNotExist")}</div>
                     ) : errorWrongPass ? (
-                      <div className="error-msg"> Password incorrect</div>
+                      <div className="error-msg">
+                        {t("login.passwordIncorrect")}
+                      </div>
                     ) : (
                       ""
                     )}
 
                     <a className="forgotpass" href="/">
-                      Forgot Password?
+                      {t("login.forgotPassword")}
                     </a>
                     <button className="login-btn">
-                      <div className="login">Login</div>
+                      <div className="login">{t("login.login")}</div>
                     </button>
                   </Form>
                 )}
@@ -168,7 +169,10 @@ const SignIn = () => {
             </div>
           </div>
           <div className="col-12 col-lg-6 pe-0 signin-side">
-            <SignInLoginSideImage />
+            <SignInLoginSideImage
+              language={language}
+              setLanguage={setLanguage}
+            />
           </div>
         </div>
       </secrtion>

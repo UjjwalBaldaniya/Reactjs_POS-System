@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SignInSingUp = ({ Component }) => {
+const SignInSingUp = ({ Component, language, setLanguage }) => {
   const navigate = useNavigate();
   const authUser = localStorage.getItem("authUser");
 
@@ -11,6 +11,6 @@ const SignInSingUp = ({ Component }) => {
       window.history.back();
     }
   }, []);
-  return <Component />;
+  return <Component language={language} setLanguage={setLanguage} />;
 };
 export default SignInSingUp;

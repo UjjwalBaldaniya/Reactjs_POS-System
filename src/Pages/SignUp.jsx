@@ -7,8 +7,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import SignInLoginSideImage from "./SignInLoginSideImage";
 import SignUpSchema from "./../Components/validationSchema/SignUpSchema";
 import Select from "react-select";
+import { t } from "i18next";
 
-const SignUp = () => {
+const SignUp = ({ language, setLanguage }) => {
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -49,16 +50,16 @@ const SignUp = () => {
                 {({ values, errors, touched, setFieldValue }) => (
                   <Form action="">
                     <div className="sign-up">
-                      <h1>Create New Account</h1>
+                      <h1>{t("signup.createNewAccount")}</h1>
                       <div className="sign-in-btn">
-                        <p>Already have an account?</p>
+                        <p>{t("signup.alreadyAccount")}</p>
                         <button onClick={() => handleRegisterClick()}>
                           <div className="d-flex">
                             <i>
                               <FaUser />
                             </i>
 
-                            <div>Login</div>
+                            <div>{t("login.login")}</div>
                           </div>
                         </button>
                       </div>
@@ -66,7 +67,7 @@ const SignUp = () => {
                     <div className="user-pass row mb-3">
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Username</label>
+                          <label htmlFor="">{t("signup.username")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -79,7 +80,7 @@ const SignUp = () => {
                                 }`}
                                 id="username"
                                 name="username"
-                                placeholder="Enter username or email address"
+                                placeholder={t("login.enterEmail")}
                               />
                               <ErrorMessage
                                 name="username"
@@ -92,7 +93,7 @@ const SignUp = () => {
                       </div>
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor=""> Email Address</label>
+                          <label htmlFor="">{t("signup.emailAddress")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -104,7 +105,7 @@ const SignUp = () => {
                                     : ""
                                 }`}
                                 name="email"
-                                placeholder="Enter email address"
+                                placeholder={t("signup.enterEmailAdd")}
                               />
                               <ErrorMessage
                                 name="email"
@@ -119,7 +120,7 @@ const SignUp = () => {
                     <div className="user-pass row mb-3">
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Country Code</label>
+                          <label htmlFor="">{t("signup.countryCode")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -131,7 +132,7 @@ const SignUp = () => {
                                     ? "form-control-invalid"
                                     : ""
                                 }`}
-                                placeholder="Country Code"
+                                placeholder={t("signup.countryCode")}
                               />
                               <ErrorMessage
                                 name="countryCode"
@@ -164,7 +165,7 @@ const SignUp = () => {
                       </div>
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Phone Number</label>
+                          <label htmlFor="">{t("signup.phoneNumber")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -176,7 +177,7 @@ const SignUp = () => {
                                     : ""
                                 }`}
                                 name="phoneNumber"
-                                placeholder="Enter phone number"
+                                placeholder={t("signup.enterPhoneNo")}
                               />
                               <ErrorMessage
                                 name="phoneNumber"
@@ -191,7 +192,7 @@ const SignUp = () => {
                     <div className="user-pass row mb-3">
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Password</label>
+                          <label htmlFor="">{t("login.password")}</label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -203,7 +204,7 @@ const SignUp = () => {
                                     : ""
                                 }`}
                                 name="password"
-                                placeholder="Enter Password"
+                                placeholder={t("login.enterPassword")}
                               />
                               <ErrorMessage
                                 name="password"
@@ -216,7 +217,9 @@ const SignUp = () => {
                       </div>
                       <div className=" col-12  col-md-6">
                         <div className="lable-input">
-                          <label htmlFor="">Confirm Password</label>
+                          <label htmlFor="">
+                            {t("signup.confirmPassword")}
+                          </label>
                           <div className="input-div">
                             <div className="input-div-inner">
                               <Field
@@ -229,7 +232,7 @@ const SignUp = () => {
                                     ? "form-control-invalid"
                                     : ""
                                 }`}
-                                placeholder="Enter Confirm Password"
+                                placeholder={t("signup.enterConfirmPassword")}
                               />
                               <ErrorMessage
                                 name="confirmPassword"
@@ -243,14 +246,14 @@ const SignUp = () => {
                     </div>
                     <div className="sign-up-policies">
                       <span className="span-first">
-                        By registering, I agree to the{" "}
+                        {t("signup.byRegister")}
                         <span className="span-second">
-                          flavours platform policies
+                          {t("signup.flavours")}
                         </span>
                       </span>
                     </div>
                     <button className="login-btn">
-                      <div className="login">Next</div>
+                      <div className="login">{t("signup.next")}</div>
                     </button>
                   </Form>
                 )}
@@ -263,7 +266,10 @@ const SignUp = () => {
             // style={{ height: "100vh", overflow: "auto" }}
             className="col-12 col-lg-6 pe-0 signin-side"
           >
-            <SignInLoginSideImage />
+            <SignInLoginSideImage
+              language={language}
+              setLanguage={setLanguage}
+            />
           </div>
         </div>
       </secrtion>

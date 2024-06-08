@@ -103,11 +103,23 @@ function App() {
             <Route path="/" element={<Navigate to="/sign-in" />} />
             <Route
               path="/sign-up"
-              element={<SignInSingUp Component={SignUp} />}
+              element={
+                <SignInSingUp
+                  Component={SignUp}
+                  language={language}
+                  setLanguage={setLanguage}
+                />
+              }
             />
             <Route
               path="/sign-in"
-              element={<SignInSingUp Component={SignIn} />}
+              element={
+                <SignInSingUp
+                  Component={SignIn}
+                  language={language}
+                  setLanguage={setLanguage}
+                />
+              }
             />
           </Routes>
         ) : (
@@ -132,8 +144,6 @@ function App() {
                     }
                   />
                 </Route>
-                <Route path="/sign-up" element={<SignUp />} />
-                <Route path="/sign-in" element={<SignIn />} />
               </Routes>
             </div>
           </div>
