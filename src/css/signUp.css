@@ -10,6 +10,9 @@
   width: 100%;
   padding-bottom: 20px;
 }
+.sign-up h1{
+  font-weight: 700 !important;
+}
 .sign-up-policies {
   padding-right: 0.75rem;
   margin-bottom: 2rem;

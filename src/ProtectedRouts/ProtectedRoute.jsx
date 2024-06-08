@@ -5,7 +5,7 @@ import { useAuth } from "../Context/AuthContext";
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth();
-  return  <Outlet />
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

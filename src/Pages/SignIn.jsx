@@ -36,7 +36,7 @@ const SignIn = ({ language, setLanguage }) => {
     <div className="container-fluid">
       <secrtion className="">
         <div className="row flex-column-reverse flex-lg-row">
-          <div className="col-12 col-lg-6 px-5">
+          <div className="col-12 col-lg-6 px-5" style={{ background: "white" }}>
             <div className="sign-in-inner">
               <img
                 src={
@@ -176,7 +176,7 @@ const SignIn = ({ language, setLanguage }) => {
               </Formik>
             </div>
           </div>
-          <div className="col-12 col-lg-6 pe-0 signin-side">
+          <div className="col-12 col-lg-6 pe-0 signin-side ps-0">
             <SignInLoginSideImage
               language={language}
               setLanguage={setLanguage}

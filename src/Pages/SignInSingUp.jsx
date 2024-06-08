@@ -7,7 +7,6 @@ const SignInSingUp = ({ Component, language, setLanguage }) => {
 
   useEffect(() => {
     if (authUser === "true") {
-      console.log("jkhguigujbguik");
       window.history.back();
     }
   }, []);

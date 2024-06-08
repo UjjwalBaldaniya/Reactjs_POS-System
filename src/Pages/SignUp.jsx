@@ -17,18 +17,30 @@ const SignUp = ({ language, setLanguage }) => {
   };
 
   const countryCodes = [
+    { label: "SA Saudi Arabia | (+966)", value: "SA Saudi Arabia | (+966)" },
+    { label: "OM Oman | (+968)", value: "OM Oman | (+968)" },
     { label: "Afghanistan +93", value: "+93" },
-    { label: "Albania", value: "+355" },
-    { label: "Algeria", value: "+213" },
-    { label: "American Samoa", value: "+1-684" },
-    { label: "Andorra", value: "+376" },
+    { label: "Albania +355", value: "+355" },
+    { label: "Algeria +213", value: "+213" },
+    { label: "American Samoa +1-684", value: "+1-684" },
+    { label: "Andorra +376", value: "+376" },
+  ];
+  const countryCodes2 = [
+    { label: "السعودية SA | (+966)", value: "السعودية SA | (+966)" },
+    { label: "عُمان OM | (+968)", value: "عُمان OM | (+968)" },
+    { label: "أفغانستان +93", value: "+93" },
+    { label: "ألبانيا +355", value: "+355" },
+    { label: "الجزائر +213", value: "+213" },
+    { label: "ساموا الأمريكية +1-684", value: "+1-684" },
+    { label: "أندورا +376", value: "+376" },
+    // Add more countries in Arabic as needed
   ];
 
   return (
     <div className="container-fluid">
       <secrtion className="">
         <div className="row flex-column-reverse flex-lg-row">
-          <div className="col-12 col-lg-6 px-5">
+          <div className="col-12 col-lg-6 px-5" style={{ background: "white" }}>
             <div className="sign-in-inner">
               <img
                 src={
@@ -44,7 +56,7 @@ const SignUp = ({ language, setLanguage }) => {
                   username: "",
                   email: "",
                   password: "",
-                  countryCode: "",
+                  countryCode: countryCodes[0].value,
                   phoneNumber: "",
                   confirmPassword: "",
                 }}
@@ -63,7 +75,7 @@ const SignUp = ({ language, setLanguage }) => {
                         <p>{t("signup.alreadyAccount")}</p>
                         <button onClick={() => handleRegisterClick()}>
                           <div className="d-flex">
-                            <i>
+                            <i className="ms-2">
                               <FaUser />
                             </i>
 
@@ -130,7 +142,7 @@ const SignUp = ({ language, setLanguage }) => {
                         <div className="lable-input">
                           <label htmlFor="">{t("signup.countryCode")}</label>
                           <div className="input-div">
-                            <div className="input-div-inner">
+                            {/* <div className="input-div-inner">
                               <Field
                                 type="text"
                                 name="countryCode"
@@ -147,19 +159,23 @@ const SignUp = ({ language, setLanguage }) => {
                                 component="div"
                                 className="error-message"
                               />
-                            </div>
-                            {/* <div className="input-div-inner">
-                              {console.log("fdfhdfgh", errors?.countryCode)}
+                            </div> */}
+                            <div className="input-div-inner">
                               <Select
-                                value={values.countryCode}
+                                value={countryCodes.find(
+                                  (option) =>
+                                    option.value === values.countryCode
+                                )}
                                 options={countryCodes}
                                 name="countryCode"
                                 className={`${
-                                  errors?.countryCode
+                                  errors?.countryCode && touched?.countryCode
                                     ? "form-control-invalid"
                                     : ""
                                 }`}
-                                onChange={(values)=>setFieldValue("countryCode",values)}
+                                onChange={(option) =>
+                                  setFieldValue("countryCode", option.value)
+                                }
                                 placeholder="Country Code"
                               />
                               <ErrorMessage
@@ -167,7 +183,7 @@ const SignUp = ({ language, setLanguage }) => {
                                 component="div"
                                 className="error-message"
                               />
-                            </div> */}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -272,7 +288,7 @@ const SignUp = ({ language, setLanguage }) => {
           <div
             // className="col-12 col-lg-6 pe-0"
             // style={{ height: "100vh", overflow: "auto" }}
-            className="col-12 col-lg-6 pe-0 signin-side"
+            className="col-12 col-lg-6 pe-0 signin-side ps-0"
           >
             <SignInLoginSideImage
               language={language}

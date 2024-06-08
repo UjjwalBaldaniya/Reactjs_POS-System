@@ -100,6 +100,9 @@ const resources = {
         usernameOrEmailRequired: "Username or email is required",
         passwordRequired: "Password is required",
       },
+      country: {
+        first: "SA Saudi Arabia | (+966)",
+      },
     },
   },
   AR: {
@@ -194,6 +197,9 @@ const resources = {
         required: "هذه الخانة مطلوبه",
         usernameOrEmailRequired: "اسم المستخدم أو البريد الإلكتروني مطلوب",
         passwordRequired: "كلمة المرور مطلوبة",
+      },
+      country: {
+        first: "السعودية SA | (+966)",
       },
     },
   },
