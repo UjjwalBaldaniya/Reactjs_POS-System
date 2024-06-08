@@ -125,7 +125,7 @@ function App() {
         ) : (
           <div className="row">
             <div className="d-none d-lg-block col-3 col-xl-2 p-0">
-              <Sidebar />
+              <Sidebar language={language} />
             </div>
             <div
               style={{ height: "100vh", overflow: "auto" }}

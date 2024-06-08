@@ -55,8 +55,18 @@ const SignInLoginSideImage = ({ language, setLanguage }) => {
                 className="crousel-btn"
                 variant="secondary"
               >
-                <Dropdown.Item onClick={changeLanguage}>English</Dropdown.Item>
-                <Dropdown.Item onClick={changeLanguage}>العربية</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={changeLanguage}
+                  disabled={language === "EN"}
+                >
+                  English
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={changeLanguage}
+                  disabled={language === "AR"}
+                >
+                  العربية
+                </Dropdown.Item>
               </DropdownButton>
             </div>
           </div>

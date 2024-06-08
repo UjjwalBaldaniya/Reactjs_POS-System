@@ -18,17 +18,20 @@ import {
 } from "../assets/icons/sidebar";
 import "../css/sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ language }) => {
   const { t } = useTranslation();
   return (
     <div className="sidebar">
-      <div className="d-flex py-3">
+      <div className="d-flex py-3 justify-content-start align-items-start">
         <img
-          src="https://pos.flavours.sa/static/media/flavours-pos-black-en.b8b2609d04a9663fd048.png"
+          src={
+            language === "EN"
+              ? "https://pos.flavours.sa/static/media/flavours-pos-black-en.b8b2609d04a9663fd048.png"
+              : "https://pos.flavours.sa/static/media/flavours-pos-black-ar.99c4ad79aae8977dc721.png"
+          }
           alt="logo"
           className="sidebar-logo"
         />
-        <div></div>
       </div>
       <div className="py-4">
         <div className="sidebar-menu d-flex align-items-center mb-4 ">
