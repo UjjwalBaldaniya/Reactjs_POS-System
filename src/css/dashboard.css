@@ -43,6 +43,25 @@
   font-weight: 700;
 }
 
+.navbar-mobile-logo {
+  padding: 10px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease 0s;
+  background-color: rgb(255, 255, 255);
+  color: rgb(14, 7, 47);
+  border-radius: 50% !important;
+}
+
 /* .btn.show {
   background-color: rgb(41, 0, 238);
 } */
@@ -63,6 +82,47 @@
 }
 
 /* DASHBOARD */
+
+.dashboard-tab-active {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  user-select: none;
+  background-color: rgb(41, 0, 238);
+  color: rgb(255, 255, 255);
+}
+
+.dashboard-financial {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 24px;
+  background-color: rgb(238, 235, 254);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: rgb(41, 0, 238);
+  user-select: none;
+}
+
+.dashboard-financial-revenue span {
+  color: rgb(150, 145, 172);
+}
+
+.dashboard-financial-revenue-discount {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(0, 141, 14);
+  background-color: rgb(223, 239, 226);
+}
+
 .dashboard-data {
   font-size: 0.875rem;
   font-weight: 400;
