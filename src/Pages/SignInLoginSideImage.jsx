@@ -13,7 +13,7 @@ const SignInLoginSideImage = ({ language, setLanguage }) => {
     dots: true,
     infinite: true,
     speed: 100,
-    autoplay: true, // Enable autoplay
+    autoplay: true,
     // autoplaySpeed: 2500,
     autoplaySpeed: 5000,
     slidesToShow: 1,

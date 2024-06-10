@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React, { useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -21,7 +22,6 @@ import star from "../assets/images/dashboard/star.webp";
 import waterBottle from "../assets/images/dashboard/water-bottle.jpg";
 import "../css/dashboard.css";
 import i18n from "../utils/i18next";
-import { t } from "i18next";
 
 const Dashboard = ({ language, setLanguage }) => {
   const [selectedBtn, setSelectedBtn] = useState(0);
