@@ -27,7 +27,7 @@ const SignIn = ({ language, setLanguage }) => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <div className="row flex-column-reverse flex-lg-row">
         <div className="col-12 col-lg-6 px-5" style={{ background: "white" }}>
           <div className="sign-in-inner">
@@ -37,7 +37,7 @@ const SignIn = ({ language, setLanguage }) => {
                   ? "https://pos.flavours.sa/static/media/flavours-pos-black-en.b8b2609d04a9663fd048.png"
                   : "https://pos.flavours.sa/static/media/flavours-pos-black-ar.99c4ad79aae8977dc721.png"
               }
-              className="pos-logo"
+              className="pos-logo mt-2"
               alt=""
             />
             <Formik

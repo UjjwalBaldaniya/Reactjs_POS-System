@@ -14,6 +14,8 @@ import SignInSingUp from "./Pages/SignInSingUp.jsx";
 import SignUp from "./Pages/SignUp";
 import ProtectedRoute from "./ProtectedRouts/ProtectedRoute";
 import Table from "./Pages/Table.jsx";
+import ProductList from "./Pages/ProductList.jsx";
+import AddProduct from "./Pages/AddProduct.jsx";
 
 function App() {
   const [language, setLanguage] = useState(
@@ -87,6 +89,24 @@ function App() {
                     path="/table"
                     element={
                       <Table language={language} setLanguage={setLanguage} />
+                    }
+                  />
+                  <Route
+                    path="/products"
+                    element={
+                      <ProductList
+                        language={language}
+                        setLanguage={setLanguage}
+                      />
+                    }
+                  />
+                   <Route
+                    path="/products/create"
+                    element={
+                      <AddProduct
+                        language={language}
+                        setLanguage={setLanguage}
+                      />
                     }
                   />
                 </Route>

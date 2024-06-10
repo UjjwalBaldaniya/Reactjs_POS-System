@@ -51,7 +51,7 @@ const Sidebar = ({ language }) => {
         <div className="sidebar-menu d-flex align-items-center mb-4 ">
           <RxDotFilled className="sidebar-dot-icon" />
           <div className="">{productsIcon}</div>
-          <Link to="/dashboard" className="sidebar-menu-name ms-2">
+          <Link to="/products" className="sidebar-menu-name ms-2">
             {t("sidebar.products")}
           </Link>
         </div>
