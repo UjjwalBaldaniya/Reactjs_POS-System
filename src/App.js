@@ -13,6 +13,7 @@ import SignIn from "./Pages/SignIn";
 import SignInSingUp from "./Pages/SignInSingUp.jsx";
 import SignUp from "./Pages/SignUp";
 import ProtectedRoute from "./ProtectedRouts/ProtectedRoute";
+import Table from "./Pages/Table.jsx";
 
 function App() {
   const [language, setLanguage] = useState(
@@ -80,6 +81,12 @@ function App() {
                         language={language}
                         setLanguage={setLanguage}
                       />
+                    }
+                  />
+                  <Route
+                    path="/table"
+                    element={
+                      <Table language={language} setLanguage={setLanguage} />
                     }
                   />
                 </Route>

@@ -22,7 +22,12 @@ import "../css/mobile-sidebar.css";
 const MobileMenu = (props) => {
   const { show, onHide } = props;
   return (
-    <Offcanvas show={show} onHide={onHide} {...props}>
+    <Offcanvas
+      show={show}
+      onHide={onHide}
+      {...props}
+      className="offcanvas-mobile-menu"
+    >
       <Offcanvas.Header className="mt-4">
         <Offcanvas.Title>
           <img
@@ -46,7 +51,7 @@ const MobileMenu = (props) => {
               </NavLink>
             </div>
             <div className="sidebar-menu d-flex align-items-center mb-4">
-              <RxDotFilled className="sidebar-dot-icon" />
+              <RxDotFilled className="sidebar-dot-icon " />
               <div className="">{tablesIcon}</div>
               <Link to="/dashboard" className="sidebar-menu-name ms-2">
                 Tables

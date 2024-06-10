@@ -1,0 +1,71 @@
+.add-products {
+  height: 3rem;
+  padding-left: 1.8rem;
+  padding-right: 1.5rem;
+  border-radius: 16px;
+  white-space: nowrap;
+  border-radius: 1rem;
+  background: rgb(41, 0, 238);
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  border: none;
+  font-weight: 700;
+}
+.plus-icon {
+  width: 1.75rem;
+  min-width: 1.75rem;
+  max-width: 1.75rem;
+  height: 1.75rem;
+  min-height: 1.75rem;
+  max-height: 1.75rem;
+  margin-right: 0.5rem;
+  background: white;
+  color: black;
+  border-radius: 200px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-products span {
+  place-items: center;
+  display: grid;
+}
+
+.export-all {
+  height: 3rem;
+  padding-left: 1.8rem;
+  padding-right: 1.5rem;
+  border-radius: 16px;
+  white-space: nowrap;
+  border-radius: 1rem;
+  /* background: rgb(231, 230, 236);
+  text-align: center; */
+  background-color: rgb(238, 235, 254);
+  color: rgb(41, 0, 238);
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  border: none;
+  font-weight: 600;
+}
+
+.export-all:hover {
+  background: #e6e3e3;
+}
+
+.export-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.export-all span {
+  place-items: center;
+  display: grid;
+}

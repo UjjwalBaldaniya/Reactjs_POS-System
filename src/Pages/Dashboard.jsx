@@ -1,17 +1,13 @@
 import { t } from "i18next";
-import React, { useEffect, useState } from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import MobileMenu from "../Components/MobileMenu";
 import {
   locationIcon,
-  navbarMobileIcon,
   rightSideArrowIcon,
   timeIcon,
   wrightIcon,
   wrongIcon,
 } from "../assets/icons/dashboard";
-import { bellIcon } from "../assets/icons/navbar";
 import burger from "../assets/images/dashboard/burger.jpg";
 import cake from "../assets/images/dashboard/cake.jpg";
 import chart from "../assets/images/dashboard/chart.png";
@@ -20,12 +16,11 @@ import pepsi from "../assets/images/dashboard/pepsi.jpg";
 import pizza from "../assets/images/dashboard/pizza.jpg";
 import star from "../assets/images/dashboard/star.webp";
 import waterBottle from "../assets/images/dashboard/water-bottle.jpg";
+import Navbar from "../common/Navbar";
 import "../css/dashboard.css";
-import i18n from "../utils/i18next";
 
 const Dashboard = ({ language, setLanguage }) => {
   const [selectedBtn, setSelectedBtn] = useState(0);
-  const [show, setShow] = useState(false);
 
   const handleButtonGroup = (id) => {
     setSelectedBtn(id);
@@ -37,55 +32,13 @@ const Dashboard = ({ language, setLanguage }) => {
     t("dashboard.month"),
   ];
 
-  const changeLanguage = () => {
-    const newLanguage = language === "EN" ? "AR" : "EN";
-    localStorage.setItem("language", newLanguage);
-    setLanguage(newLanguage);
-    i18n.changeLanguage(newLanguage);
-  };
-
-  useEffect(() => {
-    const defaultLanguage = localStorage.getItem("language");
-    if (defaultLanguage) {
-      setLanguage(defaultLanguage);
-      i18n.changeLanguage(defaultLanguage);
-    }
-  }, [setLanguage]);
-
-  const handelLogout = () => {
-    localStorage.setItem("authUser", false);
-  };
   return (
     <div className="dashboard">
-      {/* NAVBAR */}
-      <div className="navbar pt-5 pb-4">
-        <div className="w-100 d-flex justify-content-between align-items-center">
-          <div className="navbar-title d-none d-lg-block">
-            {t("sidebar.dashboard")}
-          </div>
-          <div
-            className="navbar-mobile-logo d-block d-lg-none"
-            onClick={() => setShow(true)}
-          >
-            {navbarMobileIcon}
-          </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <div className="navbar-icon">{bellIcon}</div>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title="AR"
-              className="navbar-dropdown1 mx-3"
-            >
-              <Dropdown.Item onClick={changeLanguage}>
-                {language === "EN" ? "العربية" : "English"}
-              </Dropdown.Item>
-              <Dropdown.Item href="/sign-in" onClick={() => handelLogout()}>
-                Sign Out
-              </Dropdown.Item>
-            </DropdownButton>
-          </div>
-        </div>
-      </div>
+      <Navbar
+        language={language}
+        setLanguage={setLanguage}
+        title={t("sidebar.dashboard")}
+      />
 
       <div className="navbar-title d-block d-lg-none pb-4">
         {t("sidebar.dashboard")}
@@ -284,7 +237,7 @@ const Dashboard = ({ language, setLanguage }) => {
               <div className="col dashboard-mpp-data">
                 <div className="d-flex align-items-center gap-3">
                   <div>
-                    <span>{wrightIcon}</span>
+                    <span>{wrightIcon(32)}</span>
                     <span className="ms-2">0</span>
                   </div>
                   <div>
@@ -380,7 +333,7 @@ const Dashboard = ({ language, setLanguage }) => {
                       <span>2 Sep 2022, 5:48PM</span>
                     </div>
                     <div>
-                      <span>{wrightIcon}</span>
+                      <span>{wrightIcon(32)}</span>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -424,7 +377,7 @@ const Dashboard = ({ language, setLanguage }) => {
                       <span>2 Sep 2022, 5:48PM</span>
                     </div>
                     <div>
-                      <span>{wrightIcon}</span>
+                      <span>{wrightIcon(32)}</span>
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -456,8 +409,6 @@ const Dashboard = ({ language, setLanguage }) => {
           </div>
         </div>
       </div>
-
-      <MobileMenu show={show} onHide={() => setShow(false)} />
     </div>
   );
 };
