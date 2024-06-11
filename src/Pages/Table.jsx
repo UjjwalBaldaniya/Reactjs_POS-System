@@ -10,6 +10,7 @@ import {
 } from "../assets/icons/tables";
 import { wrightIcon } from "../assets/icons/dashboard";
 import AddNewTable from "../Components/Table/AddNewTable";
+import { t } from "i18next";
 
 const Table = ({ language, setLanguage }) => {
   const [showTable, setShowTable] = useState(false);
@@ -19,10 +20,10 @@ const Table = ({ language, setLanguage }) => {
       <Navbar
         language={language}
         setLanguage={setLanguage}
-        title={"Table"}
+        title={t("table.tables")}
         showExportBtn={true}
         showNewAddBtn={true}
-        newAddBtnText="New Table"
+        newAddBtnText={t("table.newTable")}
         openCanvas={() => setShowTable(true)}
       />
 
@@ -35,17 +36,19 @@ const Table = ({ language, setLanguage }) => {
                   <input type="checkbox" className="table-heading-checkbox" />
                 </div>
               </th>
-              <th className="table-heading th-common">No</th>
-              <th className="table-heading th-common">Table Code</th>
-              <th className="table-heading th-common">Branch</th>
-              <th className="table-heading th-common">Status</th>
+              <th className="table-heading th-common">{t("table.no")}</th>
+              <th className="table-heading th-common">
+                {t("table.tableCode")}
+              </th>
+              <th className="table-heading th-common">{t("table.branch")}</th>
+              <th className="table-heading th-common">{t("table.status")}</th>
               <th className="table-heading th-common">
                 <div className="table-heading-export">
                   <div className="d-inline-block">
                     <button className="table-heading-export-btn">
                       {exportIcon("22")}
                       <span className="table-heading-export-text">
-                        Export selected
+                        {t("table.exportSelected")}
                       </span>
                     </button>
                   </div>
@@ -76,11 +79,11 @@ const Table = ({ language, setLanguage }) => {
                 <div>1</div>
               </td>
               <td className="table-data th-common">101</td>
-              <td className="table-data th-common">doha</td>
+              <td className="table-data th-common">{t("table.doha")}</td>
               <td className="table-data th-common">
                 <div className="table-data-status">
                   {wrightIcon(24)}
-                  <span className="ms-2">Available</span>
+                  <span className="ms-2">{t("table.available")}</span>
                 </div>
               </td>
               <td className="table-data th-common">

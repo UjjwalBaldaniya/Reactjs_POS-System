@@ -6,6 +6,7 @@ import { bellIcon } from "../assets/icons/navbar";
 import MobileMenu from "../Components/MobileMenu";
 import { exportIcon } from "../assets/icons/tables";
 import "../css/navbar.css";
+import { t } from "i18next";
 
 const Navbar = ({
   language,
@@ -57,14 +58,14 @@ const Navbar = ({
                   style={{ color: "blue" }}
                 >
                   <div className="export-icon me-1"> {exportIcon(28)}</div>
-                  <span className="ms-2">Export All</span>
+                  <span className="ms-2 me-2">{t("navbar.exportAll")}</span>
                 </div>
               </button>
             )}
             {showNewAddBtn && (
               <button className="add-products" onClick={openCanvas}>
                 <div className="d-flex align-items-center">
-                  <div className="plus-icon">+</div>
+                  <div className="plus-icon ms-2">+</div>
                   <span>{newAddBtnText}</span>
                 </div>
               </button>

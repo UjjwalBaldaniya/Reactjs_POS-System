@@ -7,6 +7,7 @@ import {
   roundPlusIcon,
 } from "../../assets/icons/tables";
 import Select from "react-select";
+import { t } from "i18next";
 
 const AddNewTable = ({ showTable, setShowTable }) => {
   const options = [{ value: "doha", label: "doha" }];
@@ -23,7 +24,7 @@ const AddNewTable = ({ showTable, setShowTable }) => {
         <Offcanvas.Title className="w-100">
           <div className="d-flex justify-content-between align-items-center w-100">
             <span className="add-table-title-icon">{roundPlusIcon}</span>
-            <h2 className="add-table-title">Add New Table</h2>
+            <h2 className="add-table-title">{t("table.addNewTable")}</h2>
             <div className="d-flex align-items-center ">
               <button className="add-table-button" onClick={setShowTable}>
                 {canvasCloseIcon}
@@ -34,20 +35,20 @@ const AddNewTable = ({ showTable, setShowTable }) => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className="label-input">
-          <label className="add-table-label">Branch</label>
+          <label className="add-table-label">{t("table.branch")}</label>
           <div className="input-div">
             <div className="input-div-inner">
               <Select
                 options={options}
                 // value={selectedOption2}
                 onChange={setSelectedOption2}
-                placeholder="Select branch"
+                placeholder={t("table.selectBranch")}
               />
             </div>
           </div>
         </div>
         <div className="label-input mt-3">
-          <label className="add-table-label">Table Code</label>
+          <label className="add-table-label">{t("table.tableCode")}</label>
           <div className="input-div">
             <div className="input-div-inner">
               <input
@@ -55,7 +56,7 @@ const AddNewTable = ({ showTable, setShowTable }) => {
                 className="login-input"
                 id="username"
                 name="username"
-                placeholder="Enter table code"
+                placeholder={t("table.enterTableCode")}
               />
             </div>
           </div>
@@ -63,13 +64,13 @@ const AddNewTable = ({ showTable, setShowTable }) => {
         <div className="add-table-add-btn mt-4">
           <button>
             {plusIcon("black")}
-            <span className="ms-2">Add Code</span>
+            <span className="ms-2">{t("table.addCode")}</span>
           </button>
         </div>
         <div className="add-table-create-btn mt-4">
           <button>
             {plusIcon("white")}
-            <span className="ms-2">Create Table</span>
+            <span className="ms-2">{t("table.createTable")}</span>
           </button>
         </div>
       </Offcanvas.Body>
