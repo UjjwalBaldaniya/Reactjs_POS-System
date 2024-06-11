@@ -12,14 +12,12 @@ import { wrightIcon } from "../assets/icons/dashboard";
 import AddNewTable from "../Components/Table/AddNewTable";
 import { t } from "i18next";
 
-const Table = ({ language, setLanguage }) => {
+const Table = () => {
   const [showTable, setShowTable] = useState(false);
 
   return (
     <div className="table-section">
       <Navbar
-        language={language}
-        setLanguage={setLanguage}
         title={t("table.tables")}
         showExportBtn={true}
         showNewAddBtn={true}

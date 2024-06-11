@@ -6,10 +6,11 @@ import { t } from "i18next";
 import Select from "react-select";
 import SignUpSchema from "../utils/validationSchema/SignUpSchema";
 import SignInLoginSideImage from "./SignInLoginSideImage";
+import { useSelector } from "react-redux";
 
-const SignUp = ({ language, setLanguage }) => {
+const SignUp = () => {
   const navigate = useNavigate();
-
+  const language = useSelector((state) => state?.language?.language);
   const handleRegisterClick = () => {
     navigate("/sign-in");
   };
@@ -255,7 +256,7 @@ const SignUp = ({ language, setLanguage }) => {
         </div>
 
         <div className="col-12 col-lg-6 pe-0 signin-side ps-0">
-          <SignInLoginSideImage language={language} setLanguage={setLanguage} />
+          <SignInLoginSideImage />
         </div>
       </div>
     </div>

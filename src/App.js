@@ -16,11 +16,10 @@ import ProtectedRoute from "./ProtectedRouts/ProtectedRoute";
 import Table from "./Pages/Table.jsx";
 import ProductList from "./Pages/ProductList.jsx";
 import AddProduct from "./Pages/AddProduct.jsx";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [language, setLanguage] = useState(
-    localStorage.getItem("language") || "EN"
-  );
+  const language = useSelector((state) => state?.language?.language);
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -45,29 +44,17 @@ function App() {
             <Route path="/" element={<Navigate to="/sign-in" />} />
             <Route
               path="/sign-up"
-              element={
-                <SignInSingUp
-                  Component={SignUp}
-                  language={language}
-                  setLanguage={setLanguage}
-                />
-              }
+              element={<SignInSingUp Component={SignUp} />}
             />
             <Route
               path="/sign-in"
-              element={
-                <SignInSingUp
-                  Component={SignIn}
-                  language={language}
-                  setLanguage={setLanguage}
-                />
-              }
+              element={<SignInSingUp Component={SignIn} />}
             />
           </Routes>
         ) : (
           <div className="row">
             <div className="d-none d-lg-block col-3 col-xl-2 p-0">
-              <Sidebar language={language} />
+              <Sidebar />
             </div>
             <div
               style={{ height: "100vh", overflow: "auto" }}
@@ -76,39 +63,10 @@ function App() {
               <Routes>
                 <Route path="/" element={<Navigate to="/sign-in" />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <Dashboard
-                        language={language}
-                        setLanguage={setLanguage}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/table"
-                    element={
-                      <Table language={language} setLanguage={setLanguage} />
-                    }
-                  />
-                  <Route
-                    path="/products"
-                    element={
-                      <ProductList
-                        language={language}
-                        setLanguage={setLanguage}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/products/create"
-                    element={
-                      <AddProduct
-                        language={language}
-                        setLanguage={setLanguage}
-                      />
-                    }
-                  />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/table" element={<Table />} />
+                  <Route path="/products" element={<ProductList />} />
+                  <Route path="/products/create" element={<AddProduct />} />
                 </Route>
               </Routes>
             </div>

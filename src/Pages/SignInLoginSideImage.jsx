@@ -7,8 +7,13 @@ import "slick-carousel/slick/slick-theme.css";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import i18n from "../utils/i18next";
 import { t } from "i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../redux/slice/languageSlice";
 
-const SignInLoginSideImage = ({ language, setLanguage }) => {
+const SignInLoginSideImage = () => {
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state?.language?.language);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -23,17 +28,17 @@ const SignInLoginSideImage = ({ language, setLanguage }) => {
   const changeLanguage = () => {
     const newLanguage = language === "EN" ? "AR" : "EN";
     localStorage.setItem("language", newLanguage);
-    setLanguage(newLanguage);
+    dispatch(setLanguage(newLanguage));
     i18n.changeLanguage(newLanguage);
   };
 
   useEffect(() => {
     const defaultLanguage = localStorage.getItem("language");
     if (defaultLanguage) {
-      setLanguage(defaultLanguage);
+      dispatch(setLanguage(defaultLanguage));
       i18n.changeLanguage(defaultLanguage);
     }
-  }, [setLanguage]);
+  }, [dispatch]);
 
   return (
     <div className="sign-sideImg">

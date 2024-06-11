@@ -2,12 +2,14 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { t } from "i18next";
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import Abc from "../utils/validationSchema/Abc";
 import SignInLoginSideImage from "./SignInLoginSideImage";
 
-const SignIn = ({ language, setLanguage }) => {
+const SignIn = () => {
+  const language = useSelector((state) => state?.language?.language);
   const navigate = useNavigate();
   const { login } = useAuth();
   const [showError, setShowError] = useState(false);
@@ -167,7 +169,7 @@ const SignIn = ({ language, setLanguage }) => {
           </div>
         </div>
         <div className="col-12 col-lg-6 pe-0 signin-side ps-0">
-          <SignInLoginSideImage language={language} setLanguage={setLanguage} />
+          <SignInLoginSideImage />
         </div>
       </div>
     </div>

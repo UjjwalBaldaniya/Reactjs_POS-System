@@ -17,9 +17,12 @@ import {
   tablesIcon,
 } from "../assets/icons/sidebar";
 import "../css/sidebar.css";
+import { useSelector } from "react-redux";
 
-const Sidebar = ({ language }) => {
+const Sidebar = () => {
   const { t } = useTranslation();
+  const language = useSelector((state) => state?.language?.language);
+
   return (
     <div className="sidebar">
       <div className="d-flex py-3 justify-content-start align-items-start">

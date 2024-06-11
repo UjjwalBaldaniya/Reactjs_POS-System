@@ -7,32 +7,34 @@ import MobileMenu from "../Components/MobileMenu";
 import { exportIcon } from "../assets/icons/tables";
 import "../css/navbar.css";
 import { t } from "i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../redux/slice/languageSlice";
 
 const Navbar = ({
-  language,
-  setLanguage,
   title,
   showExportBtn,
   showNewAddBtn,
   newAddBtnText,
   openCanvas,
 }) => {
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state?.language?.language);
   const [show, setShow] = useState(false);
 
   const changeLanguage = () => {
     const newLanguage = language === "EN" ? "AR" : "EN";
     localStorage.setItem("language", newLanguage);
-    setLanguage(newLanguage);
+    dispatch(setLanguage(newLanguage));
     i18n.changeLanguage(newLanguage);
   };
 
   useEffect(() => {
     const defaultLanguage = localStorage.getItem("language");
     if (defaultLanguage) {
-      setLanguage(defaultLanguage);
+      dispatch(setLanguage(defaultLanguage));
       i18n.changeLanguage(defaultLanguage);
     }
-  }, [setLanguage]);
+  }, [dispatch]);
 
   const handelLogout = () => {
     localStorage.setItem("authUser", false);

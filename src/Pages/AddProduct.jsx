@@ -8,8 +8,12 @@ import { backIcon } from "../assets/icons/product";
 import { useNavigate } from "react-router-dom";
 import { Field } from "formik";
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../redux/slice/languageSlice";
 
-const AddProduct = ({ language, setLanguage }) => {
+const AddProduct = () => {
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state?.language?.language);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
@@ -22,7 +26,7 @@ const AddProduct = ({ language, setLanguage }) => {
   const changeLanguage = () => {
     const newLanguage = language === "EN" ? "AR" : "EN";
     localStorage.setItem("language", newLanguage);
-    setLanguage(newLanguage);
+    dispatch(setLanguage(newLanguage));
     i18n.changeLanguage(newLanguage);
   };
   const handelLogout = () => {
@@ -275,10 +279,10 @@ const AddProduct = ({ language, setLanguage }) => {
           <div className="col-12 lable-input mt-4">
             <label htmlFor="">Product Images</label>
             <div className="img-uploade">
-            <p>Or drag images here</p>
-                <div className="btn-div">
+              <p>Or drag images here</p>
+              <div className="btn-div">
                 <button className="img-uploade-btn"></button>
-                </div>
+              </div>
             </div>
           </div>
         </div>

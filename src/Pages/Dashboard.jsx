@@ -19,7 +19,7 @@ import waterBottle from "../assets/images/dashboard/water-bottle.jpg";
 import Navbar from "../common/Navbar";
 import "../css/dashboard.css";
 
-const Dashboard = ({ language, setLanguage }) => {
+const Dashboard = () => {
   const [selectedBtn, setSelectedBtn] = useState(0);
 
   const handleButtonGroup = (id) => {
@@ -34,11 +34,7 @@ const Dashboard = ({ language, setLanguage }) => {
 
   return (
     <div className="dashboard">
-      <Navbar
-        language={language}
-        setLanguage={setLanguage}
-        title={t("sidebar.dashboard")}
-      />
+      <Navbar title={t("sidebar.dashboard")} />
 
       <div className="navbar-title d-block d-lg-none pb-4">
         {t("sidebar.dashboard")}

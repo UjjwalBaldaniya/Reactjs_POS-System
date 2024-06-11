@@ -13,15 +13,20 @@ import {
 import i18n from "../utils/i18next";
 import { AiOutlineMan } from "react-icons/ai";
 import { exportIcon } from "../assets/icons/product";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../redux/slice/languageSlice";
 
-const ProductList = ({ language, setLanguage }) => {
+const ProductList = () => {
+  const dispatch = useDispatch();
+  const language = useSelector((state) => state?.language?.language);
+
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const changeLanguage = () => {
     const newLanguage = language === "EN" ? "AR" : "EN";
     localStorage.setItem("language", newLanguage);
-    setLanguage(newLanguage);
+    dispatch(setLanguage(newLanguage));
     i18n.changeLanguage(newLanguage);
   };
   const handelLogout = () => {
