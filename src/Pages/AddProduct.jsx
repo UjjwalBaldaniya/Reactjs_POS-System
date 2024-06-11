@@ -4,7 +4,13 @@ import { t } from "i18next";
 import { bellIcon } from "../assets/icons/navbar";
 import { navbarMobileIcon } from "../assets/icons/dashboard";
 import i18n from "../utils/i18next";
-import { backIcon } from "../assets/icons/product";
+import {
+  backIcon,
+  cancelIcon,
+  fileUploadIcon,
+  pluseIcon,
+  poroductListLogo,
+} from "../assets/icons/product";
 import { useNavigate } from "react-router-dom";
 import { Field } from "formik";
 import Select from "react-select";
@@ -15,6 +21,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const language = useSelector((state) => state?.language?.language);
   const [show, setShow] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
   const navigate = useNavigate();
 
   const [activeTime, setActiveTime] = useState(null);
@@ -22,7 +29,6 @@ const AddProduct = () => {
     "🚀 ~ file: AddProduct.jsx:17 ~ AddProduct ~ activeTime:",
     activeTime
   );
-  //   const [minuts, setMinuts] = useState(activeTime);
   const changeLanguage = () => {
     const newLanguage = language === "EN" ? "AR" : "EN";
     localStorage.setItem("language", newLanguage);
@@ -51,6 +57,19 @@ const AddProduct = () => {
   const [selectedOption2, setSelectedOption2] = useState(options2[0]);
   const handleTimeButtonClick = (time) => {
     setActiveTime(time);
+  };
+
+  const handleFileUpload = (files) => {
+    // Convert FileList to Array
+    const filesArray = Array.from(files);
+
+    // Update uploadedImages state
+    setUploadedImages((prevImages) => [...prevImages, ...filesArray]);
+  };
+  const handleDeleteImage = (index) => {
+    const updatedImages = uploadedImages.filter((_, i) => i !== index);
+    // Update the state with the new array without the deleted image
+    setUploadedImages(updatedImages);
   };
   return (
     <div>
@@ -280,8 +299,141 @@ const AddProduct = () => {
             <label htmlFor="">Product Images</label>
             <div className="img-uploade">
               <p>Or drag images here</p>
-              <div className="btn-div">
-                <button className="img-uploade-btn"></button>
+              {uploadedImages?.length !== 0 &&
+                uploadedImages.map((image, index) => (
+                  <div className="img-upload-div d-flex position-relative ">
+                    <img
+                      className="img-fluid rounded-3 mx-2"
+                      key={index}
+                      src={URL.createObjectURL(image)}
+                      alt={`Uploaded ${index + 1}`}
+                    />
+                    <button
+                      className="cancel-btn btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                      onClick={() => handleDeleteImage(index)}
+                    >
+                      {cancelIcon}
+                    </button>
+                  </div>
+                ))}
+              <div className="img-upload-div">
+                <button className="img-uploade-btn">
+                  {fileUploadIcon}
+                  <label htmlFor="file-upload" className="img-upload-btn">
+                    <span>Upload Images</span>
+                  </label>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileUpload(e.target.files)}
+                    style={{ display: "none" }} // Hide the input element
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 mt-4">
+            <div className="row">
+              <div className=" col-12 col-md-6">
+                <div className="lable-input">
+                  <div className="input-div">
+                    <div className="input-div-inner">
+                      <lable className="text-area-lable">
+                        Product Description (English)
+                      </lable>
+                      <textarea
+                        type="text"
+                        className="text-area pb-5"
+                        id="username"
+                        name="username"
+                        aria-label="Product Option List"
+                        // value={activeTime === "1h" ? "1" : ""}
+                        placeholder="Enter product description"
+                        // style={{ fontWeight: 700 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <div className="lable-input">
+                  <div className="input-div">
+                    <div className="input-div-inner">
+                      <lable className="text-area-lable">
+                        Product Description (Arabic)
+                      </lable>
+                      <textarea
+                        type="text"
+                        className="text-area pb-5"
+                        id="username"
+                        name="username"
+                        aria-label="Product Option List"
+                        // value={activeTime === "1h" ? "1" : ""}
+                        placeholder="Enter product description"
+                        // style={{ fontWeight: 700 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 mt-4">
+            <div className="row">
+              <div className=" col-12 col-md-6">
+                <div className="lable-input">
+                  <div className="input-div">
+                    <div className="input-div-inner">
+                      <lable className="text-area-lable">
+                        Product Option List
+                      </lable>
+                      <div className="product-optionlist">
+                        <div className="product-optionlist-logo mb-2">
+                          {poroductListLogo}
+                        </div>
+                        <p>There are no options</p>
+                      </div>
+                      <div>
+                        <button className="product-optionlist-btn mt-3">
+                          {pluseIcon}Add Option
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <div className="lable-input">
+                  <div className="input-div">
+                    <div className="input-div-inner">
+                      <lable className="text-area-lable">
+                        Product Option List
+                      </lable>
+                      <div className="product-optionlist">
+                        <div className="product-optionlist-logo mb-2">
+                          {poroductListLogo}
+                        </div>
+                        <p>There are no options</p>
+                      </div>
+                      <div>
+                        <button className="product-optionlist-btn mt-3">
+                          {pluseIcon}Add Option
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+              <div>
+                        <button className="product-optionlist-btn mt-3 create-product">
+                          {pluseIcon} Create Product
+                        </button>
+                      </div>
               </div>
             </div>
           </div>

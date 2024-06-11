@@ -83,6 +83,7 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+
       <div>
         <button className="add-products">
           <div className="d-flex align-content-center">
