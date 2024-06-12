@@ -17,6 +17,7 @@ import Table from "./Pages/Table.jsx";
 import ProductList from "./Pages/ProductList.jsx";
 import AddProduct from "./Pages/AddProduct.jsx";
 import { useSelector } from "react-redux";
+import ProductsCatagories from "./Pages/ProductsCatagories.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -67,6 +68,10 @@ function App() {
                   <Route path="/table" element={<Table />} />
                   <Route path="/products" element={<ProductList />} />
                   <Route path="/products/create" element={<AddProduct />} />
+                  <Route
+                    path="/products-categories"
+                    element={<ProductsCatagories />}
+                  />
                 </Route>
               </Routes>
             </div>

@@ -1,7 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { RxDotFilled } from "react-icons/rx";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import CustomAccordion from "../Pages/CustomAccordion";
 import {
   applicationsIcon,
   customersIcon,
@@ -17,7 +19,6 @@ import {
   tablesIcon,
 } from "../assets/icons/sidebar";
 import "../css/sidebar.css";
-import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const { t } = useTranslation();
@@ -38,8 +39,8 @@ const Sidebar = () => {
       </div>
       <div className="py-4">
         <div className="sidebar-menu d-flex align-items-center mb-4 ">
-          <RxDotFilled className="sidebar-dot-icon active " />
-          <div className="active">{dashboardIcon}</div>
+          <RxDotFilled className="sidebar-dot-icon" />
+          <div>{dashboardIcon}</div>
           <NavLink to="/dashboard" className="sidebar-menu-name ms-2">
             {t("sidebar.dashboard")}
           </NavLink>
@@ -47,16 +48,36 @@ const Sidebar = () => {
         <div className="sidebar-menu d-flex align-items-center mb-4">
           <RxDotFilled className="sidebar-dot-icon" />
           <div className="">{tablesIcon}</div>
-          <Link to="/table" className="sidebar-menu-name ms-2">
+          <NavLink to="/table" className="sidebar-menu-name ms-2">
             {t("sidebar.tables")}
-          </Link>
+          </NavLink>
         </div>
-        <div className="sidebar-menu d-flex align-items-center mb-4 ">
-          <RxDotFilled className="sidebar-dot-icon" />
+        <div className="sidebar-menu d-flex mb-4">
+          <RxDotFilled className="sidebar-dot-icon me-2" />
           <div className="">{productsIcon}</div>
-          <Link to="/products" className="sidebar-menu-name ms-2">
-            {t("sidebar.products")}
-          </Link>
+
+          <CustomAccordion title="Products">
+            <div className="sidebar-custom-acc d-flex flex-column">
+              <NavLink to="/products" className="sidebar-custom-menu-link">
+                Products
+              </NavLink>
+              <NavLink
+                to="/products-categories"
+                className="sidebar-custom-menu-link"
+              >
+                Products categories
+              </NavLink>
+              <NavLink to="/variations" className="sidebar-custom-menu-link">
+                Variations
+              </NavLink>
+              <NavLink to="/units" className="sidebar-custom-menu-link">
+                Units
+              </NavLink>
+              <NavLink to="/print-barcode" className="sidebar-custom-menu-link">
+                Print Barcode
+              </NavLink>
+            </div>
+          </CustomAccordion>
         </div>
         <div className="sidebar-menu d-flex align-items-center mb-4 ">
           <RxDotFilled className="sidebar-dot-icon" />

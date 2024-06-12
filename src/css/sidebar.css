@@ -37,6 +37,9 @@
 .sidebar-menu:hover .sidebar-dot-icon {
   color: rgb(41, 0, 238);
 }
+.sidebar-menu:hover .sidebar-main-icon {
+  color: rgb(41, 0, 238);
+}
 .sidebar-menu:hover .sidebar-menu-name {
   color: rgb(41, 0, 238);
   font-weight: bold;
@@ -51,4 +54,31 @@
 }
 .active svg path {
   fill: rgb(41, 0, 238);
+}
+
+.accordion-body {
+  margin-left: -11px;
+  margin-top: 8px;
+}
+
+.accordion-header span {
+  color: rgb(150, 145, 172);
+}
+
+.sidebar-custom-acc {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  border-left: 0.1rem solid rgba(150, 145, 172, 0.75);
+  padding-left: 1.25rem;
+}
+
+.sidebar-custom-menu-link {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: rgb(150, 145, 172);
+  margin: 0.5rem 0px;
+  user-select: none;
 }

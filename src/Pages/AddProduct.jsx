@@ -1,43 +1,19 @@
 import React, { useState } from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
-import { t } from "i18next";
-import { bellIcon } from "../assets/icons/navbar";
-import { navbarMobileIcon } from "../assets/icons/dashboard";
-import i18n from "../utils/i18next";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import {
-  backIcon,
   cancelIcon,
   fileUploadIcon,
   pluseIcon,
   poroductListLogo,
 } from "../assets/icons/product";
-import { useNavigate } from "react-router-dom";
-import { Field } from "formik";
-import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
-import { setLanguage } from "../redux/slice/languageSlice";
+import Navbar from "../common/Navbar";
 
 const AddProduct = () => {
-  const dispatch = useDispatch();
-  const language = useSelector((state) => state?.language?.language);
-  const [show, setShow] = useState(false);
   const [uploadedImages, setUploadedImages] = useState([]);
   const navigate = useNavigate();
 
   const [activeTime, setActiveTime] = useState(null);
-  console.log(
-    "🚀 ~ file: AddProduct.jsx:17 ~ AddProduct ~ activeTime:",
-    activeTime
-  );
-  const changeLanguage = () => {
-    const newLanguage = language === "EN" ? "AR" : "EN";
-    localStorage.setItem("language", newLanguage);
-    dispatch(setLanguage(newLanguage));
-    i18n.changeLanguage(newLanguage);
-  };
-  const handelLogout = () => {
-    localStorage.setItem("authUser", false);
-  };
   const handleBack = () => {
     navigate("/products");
   };
@@ -73,38 +49,14 @@ const AddProduct = () => {
   };
   return (
     <div>
-      <div className="navbar pt-5 pb-4">
-        <div className="w-100 d-flex justify-content-between align-items-center">
-          <div className="navbar-title d-none d-lg-block">
-            {/* {t("sidebar.dashboard")} */}
-            <button className="back-btn" onClick={() => handleBack()}>
-              {backIcon}
-            </button>
-            Add New Product
-          </div>
-          <div
-            className="navbar-mobile-logo d-block d-lg-none"
-            onClick={() => setShow(true)}
-          >
-            {navbarMobileIcon}
-          </div>
-          <div className="d-flex align-items-center justify-content-center">
-            <div className="navbar-icon">{bellIcon}</div>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title="AR"
-              className="navbar-dropdown1 mx-3"
-            >
-              <Dropdown.Item onClick={changeLanguage}>
-                {language === "EN" ? "العربية" : "English"}
-              </Dropdown.Item>
-              <Dropdown.Item href="/sign-in" onClick={() => handelLogout()}>
-                Sign Out
-              </Dropdown.Item>
-            </DropdownButton>
-          </div>
-        </div>
-      </div>
+      <Navbar
+        title="Add New Product"
+        showExportBtn={false}
+        showNewAddBtn={false}
+        showBackBtn={true}
+        handleBackBtn={() => handleBack()}
+      />
+
       <div className="col-12">
         <div className="lable-input">
           <label htmlFor="">Branch</label>
@@ -429,11 +381,11 @@ const AddProduct = () => {
               </div>
 
               <div>
-              <div>
-                        <button className="product-optionlist-btn mt-3 create-product">
-                          {pluseIcon} Create Product
-                        </button>
-                      </div>
+                <div>
+                  <button className="product-optionlist-btn mt-3 create-product">
+                    {pluseIcon} Create Product
+                  </button>
+                </div>
               </div>
             </div>
           </div>

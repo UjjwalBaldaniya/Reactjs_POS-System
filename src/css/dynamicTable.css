@@ -1,0 +1,120 @@
+.dynamic-table {
+  width: 100%;
+  margin-top: -0.5em;
+  background-color: transparent;
+  border-collapse: separate;
+  border-spacing: 0px 0.5em;
+}
+
+.dynamic-table thead tr {
+  height: 3.5rem;
+}
+
+.dynamic-table-heading {
+  padding: 0.5rem 0.75rem !important;
+  color: rgb(150, 145, 172) !important;
+}
+
+.dynamic-th-common {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding-right: 1rem;
+  background-color: rgb(249, 249, 251) !important;
+  border-style: none;
+  white-space: nowrap;
+}
+
+.dynamic-table-heading:first-child {
+  padding-left: 1.5rem !important;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.dynamic-table-heading:last-child {
+  padding-right: 1.5rem !important;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.dynamic-table-data {
+  padding: 1rem 0.75rem !important;
+  color: rgb(14, 7, 47) !important;
+}
+
+.dynamic-table-data:first-child {
+  padding-left: 1.5rem !important;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.dynamic-table-data:last-child {
+  padding-right: 1.5rem !important;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.dynamic-table-data-action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+.dynamic-table-actions {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.dynamic-table-edit-btn {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+  transition: all 0.3s ease 0s;
+  background-color: rgb(14, 7, 47);
+  color: rgb(255, 255, 255);
+}
+
+.dynamic-table-delete-btn {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+  transition: all 0.3s ease 0s;
+  background-color: rgb(240, 44, 44);
+  color: rgb(255, 255, 255);
+  margin-left: 10px;
+}
+
+.dynamic-table-action-common {
+  width: 2rem;
+  min-width: 2rem;
+  max-width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  max-height: 2rem;
+  border-radius: 0.5rem;
+}
+
+.dynamic-table-img {
+  display: flex;
+  align-items: center;
+}
+
+.dynamic-table-img img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
