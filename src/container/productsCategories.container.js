@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
 
-const productsCategoriesContainer = () => {
+const ProductsCategoriesContainer = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
   const handleEdit = (row) => {
+    setDrawerOpen(true);
     console.log("Edit row:", row);
   };
 
@@ -14,7 +18,7 @@ const productsCategoriesContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { actionsBtn };
+  return { isDrawerOpen, setDrawerOpen, actionsBtn };
 };
 
-export default productsCategoriesContainer;
+export default ProductsCategoriesContainer;

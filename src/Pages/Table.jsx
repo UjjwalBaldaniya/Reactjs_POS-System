@@ -9,11 +9,11 @@ import {
   searchIcon,
 } from "../assets/icons/tables";
 import { wrightIcon } from "../assets/icons/dashboard";
-import AddNewTable from "../components/Table/AddNewTable";
+import AddNewTable from "../components/table/AddNewTable";
 import { t } from "i18next";
 
 const Table = () => {
-  const [showTable, setShowTable] = useState(false);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <div className="table-section">
@@ -22,7 +22,7 @@ const Table = () => {
         showExportBtn={true}
         showNewAddBtn={true}
         newAddBtnText={t("table.newTable")}
-        openCanvas={() => setShowTable(true)}
+        openCanvas={() => setDrawerOpen(true)}
       />
 
       <div className="table-container">
@@ -109,8 +109,8 @@ const Table = () => {
       </div>
 
       <AddNewTable
-        showTable={showTable}
-        setShowTable={() => setShowTable(false)}
+        isDrawerOpen={isDrawerOpen}
+        setDrawerOpen={() => setDrawerOpen(false)}
       />
     </div>
   );

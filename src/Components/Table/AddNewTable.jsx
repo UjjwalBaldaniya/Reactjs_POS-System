@@ -9,14 +9,14 @@ import {
 import Select from "react-select";
 import { t } from "i18next";
 
-const AddNewTable = ({ showTable, setShowTable }) => {
+const AddNewTable = ({ isDrawerOpen, setDrawerOpen }) => {
   const options = [{ value: "doha", label: "doha" }];
   const [selectedOption2, setSelectedOption2] = useState(options[0]);
 
   return (
     <Offcanvas
-      show={showTable}
-      onHide={setShowTable}
+      show={isDrawerOpen}
+      onHide={setDrawerOpen}
       placement={"end"}
       className="offcanvas-addNewTable"
     >
@@ -26,7 +26,7 @@ const AddNewTable = ({ showTable, setShowTable }) => {
             <span className="add-table-title-icon">{roundPlusIcon}</span>
             <h2 className="add-table-title">{t("table.addNewTable")}</h2>
             <div className="d-flex align-items-center ">
-              <button className="add-table-button" onClick={setShowTable}>
+              <button className="add-table-button" onClick={setDrawerOpen}>
                 {canvasCloseIcon}
               </button>
             </div>

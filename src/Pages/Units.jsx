@@ -1,20 +1,21 @@
 import React from "react";
-import Navbar from "../common/Navbar";
 import DynamicTable from "../common/DynamicTable";
-import unitsContainer from "../container/units.container";
+import Navbar from "../common/Navbar";
+import AddUnits from "../components/units/AddUnits";
+import UnitsContainer from "../container/units.container";
 import { unitsColumns, unitsData } from "../description/units.description";
 
 const Units = () => {
-  const { actionsBtn } = unitsContainer();
+  const { isDrawerOpen, setDrawerOpen, actionsBtn } = UnitsContainer();
 
   return (
     <div className="products-catagories-section">
       <Navbar
-        title="Products Catagories"
+        title="Units"
         showExportBtn
         showNewAddBtn
-        newAddBtnText="Add Products Catagories"
-        // openCanvas={() => setShowTable(true)}
+        newAddBtnText="Add Units"
+        openCanvas={() => setDrawerOpen(true)}
       />
 
       <div className="product-category-table">
@@ -24,6 +25,11 @@ const Units = () => {
           actions={actionsBtn}
         />
       </div>
+
+      <AddUnits
+        isDrawerOpen={isDrawerOpen}
+        setDrawerOpen={() => setDrawerOpen(false)}
+      />
     </div>
   );
 };

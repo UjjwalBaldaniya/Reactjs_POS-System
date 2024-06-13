@@ -1,0 +1,21 @@
+.formField-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: rgb(79, 74, 104);
+}
+
+.formField-input {
+  height: 3rem;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(223, 220, 239);
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}

@@ -1,26 +1,33 @@
 import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
-import productsCategoriesContainer from "../container/productsCategories.container";
+import AddProductsCategories from "../components/productsCategories/AddProductsCategories";
+import ProductsCategoriesContainer from "../container/productsCategories.container";
 import "../css/productsCatagories.css";
 import { columns, data } from "../description/productsCategories.description";
 
 const ProductsCatagories = () => {
-  const { actionsBtn } = productsCategoriesContainer();
+  const { isDrawerOpen, setDrawerOpen, actionsBtn } =
+    ProductsCategoriesContainer();
 
   return (
     <div className="products-catagories-section">
       <Navbar
-        title="Products Catagories"
+        title="Catagories"
         showExportBtn
         showNewAddBtn
-        newAddBtnText="Add Products Catagories"
-        // openCanvas={() => setShowTable(true)}
+        newAddBtnText="Add Catagories"
+        openCanvas={() => setDrawerOpen(true)}
       />
 
       <div className="product-category-table">
         <DynamicTable columns={columns} data={data} actions={actionsBtn} />
       </div>
+
+      <AddProductsCategories
+        isDrawerOpen={isDrawerOpen}
+        setDrawerOpen={() => setDrawerOpen(false)}
+      />
     </div>
   );
 };

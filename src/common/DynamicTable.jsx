@@ -70,8 +70,6 @@ const DynamicTable = ({ columns, data, actions }) => {
             return (
               <tr key={rowIndex}>
                 {columns?.map((col, colIndex) => {
-                  console.log("first", col?.bgColorGreen);
-
                   return (
                     <td
                       key={colIndex}

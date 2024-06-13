@@ -6,9 +6,10 @@ import {
   baseUnitsColumns,
   baseUnitsData,
 } from "../description/baseUnits.description";
+import AddBaseUnits from "../components/baseUnits/AddBaseUnits";
 
 const BaseUnits = () => {
-  const { actionsBtn } = baseUnitsContainer();
+  const { isDrawerOpen, setDrawerOpen, actionsBtn } = baseUnitsContainer();
 
   return (
     <div className="products-catagories-section">
@@ -17,7 +18,7 @@ const BaseUnits = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Products Catagories"
-        // openCanvas={() => setShowTable(true)}
+        openCanvas={() => setDrawerOpen(true)}
       />
 
       <div className="product-category-table">
@@ -27,6 +28,11 @@ const BaseUnits = () => {
           actions={actionsBtn}
         />
       </div>
+
+      <AddBaseUnits
+        isDrawerOpen={isDrawerOpen}
+        setDrawerOpen={() => setDrawerOpen(false)}
+      />
     </div>
   );
 };

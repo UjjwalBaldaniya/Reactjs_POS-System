@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
 
-const variationsContainer = () => {
+const VariationsContainer = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
   const handleEdit = (row) => {
+    setDrawerOpen(true);
     console.log("Edit row:", row);
   };
 
@@ -14,7 +18,7 @@ const variationsContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { actionsBtn };
+  return { isDrawerOpen, setDrawerOpen, actionsBtn };
 };
 
-export default variationsContainer;
+export default VariationsContainer;

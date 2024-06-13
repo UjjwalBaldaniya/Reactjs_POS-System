@@ -1,23 +1,24 @@
 import React from "react";
-import Navbar from "../common/Navbar";
 import DynamicTable from "../common/DynamicTable";
-import variationsContainer from "../container/variations.container";
+import Navbar from "../common/Navbar";
+import AddVariations from "../components/variations/AddVariations";
+import VariationsContainer from "../container/variations.container";
 import {
   variationColumns,
   variationData,
 } from "../description/variations.description";
 
 const Variations = () => {
-  const { actionsBtn } = variationsContainer();
+  const { isDrawerOpen, setDrawerOpen, actionsBtn } = VariationsContainer();
 
   return (
-    <div className="products-catagories-section">
+    <div className="variations-section">
       <Navbar
-        title="Products Catagories"
+        title="Variations"
         showExportBtn
         showNewAddBtn
-        newAddBtnText="Add Products Catagories"
-        // openCanvas={() => setShowTable(true)}
+        newAddBtnText="Add Variations"
+        openCanvas={() => setDrawerOpen(true)}
       />
 
       <div className="product-category-table">
@@ -27,6 +28,11 @@ const Variations = () => {
           actions={actionsBtn}
         />
       </div>
+
+      <AddVariations
+        isDrawerOpen={isDrawerOpen}
+        setDrawerOpen={() => setDrawerOpen(false)}
+      />
     </div>
   );
 };

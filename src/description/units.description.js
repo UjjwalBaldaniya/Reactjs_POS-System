@@ -36,3 +36,24 @@ export const unitsData = [
     baseUnit: "piece",
   },
 ];
+
+export const unitsFields = [
+  {
+    label: "Name",
+    name: "name",
+    type: "text",
+    placeholder: "name",
+  },
+  {
+    label: "Short Name",
+    name: "shortName",
+    type: "text",
+    placeholder: "short name",
+  },
+  {
+    label: "Base Unit",
+    name: "baseUnit",
+    type: "text",
+    placeholder: "base unit",
+  },
+];

@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
 
-const baseUnitsContainer = () => {
+const BaseUnitsContainer = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
   const handleEdit = (row) => {
     console.log("Edit row:", row);
   };
@@ -14,7 +17,7 @@ const baseUnitsContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { actionsBtn };
+  return { isDrawerOpen, setDrawerOpen, actionsBtn };
 };
 
-export default baseUnitsContainer;
+export default BaseUnitsContainer;

@@ -71,10 +71,7 @@ function App() {
                   <Route path="/table" element={<Table />} />
                   <Route path="/products" element={<ProductList />} />
                   <Route path="/products/create" element={<AddProduct />} />
-                  <Route
-                    path="/products-categories"
-                    element={<ProductsCatagories />}
-                  />
+                  <Route path="/categories" element={<ProductsCatagories />} />
                   <Route path="/variations" element={<Variations />} />
                   <Route path="/units" element={<Units />} />
                   <Route path="/base-units" element={<BaseUnits />} />

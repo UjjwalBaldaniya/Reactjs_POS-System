@@ -33,3 +33,18 @@ export const variationData = [
     type: "0mg , 3mg , 6mg , 12mg , 18mg",
   },
 ];
+
+export const variationFields = [
+  {
+    label: "Variation Name",
+    name: "variationName",
+    type: "text",
+    placeholder: "variation name",
+  },
+  {
+    label: "Variation Type",
+    name: "variationType",
+    type: "text",
+    placeholder: "variation type",
+  },
+];

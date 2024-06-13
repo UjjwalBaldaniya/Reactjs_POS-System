@@ -1,6 +1,7 @@
 .offcanvas-addNewTable {
   width: 50% !important;
   padding: 1rem 2rem;
+  border-radius: 15px 0 0 15px;
 }
 
 .add-table-title-icon {

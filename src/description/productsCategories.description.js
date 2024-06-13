@@ -47,3 +47,18 @@ export const data = [
     count: "10",
   },
 ];
+
+export const productsCategoriesFields = [
+  {
+    label: "Product Category",
+    name: "email",
+    type: "email",
+    placeholder: "product category",
+  },
+  {
+    label: "Product Count",
+    name: "password",
+    type: "password",
+    placeholder: "product count",
+  },
+];

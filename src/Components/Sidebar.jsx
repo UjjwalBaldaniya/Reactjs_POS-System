@@ -61,11 +61,8 @@ const Sidebar = () => {
               <NavLink to="/products" className="sidebar-custom-menu-link">
                 Products
               </NavLink>
-              <NavLink
-                to="/products-categories"
-                className="sidebar-custom-menu-link"
-              >
-                Products categories
+              <NavLink to="/categories" className="sidebar-custom-menu-link">
+                Categories
               </NavLink>
               <NavLink to="/variations" className="sidebar-custom-menu-link">
                 Variations

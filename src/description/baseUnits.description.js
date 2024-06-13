@@ -9,3 +9,12 @@ export const baseUnitsData = [
   { name: "Colors" },
   { name: "BKS" },
 ];
+
+export const baseUnitsFields = [
+  {
+    label: "Name",
+    name: "name",
+    type: "text",
+    placeholder: "name",
+  },
+];
