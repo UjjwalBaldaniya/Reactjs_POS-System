@@ -1,19 +1,18 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { t } from "i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Context/AuthContext";
 import Abc from "../utils/validationSchema/Abc";
 import SignInLoginSideImage from "./SignInLoginSideImage";
 
 const SignIn = () => {
   const language = useSelector((state) => state?.language?.language);
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [showError, setShowError] = useState(false);
   const [errorWrongPass, setErrorWrongPass] = useState(false);
+  const authUser = localStorage.getItem("authUser");
 
   const handelShowError = () => {
     setErrorWrongPass(true);
@@ -25,8 +24,13 @@ const SignIn = () => {
   };
   const handleLogin = () => {
     localStorage.setItem("authUser", true);
-    login();
   };
+
+  useEffect(() => {
+    if (authUser === "true") {
+      navigate("/dashboard");
+    }
+  }, [authUser, navigate]);
 
   return (
     <div className="container-fluid p-0">

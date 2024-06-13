@@ -73,6 +73,9 @@ const Sidebar = () => {
               <NavLink to="/base-units" className="sidebar-custom-menu-link">
                 Base Units
               </NavLink>
+              <NavLink to="/print-barcode" className="sidebar-custom-menu-link">
+                Print Barcode
+              </NavLink>
             </div>
           </CustomAccordion>
         </div>

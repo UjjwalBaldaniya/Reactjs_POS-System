@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -14,6 +14,7 @@ const SignUp = () => {
   const handleRegisterClick = () => {
     navigate("/sign-in");
   };
+  const authUser = localStorage.getItem("authUser");
 
   const countryCodes = [
     { label: "SA Saudi Arabia | (+966)", value: "SA Saudi Arabia | (+966)" },
@@ -33,6 +34,12 @@ const SignUp = () => {
     { label: "ساموا الأمريكية +1-684", value: "+1-684" },
     { label: "أندورا +376", value: "+376" },
   ];
+
+  useEffect(() => {
+    if (authUser === "true") {
+      navigate("/dashboard");
+    }
+  }, [authUser, navigate]);
 
   return (
     <div className="container-fluid p-0">
