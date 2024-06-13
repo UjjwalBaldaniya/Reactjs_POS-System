@@ -9,7 +9,7 @@ import {
   searchIcon,
 } from "../assets/icons/tables";
 import { wrightIcon } from "../assets/icons/dashboard";
-import AddNewTable from "../Components/Table/AddNewTable";
+import AddNewTable from "../components/Table/AddNewTable";
 import { t } from "i18next";
 
 const Table = () => {

@@ -118,3 +118,27 @@
   object-fit: cover;
   margin-right: 1rem;
 }
+
+.dynamic-bg-green {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-radius: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem 0.65rem 0.875rem;
+  background-color: rgba(0, 141, 14, 0.12);
+}
+
+.dynamic-bg-blue {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-radius: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem 0.65rem 0.875rem;
+  background-color: rgb(41, 0, 238, 0.12);
+}

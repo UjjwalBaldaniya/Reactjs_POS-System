@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Navigate,
   Route,
@@ -7,17 +8,19 @@ import {
   useNavigate,
 } from "react-router-dom";
 import "./App.css";
-import Sidebar from "./Components/Sidebar";
-import Dashboard from "./Pages/Dashboard";
-import SignIn from "./Pages/SignIn";
-import SignInSingUp from "./Pages/SignInSingUp.jsx";
-import SignUp from "./Pages/SignUp";
 import ProtectedRoute from "./ProtectedRouts/ProtectedRoute";
-import Table from "./Pages/Table.jsx";
-import ProductList from "./Pages/ProductList.jsx";
-import AddProduct from "./Pages/AddProduct.jsx";
-import { useSelector } from "react-redux";
-import ProductsCatagories from "./Pages/ProductsCatagories.jsx";
+import Sidebar from "./components/Sidebar";
+import AddProduct from "./pages/AddProduct.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import ProductList from "./pages/ProductList.jsx";
+import ProductsCatagories from "./pages/ProductsCatagories.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import SignInSingUp from "./pages/SignInSingUp.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Table from "./pages/Table.jsx";
+import Units from "./pages/Units.jsx";
+import Variations from "./pages/Variations.jsx";
+import BaseUnits from "./pages/BaseUnits.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -72,6 +75,9 @@ function App() {
                     path="/products-categories"
                     element={<ProductsCatagories />}
                   />
+                  <Route path="/variations" element={<Variations />} />
+                  <Route path="/units" element={<Units />} />
+                  <Route path="/base-units" element={<BaseUnits />} />
                 </Route>
               </Routes>
             </div>

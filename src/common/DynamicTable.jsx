@@ -1,9 +1,8 @@
 // ReusableTable.js
 import React from "react";
 import "../css/dynamicTable.css";
-import { deleteIcon, editIcon } from "../assets/icons/tables";
 
-const DynamicTable = ({ columns, data }) => {
+const DynamicTable = ({ columns, data, actions }) => {
   return (
     <div>
       {/* <table className="dynamic-table">
@@ -56,13 +55,14 @@ const DynamicTable = ({ columns, data }) => {
             {columns?.map((col, index) => (
               <th
                 key={index}
-                className={`dynamic-table-heading dynamic-th-common ${
-                  col?.accessor === "actions" ? "text-end" : ""
-                }`}
+                className={`dynamic-table-heading dynamic-th-common`}
               >
                 {col?.label}
               </th>
             ))}
+            <th className="dynamic-table-heading dynamic-th-common text-end">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -70,34 +70,43 @@ const DynamicTable = ({ columns, data }) => {
             return (
               <tr key={rowIndex}>
                 {columns?.map((col, colIndex) => {
+                  console.log("first", col?.bgColorGreen);
+
                   return (
                     <td
                       key={colIndex}
                       className="dynamic-table-data dynamic-th-common"
                     >
-                      {col?.accessor === "actions" ? (
-                        <div className="dynamic-table-data-action">
-                          {row?.actions?.map((action, actionIndex) => (
-                            <button
-                              key={actionIndex}
-                              className={`dynamic-table-${action?.name}-btn table-data-action-common`}
-                              onClick={() => action?.handler(row)}
-                            >
-                              {action?.icon}
-                            </button>
-                          ))}
-                        </div>
-                      ) : col?.accessor === "category" && row?.image ? (
+                      {col?.accessor === "category" && row?.image ? (
                         <div className="dynamic-table-img">
                           <img src={row?.image} alt="" />
                           <span>{row?.category}</span>
                         </div>
                       ) : (
-                        row[col?.accessor]
+                        <div
+                          className={`${
+                            col?.bgColorGreen ? "dynamic-bg-green" : ""
+                          } ${col?.bgColorBlue ? "dynamic-bg-blue" : ""}`}
+                        >
+                          {row[col?.accessor]}
+                        </div>
                       )}
                     </td>
                   );
                 })}
+                <td className="dynamic-table-data dynamic-th-common">
+                  <div className="dynamic-table-data-action">
+                    {actions?.map((action, actionIndex) => (
+                      <button
+                        key={actionIndex}
+                        className={`dynamic-table-${action.name}-btn table-data-action-common`}
+                        onClick={() => action?.handler(row)}
+                      >
+                        {action?.icon}
+                      </button>
+                    ))}
+                  </div>
+                </td>
               </tr>
             );
           })}

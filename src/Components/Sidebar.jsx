@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { RxDotFilled } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import CustomAccordion from "../Pages/CustomAccordion";
+import CustomAccordion from "../pages/CustomAccordion";
 import {
   applicationsIcon,
   customersIcon,
@@ -73,8 +73,8 @@ const Sidebar = () => {
               <NavLink to="/units" className="sidebar-custom-menu-link">
                 Units
               </NavLink>
-              <NavLink to="/print-barcode" className="sidebar-custom-menu-link">
-                Print Barcode
+              <NavLink to="/base-units" className="sidebar-custom-menu-link">
+                Base Units
               </NavLink>
             </div>
           </CustomAccordion>
