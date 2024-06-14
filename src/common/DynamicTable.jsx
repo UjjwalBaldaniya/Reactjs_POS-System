@@ -4,7 +4,7 @@ import "../css/dynamicTable.css";
 
 const DynamicTable = ({ columns, data, actions }) => {
   return (
-    <div>
+    <div className="table-responsive">
       {/* <table className="dynamic-table">
         <thead>
           <tr>
@@ -48,7 +48,6 @@ const DynamicTable = ({ columns, data, actions }) => {
           </tr>
         </tbody>
       </table> */}
-
       <table className="dynamic-table">
         <thead>
           <tr>
@@ -61,7 +60,7 @@ const DynamicTable = ({ columns, data, actions }) => {
               </th>
             ))}
             <th className="dynamic-table-heading dynamic-th-common text-end">
-              Actions
+              ACTIONS
             </th>
           </tr>
         </thead>
@@ -70,6 +69,11 @@ const DynamicTable = ({ columns, data, actions }) => {
             return (
               <tr key={rowIndex}>
                 {columns?.map((col, colIndex) => {
+                  const bgColor = col.getBgColor
+                    ? col.getBgColor(row[col.accessor])
+                    : col.bgColor;
+                  const bgColorClass = bgColor ? `dynamic-bg-${bgColor}` : "";
+
                   return (
                     <td
                       key={colIndex}
@@ -81,13 +85,7 @@ const DynamicTable = ({ columns, data, actions }) => {
                           <span>{row?.category}</span>
                         </div>
                       ) : (
-                        <div
-                          className={`${
-                            col?.bgColorGreen ? "dynamic-bg-green" : ""
-                          } ${col?.bgColorBlue ? "dynamic-bg-blue" : ""}`}
-                        >
-                          {row[col?.accessor]}
-                        </div>
+                        <div className={bgColorClass}>{row[col?.accessor]}</div>
                       )}
                     </td>
                   );

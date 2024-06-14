@@ -1,3 +1,7 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
 .dynamic-table {
   width: 100%;
   margin-top: -0.5em;
@@ -11,6 +15,7 @@
 }
 
 .dynamic-table-heading {
+  text-transform: uppercase;
   padding: 0.5rem 0.75rem !important;
   color: rgb(150, 145, 172) !important;
 }
@@ -141,4 +146,28 @@
   font-size: 0.875rem;
   padding: 0.65rem 1.25rem 0.65rem 0.875rem;
   background-color: rgb(41, 0, 238, 0.12);
+}
+
+.dynamic-bg-yellow {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-radius: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem 0.65rem 0.875rem;
+  background-color: rgb(255, 191, 0, 0.12);
+}
+
+.dynamic-bg-red {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-radius: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem 0.65rem 0.875rem;
+  background-color: rgb(240, 44, 44, 0.12);
 }

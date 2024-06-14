@@ -1,20 +1,18 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { plusIcon } from "../../assets/icons/tables";
-import FormField from "../../common/FormField";
 import OffcanvasDrawer from "../../common/OffcanvasDrawer";
-import { baseUnitsFields } from "../../description/baseUnits.description";
 
-const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
+const AddPurchases = ({ isDrawerOpen, setDrawerOpen }) => {
   return (
     <OffcanvasDrawer
       isDrawerOpen={isDrawerOpen}
       setDrawerOpen={setDrawerOpen}
-      title="Add Base-Units"
+      title="Add Purchases"
     >
       <div>
         <Formik
-          initialValues={{ name: "" }}
+          initialValues={{ name: "", shortName: "", baseUnit: "" }}
           validate={(values) => {
             const errors = {};
             if (!values.name) errors.name = `Required`;
@@ -29,15 +27,15 @@ const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
         >
           {({ isSubmitting }) => (
             <Form>
-              {baseUnitsFields?.map((field, index) => (
-                <FormField
+              {/* {unitsFields?.map((field, index) => (
+                  <FormField
                   key={index}
                   label={field.label}
                   name={field.name}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                />
-              ))}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    />
+                    ))} */}
               <div className="add-table-create-btn mt-4">
                 <button disabled={isSubmitting}>
                   {plusIcon("white")}
@@ -52,4 +50,4 @@ const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
   );
 };
 
-export default AddBaseUnits;
+export default AddPurchases;

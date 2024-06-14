@@ -79,6 +79,25 @@ const Sidebar = () => {
             </div>
           </CustomAccordion>
         </div>
+        <div className="sidebar-menu d-flex mb-4">
+          <RxDotFilled className="sidebar-dot-icon me-2" />
+          <div className="">{productsIcon}</div>
+
+          <CustomAccordion title="Purchases">
+            <div className="sidebar-custom-acc d-flex flex-column">
+              <NavLink to="/purchases" className="sidebar-custom-menu-link">
+                Purchases
+              </NavLink>
+              <NavLink
+                to="/purchase-return"
+                className="sidebar-custom-menu-link"
+              >
+                Purchases Return
+              </NavLink>
+            </div>
+          </CustomAccordion>
+        </div>
+
         <div className="sidebar-menu d-flex align-items-center mb-4 ">
           <RxDotFilled className="sidebar-dot-icon" />
           <div className="">{discountIcon}</div>

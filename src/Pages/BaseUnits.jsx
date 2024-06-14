@@ -12,16 +12,16 @@ const BaseUnits = () => {
   const { isDrawerOpen, setDrawerOpen, actionsBtn } = baseUnitsContainer();
 
   return (
-    <div className="products-catagories-section">
+    <div className="base-units-section">
       <Navbar
-        title="Products Catagories"
+        title="Base Units"
         showExportBtn
         showNewAddBtn
-        newAddBtnText="Add Products Catagories"
+        newAddBtnText="Add Base Units"
         openCanvas={() => setDrawerOpen(true)}
       />
 
-      <div className="product-category-table">
+      <div className="base-units-table">
         <DynamicTable
           columns={baseUnitsColumns}
           data={baseUnitsData}

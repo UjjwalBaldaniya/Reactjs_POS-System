@@ -1,27 +1,21 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
-import Sidebar from "./components/Sidebar";
 import AddProduct from "./pages/AddProduct.jsx";
+import BaseUnits from "./pages/BaseUnits.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import PrintBarcode from "./pages/PrintBarcode.jsx";
 import ProductList from "./pages/ProductList.jsx";
 import ProductsCatagories from "./pages/ProductsCatagories.jsx";
+import Purchases from "./pages/Purchases.jsx";
 import SignIn from "./pages/SignIn.jsx";
-import SignInSingUp from "./pages/SignInSingUp.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import BaseUnits from "./pages/BaseUnits.jsx";
-import PrintBarcode from "./pages/PrintBarcode.jsx";
+import PurchaseReturn from "./pages/PurchaseReturn.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -52,6 +46,9 @@ function App() {
             <Route path="/units" element={<Units />} />
             <Route path="/base-units" element={<BaseUnits />} />
             <Route path="/print-barcode" element={<PrintBarcode />} />
+            <Route path="/purchases" element={<Purchases />} />
+            <Route path="/purchases" element={<Purchases />} />
+            <Route path="/purchase-return" element={<PurchaseReturn />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
