@@ -6,8 +6,8 @@ import {
   fileUploadIcon,
   pluseIcon,
   poroductListLogo,
-} from "../assets/icons/product";
-import Navbar from "../common/Navbar";
+} from "../../assets/icons/product";
+import Navbar from "../../common/Navbar";
 
 const AddProduct = () => {
   const [uploadedImages, setUploadedImages] = useState([]);

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 
-const ProductList = () => {
+const Products = () => {
   const navigate = useNavigate();
 
   const handelNavigate = () => {
@@ -40,4 +40,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Products;

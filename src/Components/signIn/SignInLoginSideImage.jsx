@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import LoginSideIMG from "../assets/img/sign-In/login-sideIMG.png";
-import Slider from "react-slick";
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Dropdown, DropdownButton } from "react-bootstrap";
-import i18n from "../utils/i18next";
 import { t } from "i18next";
+import React, { useEffect } from "react";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setLanguage } from "../redux/slice/languageSlice";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { setLanguage } from "../../redux/slice/languageSlice";
+import i18n from "../../utils/i18next";
+import LoginSideIMG from "../../assets/img/sign-In/login-sideIMG.png";
 
 const SignInLoginSideImage = () => {
   const dispatch = useDispatch();

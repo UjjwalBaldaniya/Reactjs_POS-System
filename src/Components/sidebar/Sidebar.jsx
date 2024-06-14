@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { RxDotFilled } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import CustomAccordion from "../pages/CustomAccordion";
+import CustomAccordion from "../../common/CustomAccordion";
 import {
   applicationsIcon,
   customersIcon,
@@ -17,8 +17,8 @@ import {
   reportsIcon,
   settingsIcon,
   tablesIcon,
-} from "../assets/icons/sidebar";
-import "../css/sidebar.css";
+} from "../../assets/icons/sidebar";
+import "../../css/sidebar.css";
 
 const Sidebar = () => {
   const { t } = useTranslation();

@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Abc from "../utils/validationSchema/Abc";
-import SignInLoginSideImage from "./SignInLoginSideImage";
+import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
 
 const SignIn = () => {
   const language = useSelector((state) => state?.language?.language);

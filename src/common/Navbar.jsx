@@ -3,7 +3,7 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { navbarMobileIcon } from "../assets/icons/dashboard";
 import i18n from "../utils/i18next";
 import { bellIcon } from "../assets/icons/navbar";
-import MobileMenu from "../components/MobileMenu";
+import MobileMenu from "../components/sidebar/MobileSidebar";
 import { exportIcon } from "../assets/icons/tables";
 import "../css/navbar.css";
 import { t } from "i18next";

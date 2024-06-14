@@ -5,8 +5,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { t } from "i18next";
 import Select from "react-select";
 import SignUpSchema from "../utils/validationSchema/SignUpSchema";
-import SignInLoginSideImage from "./SignInLoginSideImage";
 import { useSelector } from "react-redux";
+import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
 
 const SignUp = () => {
   const navigate = useNavigate();

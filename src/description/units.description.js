@@ -1,7 +1,7 @@
 export const unitsColumns = [
   { label: "Name", accessor: "name" },
-  { label: "Short Name", accessor: "shortName", bgColorGreen: true },
-  { label: "Base Unit", accessor: "baseUnit", bgColorBlue: true },
+  { label: "Short Name", accessor: "shortName", bgColor: "green" },
+  { label: "Base Unit", accessor: "baseUnit", bgColor: "blue" },
 ];
 
 export const unitsData = [

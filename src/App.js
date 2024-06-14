@@ -3,19 +3,19 @@ import { useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
-import AddProduct from "./pages/AddProduct.jsx";
+import AddProduct from "./components/products/AddProduct.jsx";
 import BaseUnits from "./pages/BaseUnits.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import PrintBarcode from "./pages/PrintBarcode.jsx";
-import ProductList from "./pages/ProductList.jsx";
+import Products from "./pages/Products.jsx";
 import ProductsCatagories from "./pages/ProductsCatagories.jsx";
+import PurchaseReturn from "./pages/PurchaseReturn.jsx";
 import Purchases from "./pages/Purchases.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import PurchaseReturn from "./pages/PurchaseReturn.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -39,7 +39,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/table" element={<Table />} />
-            <Route path="/products" element={<ProductList />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/products/create" element={<AddProduct />} />
             <Route path="/categories" element={<ProductsCatagories />} />
             <Route path="/variations" element={<Variations />} />

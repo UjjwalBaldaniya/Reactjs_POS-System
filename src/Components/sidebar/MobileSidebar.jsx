@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Offcanvas } from "react-bootstrap";
 import { RxDotFilled } from "react-icons/rx";
 import { Link } from "react-router-dom";
-import { leftSideArrow } from "../assets/icons/dashboard";
+import { leftSideArrow } from "../../assets/icons/dashboard";
 import {
   applicationsIcon,
   customersIcon,
@@ -16,10 +16,10 @@ import {
   reportsIcon,
   settingsIcon,
   tablesIcon,
-} from "../assets/icons/sidebar";
-import "../css/mobile-sidebar.css";
+} from "../../assets/icons/sidebar";
+import "../../css/mobile-sidebar.css";
 
-const MobileMenu = (props) => {
+const MobileSidebar = (props) => {
   const { show, onHide } = props;
   return (
     <Offcanvas
@@ -137,4 +137,4 @@ const MobileMenu = (props) => {
   );
 };
 
-export default MobileMenu;
+export default MobileSidebar;
