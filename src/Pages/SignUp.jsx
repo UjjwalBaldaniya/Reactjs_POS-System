@@ -1,45 +1,16 @@
-import React, { useEffect } from "react";
-import { FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { t } from "i18next";
+import React from "react";
+import { FaUser } from "react-icons/fa";
 import Select from "react-select";
-import SignUpSchema from "../utils/validationSchema/SignUpSchema";
-import { useSelector } from "react-redux";
+import { signUp } from "../api/services/authService";
 import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
+import SignUpContainer from "../container/signUp.container";
+import { countryCodes } from "../description/signUp.description";
+import SignUpSchema from "../utils/validationSchema/SignUpSchema";
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const language = useSelector((state) => state?.language?.language);
-  const handleRegisterClick = () => {
-    navigate("/sign-in");
-  };
-  const authUser = localStorage.getItem("authUser");
-
-  const countryCodes = [
-    { label: "SA Saudi Arabia | (+966)", value: "SA Saudi Arabia | (+966)" },
-    { label: "OM Oman | (+968)", value: "OM Oman | (+968)" },
-    { label: "Afghanistan +93", value: "+93" },
-    { label: "Albania +355", value: "+355" },
-    { label: "Algeria +213", value: "+213" },
-    { label: "American Samoa +1-684", value: "+1-684" },
-    { label: "Andorra +376", value: "+376" },
-  ];
-  const countryCodes2 = [
-    { label: "السعودية SA | (+966)", value: "السعودية SA | (+966)" },
-    { label: "عُمان OM | (+968)", value: "عُمان OM | (+968)" },
-    { label: "أفغانستان +93", value: "+93" },
-    { label: "ألبانيا +355", value: "+355" },
-    { label: "الجزائر +213", value: "+213" },
-    { label: "ساموا الأمريكية +1-684", value: "+1-684" },
-    { label: "أندورا +376", value: "+376" },
-  ];
-
-  useEffect(() => {
-    if (authUser === "true") {
-      navigate("/dashboard");
-    }
-  }, [authUser, navigate]);
+  const { language, navigateToSignIn } = SignUpContainer();
 
   return (
     <div className="container-fluid p-0">
@@ -65,9 +36,29 @@ const SignUp = () => {
                 confirmPassword: "",
               }}
               validationSchema={SignUpSchema}
-              onSubmit={(values) => {
-                localStorage.setItem("userData", JSON.stringify(values));
-                handleRegisterClick();
+              onSubmit={async (values, { setSubmitting, setFieldError }) => {
+                const newValue = {
+                  username: values.username,
+                  email: values.email,
+                  countrycode: values.countryCode,
+                  phoneno: values.phoneNumber,
+                  password: values.password,
+                  confirmPassword: values.confirmPassword,
+                };
+
+                try {
+                  const response = await signUp(newValue);
+                  if (response) {
+                    localStorage.setItem("userData", JSON.stringify(newValue));
+                    navigateToSignIn();
+                  }
+                } catch (error) {
+                  setFieldError(
+                    "general",
+                    error.response?.data?.msg || "An error occurred"
+                  );
+                }
+                setSubmitting(false);
               }}
             >
               {({ values, errors, touched, setFieldValue }) => (
@@ -76,7 +67,7 @@ const SignUp = () => {
                     <h1>{t("signup.createNewAccount")}</h1>
                     <div className="sign-in-btn">
                       <p>{t("signup.alreadyAccount")}</p>
-                      <button onClick={() => handleRegisterClick()}>
+                      <button onClick={() => navigateToSignIn()}>
                         <div className="d-flex">
                           <i className="ms-2">
                             <FaUser />
@@ -89,7 +80,7 @@ const SignUp = () => {
                   </div>
                   <div className="user-pass row mb-3">
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("signup.username")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">
@@ -114,7 +105,7 @@ const SignUp = () => {
                       </div>
                     </div>
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("signup.emailAddress")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">
@@ -140,7 +131,7 @@ const SignUp = () => {
                   </div>
                   <div className="user-pass row mb-3">
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("signup.countryCode")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">
@@ -170,7 +161,7 @@ const SignUp = () => {
                       </div>
                     </div>
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("signup.phoneNumber")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">
@@ -196,7 +187,7 @@ const SignUp = () => {
                   </div>
                   <div className="user-pass row mb-3">
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("login.password")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">
@@ -220,7 +211,7 @@ const SignUp = () => {
                       </div>
                     </div>
                     <div className=" col-12  col-md-6">
-                      <div className="lable-input">
+                      <div className="label-input">
                         <label htmlFor="">{t("signup.confirmPassword")}</label>
                         <div className="input-div">
                           <div className="input-div-inner">

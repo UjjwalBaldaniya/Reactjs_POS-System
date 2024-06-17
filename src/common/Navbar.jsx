@@ -40,7 +40,7 @@ const Navbar = ({
   }, [dispatch]);
 
   const handelLogout = () => {
-    localStorage.setItem("authUser", false);
+    localStorage.removeItem("auth_token");
   };
 
   return (

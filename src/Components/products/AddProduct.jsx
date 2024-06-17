@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import Select from "react-select";
 import {
   cancelIcon,
@@ -8,45 +7,27 @@ import {
   poroductListLogo,
 } from "../../assets/icons/product";
 import Navbar from "../../common/Navbar";
+import AddProductsContainer from "../../container/products/addProducts.container";
+import {
+  availabilityOption,
+  barcodeSymbologyOption,
+  branchOptions,
+  categoryOptions,
+  unitOptions,
+} from "../../description/products/products.description";
 
 const AddProduct = () => {
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const navigate = useNavigate();
+  const {
+    selectedOption,
+    setSelectedOption,
+    handleBack,
+    activeTime,
+    handleTimeButtonClick,
+    uploadedImages,
+    handleDeleteImage,
+    handleFileUpload,
+  } = AddProductsContainer();
 
-  const [activeTime, setActiveTime] = useState(null);
-  const handleBack = () => {
-    navigate("/products");
-  };
-  const options = [
-    { value: "all", label: "For all branch" },
-    { value: "doha", label: "doha" },
-  ];
-  const options2 = [
-    { value: "branch", label: "🥤 For all branch" },
-    { value: "steak", label: " 🥩 Steak" },
-    { value: "sandwiches", label: "🌯 Sandwiches" },
-    { value: "hoot_drinks", label: "☕ Hot Drinks" },
-    { value: "side_dishes", label: "🍱 Side Dishes" },
-    { value: "Ice_cream", label: "🍦 Ice cream" },
-  ];
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [selectedOption2, setSelectedOption2] = useState(options2[0]);
-  const handleTimeButtonClick = (time) => {
-    setActiveTime(time);
-  };
-
-  const handleFileUpload = (files) => {
-    // Convert FileList to Array
-    const filesArray = Array.from(files);
-
-    // Update uploadedImages state
-    setUploadedImages((prevImages) => [...prevImages, ...filesArray]);
-  };
-  const handleDeleteImage = (index) => {
-    const updatedImages = uploadedImages.filter((_, i) => i !== index);
-    // Update the state with the new array without the deleted image
-    setUploadedImages(updatedImages);
-  };
   return (
     <div>
       <Navbar
@@ -58,13 +39,13 @@ const AddProduct = () => {
       />
 
       <div className="col-12">
-        <div className="lable-input">
+        <div className="label-input">
           <label htmlFor="">Branch</label>
           <div className="input-div">
             <div className="input-div-inner">
               <Select
                 id="branch-select"
-                options={options}
+                options={branchOptions}
                 value={selectedOption}
                 onChange={setSelectedOption}
               />
@@ -73,7 +54,7 @@ const AddProduct = () => {
         </div>
         <div className="user-pass row mb-3 mt-4">
           <div className=" col-12  col-md-6">
-            <div className="lable-input">
+            <div className="label-input">
               <label htmlFor="">Product Name (English)</label>
               <div className="input-div">
                 <div className="input-div-inner">
@@ -89,7 +70,7 @@ const AddProduct = () => {
             </div>
           </div>
           <div className=" col-12  col-md-6">
-            <div className="lable-input">
+            <div className="label-input">
               <label htmlFor="">Product Name (Arabic)</label>
               <div className="input-div">
                 <div className="input-div-inner">
@@ -103,21 +84,67 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-          <div className="lable-input mt-4">
-            <label htmlFor="">Branch</label>
-            <div className="input-div">
-              <div className="input-div-inner">
-                <Select
-                  //   id="branch-select"
-                  options={options2}
-                  // value={selectedOption2}
-                  onChange={setSelectedOption2}
-                  placeholder="Select product category"
-                />
+          <div className="row">
+            <div className="col-12 col-md">
+              <div className="label-input mt-4">
+                <label htmlFor="">Category</label>
+                <div className="input-div">
+                  <div className="input-div-inner">
+                    <Select
+                      options={categoryOptions}
+                      placeholder="Select product category"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md ">
+              <div className="label-input mt-4">
+                <label htmlFor="">Product Unit:</label>
+                <div className="input-div">
+                  <div className="input-div-inner">
+                    <Select
+                      options={unitOptions}
+                      placeholder="Select product unit"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-12 mt-4 lable-input">
+          <div className="row">
+            <div className="col">
+              <div className="label-input mt-4">
+                <label htmlFor="">Barcode Symbology:</label>
+                <div className="input-div">
+                  <div className="input-div-inner">
+                    <Select
+                      options={barcodeSymbologyOption}
+                      placeholder="Select barcode symbology"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col">
+              <div className="label-input mt-4">
+                <label htmlFor="">Code:</label>
+                <div className="input-div">
+                  <div className="input-div-inner">
+                    <input
+                      type="text"
+                      className="login-input"
+                      id="username"
+                      name="username"
+                      placeholder="Enter product code"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 mt-4 label-input">
             <label>Preparation Time</label>
             <div className="row">
               <div className="col-12  col-md-6 d-flex justify-content-between">
@@ -178,7 +205,7 @@ const AddProduct = () => {
               <div className="col-12 col-md-6">
                 <div className="row">
                   <div className=" col-6 col-md-6">
-                    <div className="lable-input">
+                    <div className="label-input">
                       <div className="input-div">
                         <div className="input-div-inner">
                           <input
@@ -195,7 +222,7 @@ const AddProduct = () => {
                     </div>
                   </div>
                   <div className=" col-6 ">
-                    <div className="lable-input">
+                    <div className="label-input">
                       <div className="input-div">
                         <div className="input-div-inner">
                           <input
@@ -215,7 +242,24 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-          <div className="col-12  lable-input mt-4">
+
+          <div className="row">
+            <div className="col-6">
+              <div className="label-input mt-4">
+                <label htmlFor="">Availability:</label>
+                <div className="input-div">
+                  <div className="input-div-inner">
+                    <Select
+                      options={availabilityOption}
+                      placeholder="Select availability"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12  label-input mt-4">
             <label htmlFor="">Stock</label>
             <div className="row">
               {" "}
@@ -247,7 +291,7 @@ const AddProduct = () => {
             </div>
           </div>
 
-          <div className="col-12 lable-input mt-4">
+          <div className="col-12 label-input mt-4">
             <label htmlFor="">Product Images</label>
             <div className="img-uploade">
               <p>Or drag images here</p>
@@ -289,7 +333,7 @@ const AddProduct = () => {
           <div className="col-12 mt-4">
             <div className="row">
               <div className=" col-12 col-md-6">
-                <div className="lable-input">
+                <div className="label-input">
                   <div className="input-div">
                     <div className="input-div-inner">
                       <lable className="text-area-lable">
@@ -310,7 +354,7 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="col-12 col-md-6 ">
-                <div className="lable-input">
+                <div className="label-input">
                   <div className="input-div">
                     <div className="input-div-inner">
                       <lable className="text-area-lable">
@@ -336,7 +380,7 @@ const AddProduct = () => {
           <div className="col-12 mt-4">
             <div className="row">
               <div className=" col-12 col-md-6">
-                <div className="lable-input">
+                <div className="label-input">
                   <div className="input-div">
                     <div className="input-div-inner">
                       <lable className="text-area-lable">
@@ -358,7 +402,7 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="col-12 col-md-6 ">
-                <div className="lable-input">
+                <div className="label-input">
                   <div className="input-div">
                     <div className="input-div-inner">
                       <lable className="text-area-lable">

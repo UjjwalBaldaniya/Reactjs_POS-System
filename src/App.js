@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import AddProduct from "./components/products/AddProduct.jsx";
+import AddPurchaseReturn from "./components/purchaseReturn/AddPurchaseReturn.jsx";
+import AddPurchases from "./components/purchases/AddPurchases.jsx";
 import BaseUnits from "./pages/BaseUnits.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import PrintBarcode from "./pages/PrintBarcode.jsx";
@@ -16,14 +17,14 @@ import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import AddPurchases from "./components/purchases/AddPurchases.jsx";
-import AddPurchaseReturn from "./components/purchaseReturn/AddPurchaseReturn.jsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
 
   return (
     <>
+      <ToastContainer />
       <div
         className="container-fluid"
         style={{ direction: language === "EN" ? "ltr" : "rtl" }}

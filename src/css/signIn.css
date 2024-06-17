@@ -79,41 +79,11 @@
   margin-right: 0.5rem;
 }
 
-.user-pass {
-  display: flex;
-  /* flex-wrap: wrap; */
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
-}
-/* @media (min-width: 1400px) {
-  .sign-in-input {
-    width: 50%;
-  }
-}
-
-@media (min-width: 768px) {
-  .sign-in-input {
-    width: 50%;
-  }
-}
-
-@media (min-width: 992px) {
-  .sign-in-input {
-    width: 100%;
-  }
-}
-
-.sign-in-input {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  margin-bottom: 1rem;
-  width: 100%;
-} */
-.lable-input {
+.label-input {
   position: relative;
   width: 100%;
 }
-.lable-input label {
+.label-input label {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 400;

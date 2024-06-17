@@ -1,36 +1,16 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { t } from "i18next";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Abc from "../utils/validationSchema/Abc";
+import { signIn } from "../api/services/authService";
+import DynamicFormField from "../common/DynamicFormField";
 import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
+import SignInContainer from "../container/signIn.container";
+import { formFields } from "../description/signIn.description";
+import Abc from "../utils/validationSchema/Abc";
 
 const SignIn = () => {
-  const language = useSelector((state) => state?.language?.language);
-  const navigate = useNavigate();
-  const [showError, setShowError] = useState(false);
-  const [errorWrongPass, setErrorWrongPass] = useState(false);
-  const authUser = localStorage.getItem("authUser");
-
-  const handelShowError = () => {
-    setErrorWrongPass(true);
-    setShowError(false);
-  };
-
-  const handleRegisterClick = () => {
-    navigate("/sign-up");
-  };
-  const handleLogin = () => {
-    localStorage.setItem("authUser", true);
-  };
-
-  useEffect(() => {
-    if (authUser === "true") {
-      navigate("/dashboard");
-    }
-  }, [authUser, navigate]);
+  const { language, navigateToSignUp, navigateToDashboard } = SignInContainer();
 
   return (
     <div className="container-fluid p-0">
@@ -46,126 +26,85 @@ const SignIn = () => {
               className="pos-logo mt-2"
               alt=""
             />
+            <div className="sign-in">
+              <h1>{t("login.login")}</h1>
+              <div className="sign-in-btn d-flex justify-content-between">
+                <p>{t("login.notRegister")}</p>
+                <button onClick={() => navigateToSignUp()}>
+                  <div className="d-flex">
+                    <i>
+                      <FaUser />
+                    </i>
+                    <div>{t("login.register")}</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
             <Formik
               initialValues={{
                 usernameOrEmail: "",
                 password: "",
               }}
               validationSchema={Abc}
-              onSubmit={(values) => {
-                // Retrieve userData from localStorage
-                const userData = JSON.parse(localStorage.getItem("userData"));
-                if (userData === null) {
-                  setShowError(true);
-                }
-                // Check if username or email and password match
-                if (
-                  (values.usernameOrEmail === userData.username ||
-                    values.usernameOrEmail === userData.email) &&
-                  values.password === userData.password
-                ) {
-                  // Redirect to dashboard
+              onSubmit={async (values, { setSubmitting, setFieldError }) => {
+                setSubmitting(true);
+                const newValue = {
+                  usernameOrEmail: values.usernameOrEmail,
+                  password: values.password,
+                };
 
-                  handleLogin();
-                  setShowError(false);
-                  navigate("/dashboard");
-                } else {
-                  // Handle incorrect credentials
-                  values.usernameOrEmail === userData.username ||
-                  (values.usernameOrEmail === userData.email &&
-                    values.password !== userData.password)
-                    ? handelShowError()
-                    : setShowError(true);
+                try {
+                  const response = await signIn(newValue);
+                  if (response) {
+                    localStorage.setItem("userData", JSON.stringify(newValue));
+                    navigateToDashboard();
+                  }
+                } catch (error) {
+                  setFieldError(
+                    "general",
+                    error.response?.data?.msg || "An error occurred"
+                  );
                 }
+                setSubmitting(false);
               }}
             >
-              {({ errors, touched }) => (
+              {({ errors, touched, isSubmitting }) => (
                 <Form action="">
-                  <div className="sign-in">
-                    <h1>{t("login.login")}</h1>
-                    <div className="sign-in-btn d-flex justify-content-between">
-                      <p>{t("login.notRegister")}</p>
-                      <button onClick={() => handleRegisterClick()}>
-                        <div className="d-flex">
-                          <i>
-                            <FaUser />
-                          </i>
-
-                          <div>{t("login.register")}</div>
-                        </div>
-                      </button>
+                  <div className="row mb-3">
+                    <div className="row mb-3">
+                      {formFields.map((field) => (
+                        <DynamicFormField
+                          key={field.name}
+                          name={field.name}
+                          type={field.type}
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          mainClassName={field.mainClassName}
+                          touched={touched}
+                          errors={errors}
+                        />
+                      ))}
                     </div>
                   </div>
-                  <div className="user-pass row mb-3">
-                    <div className=" col-12  col-md-6">
-                      <div className="lable-input">
-                        <label htmlFor="">{t("login.username")}</label>
-                        <div className="input-div">
-                          <div className="input-div-inner">
-                            <Field
-                              type="text"
-                              // className="login-input"
-                              className={`login-input ${
-                                touched?.usernameOrEmail &&
-                                errors?.usernameOrEmail
-                                  ? "form-control-invalid"
-                                  : ""
-                              }`}
-                              id="username"
-                              name="usernameOrEmail"
-                              placeholder={t("login.enterEmail")}
-                            />
-                            <ErrorMessage
-                              name="usernameOrEmail"
-                              component="div"
-                              className="error-message"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className=" col-12  col-md-6">
-                      <div className="lable-input">
-                        <label htmlFor="">{t("login.password")}</label>
-                        <div className="input-div">
-                          <div className="input-div-inner">
-                            <Field
-                              type="password"
-                              // className="login-input"
-                              className={`login-input ${
-                                touched?.password && errors?.password
-                                  ? "form-control-invalid"
-                                  : ""
-                              }`}
-                              id="username"
-                              name="password"
-                              placeholder={t("login.enterPassword")}
-                            />
-                            <ErrorMessage
-                              name="password"
-                              component="div"
-                              className="error-message"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {showError ? (
-                    <div className="error-msg">{t("login.userNotExist")}</div>
-                  ) : errorWrongPass ? (
-                    <div className="error-msg">
-                      {t("login.passwordIncorrect")}
-                    </div>
-                  ) : (
-                    ""
-                  )}
 
                   <a className="forgotpass" href="/">
                     {t("login.forgotPassword")}
                   </a>
-                  <button className="login-btn">
-                    <div className="login">{t("login.login")}</div>
+                  <button
+                    className="login-btn"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span
+                        className="spinner-border spinner-border-md"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    ) : (
+                      <div className="login">{t("login.login")}</div>
+                    )}
                   </button>
                 </Form>
               )}
