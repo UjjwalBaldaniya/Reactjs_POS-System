@@ -1,15 +1,14 @@
 import React from "react";
 import DynamicTable from "../common/DynamicTable";
+import Navbar from "../common/Navbar";
+import PurchaseReturnContainer from "../container/purchaseReturn.container";
 import {
   purchaseReturnColumns,
   purchaseReturnData,
 } from "../description/purchaseReturn.description";
-import PurchaseReturnContainer from "../container/purchaseReturn.container";
-import AddPurchaseReturn from "../components/purchaseReturn/AddPurchaseReturn";
-import Navbar from "../common/Navbar";
 
 const PurchaseReturn = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } = PurchaseReturnContainer();
+  const { actionsBtn, navigateToPurchaseReturn } = PurchaseReturnContainer();
 
   return (
     <div className="purchases-section">
@@ -18,7 +17,7 @@ const PurchaseReturn = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Purchase Return"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={navigateToPurchaseReturn}
       />
 
       <div className="purchases-table">
@@ -28,11 +27,6 @@ const PurchaseReturn = () => {
           actions={actionsBtn}
         />
       </div>
-
-      <AddPurchaseReturn
-        isDrawerOpen={isDrawerOpen}
-        setDrawerOpen={() => setDrawerOpen(false)}
-      />
     </div>
   );
 };

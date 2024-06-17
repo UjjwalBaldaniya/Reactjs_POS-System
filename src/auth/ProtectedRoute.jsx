@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import Layout from "./Layout";
 
 const ProtectedRoute = () => {
-  const authUser = localStorage.getItem("authUser");
+  const authUser = JSON.parse(localStorage.getItem("authUser"));
   return authUser ? <Layout /> : <Navigate to="/sign-in" />;
 };
 

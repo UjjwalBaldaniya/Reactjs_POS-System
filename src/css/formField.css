@@ -1,20 +1,64 @@
 .formField-label {
-  display: inline-block;
+  /* display: inline-block; */
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 600;
   margin-bottom: 0.5rem;
-  color: rgb(79, 74, 104);
+  /* color: rgb(79, 74, 104); */
+  color: rgb(150, 145, 172);
 }
 
 .formField-input {
   height: 3rem;
   width: 100%;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: rgb(255, 255, 255);
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(223, 220, 239);
+  border: 1px solid rgb(223, 220, 239);
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.input-percentage {
+  border: 1px solid rgb(223, 220, 239);
+  border-radius: 1rem;
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.formField-input-percentage {
+  height: 3rem;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  border-radius: 1rem 0 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.input-symbol-percentage {
+  align-items: center;
+  background-color: #e9ecef;
+  border-radius: 0 1rem 1rem 0;
+  color: #6c757d;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0.688rem 0.938rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.formField-textarea {
+  width: 100%;
+  padding: 1rem 0 0 1rem;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(223, 220, 239);
   border-radius: 1rem;
   font-size: 0.875rem;
   font-weight: 500;

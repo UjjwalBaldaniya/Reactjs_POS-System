@@ -16,17 +16,11 @@ import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
+import AddPurchases from "./components/purchases/AddPurchases.jsx";
+import AddPurchaseReturn from "./components/purchaseReturn/AddPurchaseReturn.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
-  const navigate = useNavigate();
-  const authUser = localStorage.getItem("authUser");
-
-  useEffect(() => {
-    if (authUser !== "true") {
-      navigate("/sign-in");
-    }
-  }, []);
 
   return (
     <>
@@ -47,8 +41,12 @@ function App() {
             <Route path="/base-units" element={<BaseUnits />} />
             <Route path="/print-barcode" element={<PrintBarcode />} />
             <Route path="/purchases" element={<Purchases />} />
-            <Route path="/purchases" element={<Purchases />} />
+            <Route path="/purchases/create" element={<AddPurchases />} />
             <Route path="/purchase-return" element={<PurchaseReturn />} />
+            <Route
+              path="/purchase-return/create"
+              element={<AddPurchaseReturn />}
+            />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

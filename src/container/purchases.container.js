@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
 
 const PurchasesContainer = () => {
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const navigateToAddPurchase = () => {
+    navigate("/purchases/create");
+  };
 
   const handleEdit = (row) => {
     console.log("Edit row:", row);
@@ -17,7 +21,7 @@ const PurchasesContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { isDrawerOpen, setDrawerOpen, actionsBtn };
+  return { actionsBtn, navigateToAddPurchase };
 };
 
 export default PurchasesContainer;

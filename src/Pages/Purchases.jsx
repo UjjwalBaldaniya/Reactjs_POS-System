@@ -1,15 +1,14 @@
 import React from "react";
+import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import PurchasesContainer from "../container/purchases.container";
-import DynamicTable from "../common/DynamicTable";
 import {
   purchasesColumns,
   purchasesData,
 } from "../description/purchases.description";
-import AddPurchases from "../components/purchases/AddPurchases";
 
 const Purchases = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } = PurchasesContainer();
+  const { actionsBtn, navigateToAddPurchase } = PurchasesContainer();
 
   return (
     <div className="purchases-section">
@@ -18,7 +17,7 @@ const Purchases = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Purchases"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={navigateToAddPurchase}
       />
 
       <div className="purchases-table">
@@ -28,11 +27,6 @@ const Purchases = () => {
           actions={actionsBtn}
         />
       </div>
-
-      <AddPurchases
-        isDrawerOpen={isDrawerOpen}
-        setDrawerOpen={() => setDrawerOpen(false)}
-      />
     </div>
   );
 };
