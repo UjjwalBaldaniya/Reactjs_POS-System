@@ -7,6 +7,24 @@
   z-index: 100;
 }
 
+.sidebar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgb(168, 168, 168);
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
 .sidebar-logo {
   width: 10rem;
   aspect-ratio: auto;
@@ -81,4 +99,21 @@
   color: rgb(150, 145, 172);
   margin: 0.5rem 0px;
   user-select: none;
+}
+
+.sidebar-menu.active .sidebar-dot-icon,
+.sidebar-menu.active .sidebar-menu-name,
+.sidebar-menu.active div {
+  color: rgb(41, 0, 238);
+  font-weight: bold;
+}
+
+.sidebar-custom-menu-link.active {
+  color: rgb(41, 0, 238);
+  font-weight: bold;
+}
+
+.sidebar-custom-menu-link:hover {
+  color: rgb(41, 0, 238);
+  font-weight: bold;
 }

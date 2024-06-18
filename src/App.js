@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import AddProduct from "./components/products/AddProduct.jsx";
@@ -7,7 +8,6 @@ import AddPurchaseReturn from "./components/purchaseReturn/AddPurchaseReturn.jsx
 import AddPurchases from "./components/purchases/AddPurchases.jsx";
 import BaseUnits from "./pages/BaseUnits.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import PrintBarcode from "./pages/PrintBarcode.jsx";
 import Products from "./pages/Products.jsx";
 import ProductsCatagories from "./pages/ProductsCatagories.jsx";
 import PurchaseReturn from "./pages/PurchaseReturn.jsx";
@@ -17,7 +17,6 @@ import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -40,7 +39,6 @@ function App() {
             <Route path="/variations" element={<Variations />} />
             <Route path="/units" element={<Units />} />
             <Route path="/base-units" element={<BaseUnits />} />
-            <Route path="/print-barcode" element={<PrintBarcode />} />
             <Route path="/purchases" element={<Purchases />} />
             <Route path="/purchases/create" element={<AddPurchases />} />
             <Route path="/purchase-return" element={<PurchaseReturn />} />
