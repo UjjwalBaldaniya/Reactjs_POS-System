@@ -43,6 +43,15 @@ export const menuItems = [
     ],
   },
   {
+    type: "accordion",
+    icon: productsIcon,
+    title: "Sales",
+    links: [
+      { to: "/sales", name: "Sales" },
+      { to: "/sales-return", name: "Sales Return" },
+    ],
+  },
+  {
     type: "item",
     icon: discountIcon,
     to: "/discounts",

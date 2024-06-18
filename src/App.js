@@ -17,6 +17,7 @@ import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
+import Sales from "./pages/Sales.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -46,6 +47,8 @@ function App() {
               path="/purchase-return/create"
               element={<AddPurchaseReturn />}
             />
+            <Route path="/sales" element={<Sales />} />
+            <Route path="/sales-return" element={<PurchaseReturn />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

@@ -303,3 +303,7 @@
 .create-product {
   background-color: blue !important;
 }
+
+.infinite-click {
+  background-color: rgb(235, 235, 250);
+}

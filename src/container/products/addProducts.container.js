@@ -8,6 +8,7 @@ const AddProductsContainer = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [activeTime, setActiveTime] = useState(null);
   const [selectedOption, setSelectedOption] = useState(branchOptions[0]);
+  const [isInfiniteStock, setInfiniteStock] = useState(false);
 
   const handleBack = () => {
     navigate("/products");
@@ -27,6 +28,10 @@ const AddProductsContainer = () => {
     setUploadedImages(updatedImages);
   };
 
+  const handleInfiniteStock = () => {
+    setInfiniteStock(!isInfiniteStock);
+  };
+
   return {
     selectedOption,
     setSelectedOption,
@@ -36,6 +41,8 @@ const AddProductsContainer = () => {
     uploadedImages,
     handleDeleteImage,
     handleFileUpload,
+    isInfiniteStock,
+    handleInfiniteStock,
   };
 };
 

@@ -26,6 +26,8 @@ const AddProduct = () => {
     uploadedImages,
     handleDeleteImage,
     handleFileUpload,
+    isInfiniteStock,
+    handleInfiniteStock,
   } = AddProductsContainer();
 
   return (
@@ -217,7 +219,7 @@ const AddProduct = () => {
       </div>
 
       <div className="row mt-4">
-        <div className="col-6">
+        <div className="col-12 col-md z-3">
           <label htmlFor="" className="formField-label">
             Availability:
           </label>
@@ -226,29 +228,32 @@ const AddProduct = () => {
             placeholder="Select Availability"
           />
         </div>
-      </div>
-
-      <div className="col-12 mt-4">
-        <label htmlFor="" className="formField-label">
-          Stock
-        </label>
-        <div className="row">
-          <div className="col-12 col-md">
-            <input
-              type="text"
-              className="formField-input"
-              id="username"
-              name="username"
-              placeholder="Enter Stock"
-            />
-          </div>
-          <div className=" col-12 col-md">
-            <input
-              type="email"
-              className="formField-input"
-              name="email"
-              placeholder="Infinite Stock"
-            />
+        <div className="col-12 col-md">
+          <label htmlFor="" className="formField-label">
+            Stock
+          </label>
+          <div className="row">
+            <div className="col-12 col-md">
+              <input
+                type="text"
+                className="formField-input"
+                id="username"
+                name="username"
+                placeholder="Enter Stock"
+                readOnly={isInfiniteStock}
+                style={{ opacity: isInfiniteStock && 0.5 }}
+              />
+            </div>
+            <div className=" col-12 col-md">
+              <button
+                className={`formField-input ${
+                  isInfiniteStock && "infinite-click"
+                }`}
+                onClick={handleInfiniteStock}
+              >
+                Infinite Stock
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -339,7 +344,7 @@ const AddProduct = () => {
 
       <div className="col-12 mt-4">
         <div className="row">
-          <div className=" col-12 col-md-6">
+          {/* <div className=" col-12 col-md-6">
             <div className="label-input">
               <div className="input-div">
                 <div className="input-div-inner">
@@ -378,9 +383,9 @@ const AddProduct = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div>
+          <div className="mb-4">
             <button className="product-optionlist-btn mt-3 create-product">
               {pluseIcon} Create Product
             </button>
