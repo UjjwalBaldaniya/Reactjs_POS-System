@@ -1,15 +1,13 @@
 import React from "react";
-import baseUnitsContainer from "../container/baseUnits.container";
-import Navbar from "../common/Navbar";
 import DynamicTable from "../common/DynamicTable";
-import {
-  baseUnitsColumns,
-  baseUnitsData,
-} from "../description/baseUnits.description";
+import Navbar from "../common/Navbar";
 import AddBaseUnits from "../components/baseUnits/AddBaseUnits";
+import baseUnitsContainer from "../container/baseUnits.container";
+import { baseUnitsColumns } from "../description/baseUnits.description";
 
 const BaseUnits = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } = baseUnitsContainer();
+  const { isDrawerOpen, handleAdd, setDrawerOpen, actionsBtn, baseUnitsData } =
+    baseUnitsContainer();
 
   return (
     <div className="base-units-section">
@@ -18,7 +16,7 @@ const BaseUnits = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Base Units"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={handleAdd}
       />
 
       <div className="base-units-table">

@@ -1,54 +1,87 @@
 import { Form, Formik } from "formik";
-import React from "react";
-import { plusIcon } from "../../assets/icons/tables";
+import React, { useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import FormField from "../../common/FormField";
-import OffcanvasDrawer from "../../common/OffcanvasDrawer";
 import { unitsFields } from "../../description/units.description";
+import { unitSchema } from "../../utils/validationSchema/unitSchema";
+import { useSelector } from "react-redux";
 
 const AddUnits = ({ isDrawerOpen, setDrawerOpen }) => {
+  const { baseUnitsData } = useSelector((state) => state?.baseUnit);
+  console.log("🚀 ~ AddUnits ~ baseUnitDataById:", baseUnitsData);
+
   return (
-    <OffcanvasDrawer
-      isDrawerOpen={isDrawerOpen}
-      setDrawerOpen={setDrawerOpen}
-      title="Add Units"
-    >
-      <div>
-        <Formik
-          initialValues={{ name: "", shortName: "", baseUnit: "" }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.name) errors.name = `Required`;
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+    <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
+      <Modal.Header closeButton style={{ padding: "1rem 2rem " }}>
+        <Modal.Title>Add Units</Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ padding: "1rem 2rem " }}>
+        <div>
+          <Formik
+            initialValues={{ name: "", shortName: "", baseUnit: "" }}
+            enableReinitialize={true}
+            validationSchema={unitSchema}
+            onSubmit={async (
+              values,
+              { setSubmitting, setFieldError, resetForm }
+            ) => {
+              setSubmitting(true);
+              const newValue = {
+                base_unit_name: values.name,
+              };
+              // try {
+              //   const response = isEdit
+              //     ? await editBaseUnit(baseUnitDataById?._id, newValue)
+              //     : await addBaseUnit(newValue);
+
+              //   if (response) {
+              //     resetForm();
+              //     setDrawerOpen(false);
+              //     dispatch(fetchBaseUnits());
+              //   }
+              // } catch (error) {
+              //   setFieldError(
+              //     "general",
+              //     error.response?.data?.msg || "An error occurred"
+              //   );
+              // }
               setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              {unitsFields?.map((field, index) => (
-                <FormField
-                  key={index}
-                  label={field.label}
-                  name={field.name}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                />
-              ))}
-              <div className="add-table-create-btn mt-4">
-                <button disabled={isSubmitting}>
-                  {plusIcon("white")}
-                  <span className="ms-2">Save</span>
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </OffcanvasDrawer>
+            }}
+          >
+            {({ errors, values, isSubmitting, setFieldValue }) => {
+              return (
+                <Form>
+                  {unitsFields?.map((field, index) => {
+                    return (
+                      <FormField
+                        key={index}
+                        field={field}
+                        setFieldValue={setFieldValue}
+                        values={values}
+                        errors={errors}
+                      />
+                    );
+                  })}
+
+                  <Modal.Footer className="mt-3">
+                    <Button variant="secondary" onClick={setDrawerOpen}>
+                      Close
+                    </Button>
+                    <Button
+                      className="save-btn"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Save
+                    </Button>
+                  </Modal.Footer>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 

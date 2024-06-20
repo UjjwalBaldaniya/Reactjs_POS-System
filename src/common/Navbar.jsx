@@ -77,7 +77,7 @@ const Navbar = ({
             {showNewAddBtn && (
               <button className="navbar-add-products" onClick={openCanvas}>
                 <div className="d-flex align-items-center">
-                  <div className="plus-icon ms-2">+</div>
+                  <div className="plus-icon">+</div>
                   <span>{newAddBtnText}</span>
                 </div>
               </button>

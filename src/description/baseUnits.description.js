@@ -1,4 +1,4 @@
-export const baseUnitsColumns = [{ label: "Name", accessor: "name" }];
+export const baseUnitsColumns = [{ label: "Name", accessor: "base_unit_name" }];
 
 export const baseUnitsData = [
   { name: "KGs" },

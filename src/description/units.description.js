@@ -1,3 +1,5 @@
+import { categoryOptions } from "./products/products.description";
+
 export const unitsColumns = [
   { label: "Name", accessor: "name" },
   { label: "Short Name", accessor: "shortName", bgColor: "green" },
@@ -42,18 +44,22 @@ export const unitsFields = [
     label: "Name",
     name: "name",
     type: "text",
-    placeholder: "name",
+    placeholder: "Enter name",
   },
   {
     label: "Short Name",
     name: "shortName",
     type: "text",
-    placeholder: "short name",
+    placeholder: "Enter short name",
   },
   {
     label: "Base Unit",
     name: "baseUnit",
-    type: "text",
-    placeholder: "base unit",
+    type: "select",
+    placeholder: "Select base unit",
+    options: categoryOptions?.map((option) => ({
+      value: option.value,
+      label: option.label,
+    })),
   },
 ];

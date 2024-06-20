@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
+import {
+  fetchBaseUnitById,
+  fetchBaseUnits,
+  resetInitialValues,
+  setEdit,
+} from "../redux/slice/baseUnitSlice";
+import { deleteBaseUnit } from "../api/services/baseUnitsService";
 
 const BaseUnitsContainer = () => {
+  const dispatch = useDispatch();
+  const { baseUnitsData } = useSelector((state) => state?.baseUnit);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
+  const handleAdd = () => {
+    dispatch(resetInitialValues({ name: "" }));
+    dispatch(setEdit(false));
+    setDrawerOpen(true);
+  };
+
   const handleEdit = (row) => {
-    console.log("Edit row:", row);
+    dispatch(setEdit(true));
+    dispatch(fetchBaseUnitById(row?._id));
+    setDrawerOpen(true);
   };
 
   const handleDelete = (row) => {
-    console.log("Delete row:", row);
+    deleteBaseUnit(row?._id);
+    dispatch(fetchBaseUnits());
   };
 
   const actionsBtn = [
@@ -17,7 +36,17 @@ const BaseUnitsContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { isDrawerOpen, setDrawerOpen, actionsBtn };
+  useEffect(() => {
+    dispatch(fetchBaseUnits());
+  }, [dispatch]);
+
+  return {
+    isDrawerOpen,
+    handleAdd,
+    setDrawerOpen,
+    actionsBtn,
+    baseUnitsData,
+  };
 };
 
 export default BaseUnitsContainer;
