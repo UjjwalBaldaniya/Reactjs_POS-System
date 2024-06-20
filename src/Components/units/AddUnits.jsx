@@ -1,24 +1,60 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React from "react";
+import { Button, Modal, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addUnit, editUnit } from "../../api/services/unitService";
 import FormField from "../../common/FormField";
-import { unitsFields } from "../../description/units.description";
-import { unitSchema } from "../../utils/validationSchema/unitSchema";
-import { useSelector } from "react-redux";
+import { fetchUnits } from "../../redux/slice/unitSlice";
+import { unitSchema } from "../../utils/validationSchema/productsSchema";
 
 const AddUnits = ({ isDrawerOpen, setDrawerOpen }) => {
+  const dispatch = useDispatch();
+
   const { baseUnitsData } = useSelector((state) => state?.baseUnit);
-  console.log("🚀 ~ AddUnits ~ baseUnitDataById:", baseUnitsData);
+  const { isEdit, unitDataById } = useSelector((state) => state?.unit);
+
+  const transformedBaseUnitsData = baseUnitsData?.map((unit) => ({
+    value: unit._id,
+    label: unit.base_unit_name,
+  }));
+
+  const unitsFields = [
+    {
+      label: "Name",
+      name: "name",
+      type: "text",
+      placeholder: "Enter name",
+    },
+    {
+      label: "Short Name",
+      name: "shortName",
+      type: "text",
+      placeholder: "Enter short name",
+      mainClassName: "mt-3",
+    },
+    {
+      label: "Base Unit",
+      name: "baseUnit",
+      type: "select",
+      placeholder: "Select base unit",
+      mainClassName: "mt-3",
+      options: transformedBaseUnitsData,
+    },
+  ];
 
   return (
     <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
       <Modal.Header closeButton style={{ padding: "1rem 2rem " }}>
-        <Modal.Title>Add Units</Modal.Title>
+        <Modal.Title>{isEdit ? "Edit" : "Add"} Units</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: "1rem 2rem " }}>
         <div>
           <Formik
-            initialValues={{ name: "", shortName: "", baseUnit: "" }}
+            initialValues={{
+              name: unitDataById?.unit_name || "",
+              shortName: unitDataById?.unit_short_name || "",
+              baseUnit: unitDataById?.base_unit_id?._id || "",
+            }}
             enableReinitialize={true}
             validationSchema={unitSchema}
             onSubmit={async (
@@ -27,28 +63,30 @@ const AddUnits = ({ isDrawerOpen, setDrawerOpen }) => {
             ) => {
               setSubmitting(true);
               const newValue = {
-                base_unit_name: values.name,
+                unit_name: values.name,
+                unit_short_name: values.shortName,
+                base_unit_id: values.baseUnit,
               };
-              // try {
-              //   const response = isEdit
-              //     ? await editBaseUnit(baseUnitDataById?._id, newValue)
-              //     : await addBaseUnit(newValue);
+              try {
+                const response = isEdit
+                  ? await editUnit(unitDataById?._id, newValue)
+                  : await addUnit(newValue);
 
-              //   if (response) {
-              //     resetForm();
-              //     setDrawerOpen(false);
-              //     dispatch(fetchBaseUnits());
-              //   }
-              // } catch (error) {
-              //   setFieldError(
-              //     "general",
-              //     error.response?.data?.msg || "An error occurred"
-              //   );
-              // }
+                if (response) {
+                  resetForm();
+                  setDrawerOpen(false);
+                  dispatch(fetchUnits());
+                }
+              } catch (error) {
+                setFieldError(
+                  "general",
+                  error.response?.data?.msg || "An error occurred"
+                );
+              }
               setSubmitting(false);
             }}
           >
-            {({ errors, values, isSubmitting, setFieldValue }) => {
+            {({ errors, touched, values, isSubmitting, setFieldValue }) => {
               return (
                 <Form>
                   {unitsFields?.map((field, index) => {
@@ -59,6 +97,7 @@ const AddUnits = ({ isDrawerOpen, setDrawerOpen }) => {
                         setFieldValue={setFieldValue}
                         values={values}
                         errors={errors}
+                        touched={touched}
                       />
                     );
                   })}
@@ -72,7 +111,11 @@ const AddUnits = ({ isDrawerOpen, setDrawerOpen }) => {
                       type="submit"
                       disabled={isSubmitting}
                     >
-                      Save
+                      {isSubmitting ? (
+                        <Spinner animation="border" size="sm" />
+                      ) : (
+                        "Save"
+                      )}
                     </Button>
                   </Modal.Footer>
                 </Form>

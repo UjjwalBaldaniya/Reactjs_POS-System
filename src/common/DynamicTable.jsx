@@ -74,6 +74,13 @@ const DynamicTable = ({ columns, data, actions }) => {
                     : col.bgColor;
                   const bgColorClass = bgColor ? `dynamic-bg-${bgColor}` : "";
 
+                  let cellValue;
+                  if (typeof col.accessor === "function") {
+                    cellValue = col.accessor(row);
+                  } else {
+                    cellValue = row[col.accessor];
+                  }
+
                   return (
                     <td
                       key={colIndex}
@@ -85,7 +92,7 @@ const DynamicTable = ({ columns, data, actions }) => {
                           <span>{row?.category}</span>
                         </div>
                       ) : (
-                        <div className={bgColorClass}>{row[col?.accessor]}</div>
+                        <div className={bgColorClass}>{cellValue}</div>
                       )}
                     </td>
                   );

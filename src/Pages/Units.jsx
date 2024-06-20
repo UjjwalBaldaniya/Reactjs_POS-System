@@ -3,10 +3,11 @@ import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import AddUnits from "../components/units/AddUnits";
 import UnitsContainer from "../container/units.container";
-import { unitsColumns, unitsData } from "../description/units.description";
+import { unitsColumns } from "../description/units.description";
 
 const Units = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } = UnitsContainer();
+  const { isDrawerOpen, setDrawerOpen, actionsBtn, handleAdd, unitsData } =
+    UnitsContainer();
 
   return (
     <div className="products-catagories-section">
@@ -15,7 +16,7 @@ const Units = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Units"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={handleAdd}
       />
 
       <div className="product-category-table">

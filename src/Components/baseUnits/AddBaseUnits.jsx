@@ -50,7 +50,7 @@ const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
               setSubmitting(false);
             }}
           >
-            {({ errors, values, isSubmitting }) => (
+            {({ errors, touched, values, isSubmitting }) => (
               <Form>
                 {baseUnitsFields?.map((field, index) => (
                   <FormField
@@ -58,6 +58,7 @@ const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
                     field={field}
                     values={values}
                     errors={errors}
+                    touched={touched}
                   />
                 ))}
                 <Modal.Footer className="mt-3">
