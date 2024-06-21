@@ -3,13 +3,17 @@ import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import AddVariations from "../components/variations/AddVariations";
 import VariationsContainer from "../container/variations.container";
-import {
-  variationColumns,
-  variationData,
-} from "../description/variations.description";
+import { variationColumns } from "../description/variations.description";
 
 const Variations = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } = VariationsContainer();
+  const {
+    isDrawerOpen,
+    setDrawerOpen,
+    actionsBtn,
+    variationData,
+    handleAdd,
+    isModalOpen,
+  } = VariationsContainer();
 
   return (
     <div className="variations-section">
@@ -18,7 +22,7 @@ const Variations = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Variations"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={handleAdd}
       />
 
       <div className="product-category-table">
