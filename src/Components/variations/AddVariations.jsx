@@ -1,82 +1,46 @@
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addVariation,
-  editVariation,
-} from "../../api/services/variationsService";
-import { fetchVariations } from "../../redux/slice/variationSlice";
+import AddVariationsContainer from "../../container/variations/addVariations.container";
 import { variationSchema } from "../../utils/validationSchema/productsSchema";
 
-const AddVariations = ({ isDrawerOpen, setDrawerOpen }) => {
-  const dispatch = useDispatch();
-  const { variationDataById, isEdit } = useSelector(
-    (state) => state?.variation
-  );
-  console.log("🚀 ~ AddVariations ~ fetchVariationById:", variationDataById);
+const AddVariations = ({ isModalOpen }) => {
+  const { isEdit, initialValues, handleSubmit, onModalClose } =
+    AddVariationsContainer();
 
   return (
-    <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
+    <Modal show={isModalOpen} onHide={onModalClose} size="md">
       <Modal.Header closeButton style={{ padding: "1rem 2rem" }}>
         <Modal.Title>{isEdit ? "Edit" : "Add"} Variation</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: "1rem 2rem" }}>
         <div>
           <Formik
-            initialValues={{
-              name: variationDataById?.variations_name || "",
-              variationTypes: variationDataById?.variations_types?.map(
-                (value) => value?.name
-              ) || [""],
-            }}
+            initialValues={initialValues}
             enableReinitialize
             validationSchema={variationSchema}
-            onSubmit={async (
-              values,
-              { setSubmitting, setFieldError, resetForm }
-            ) => {
-              console.log("🚀 ~ AddVariations ~ values:", values);
-              setSubmitting(true);
-              const newValue = {
-                variations_name: values.name,
-                variations_types: values.variationTypes?.map((value) => ({
-                  name: value,
-                })),
-              };
-              console.log("🚀 ~ AddVariations ~ newValue:", newValue);
-
-              try {
-                const response = isEdit
-                  ? await editVariation(variationDataById?._id, newValue)
-                  : await addVariation(newValue);
-
-                if (response) {
-                  resetForm();
-                  setDrawerOpen(false);
-                  dispatch(fetchVariations());
-                }
-              } catch (error) {
-                setFieldError(
-                  "general",
-                  error.response?.data?.msg || "An error occurred"
-                );
-              }
-              setSubmitting(false);
-            }}
+            onSubmit={handleSubmit}
           >
-            {({ values, isSubmitting }) => (
+            {({ values, touched, errors, isSubmitting }) => (
               <Form>
                 <div>
                   <label className="formField-label">Name</label>
                   <Field
                     type="text"
-                    className="formField-input"
+                    className={`formField-input ${
+                      touched?.name && errors?.name
+                        ? "form-control-invalid"
+                        : ""
+                    }`}
                     id="name"
                     name="name"
                     placeholder="Enter Name"
                   />
-                  <ErrorMessage name="name" component="div" className="error" />
+                  <ErrorMessage
+                    name="name"
+                    component="div"
+                    className="text-danger"
+                  />
                 </div>
                 <div className="mt-3">
                   <label className="formField-label">Variation Types</label>
@@ -91,12 +55,17 @@ const AddVariations = ({ isDrawerOpen, setDrawerOpen }) => {
                                   name={`variationTypes.${index}`}
                                   placeholder="Enter Variation Type"
                                   type="text"
-                                  className="formField-input"
+                                  className={`formField-input ${
+                                    touched.variationTypes?.[index] &&
+                                    errors.variationTypes?.[index]
+                                      ? "form-control-invalid"
+                                      : ""
+                                  }`}
                                 />
                                 <ErrorMessage
                                   name={`variationTypes.${index}`}
                                   component="div"
-                                  className="error"
+                                  className="text-danger"
                                 />
                               </div>
                               <div className="col-2">
@@ -129,7 +98,7 @@ const AddVariations = ({ isDrawerOpen, setDrawerOpen }) => {
                 </div>
 
                 <Modal.Footer className="mt-3">
-                  <Button variant="secondary" onClick={setDrawerOpen}>
+                  <Button variant="secondary" onClick={onModalClose}>
                     Close
                   </Button>
                   <Button

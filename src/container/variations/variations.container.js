@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
-import { deleteIcon, editIcon } from "../assets/icons/tables";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteVariation } from "../../api/services/variationsService";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import {
   fetchVariationById,
   fetchVariations,
   resetInitialValues,
   setEdit,
-} from "../redux/slice/variationSlice";
-import { deleteVariation } from "../api/services/variationsService";
+  setModalOpen,
+} from "../../redux/slice/variationSlice";
 
 const VariationsContainer = () => {
   const dispatch = useDispatch();
   const { variationData, isModalOpen } = useSelector(
     (state) => state?.variation
   );
-
+  console.log("🚀 ~ VariationsContainer ~ isModalOpen:", isModalOpen);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const handleAdd = () => {
     dispatch(setEdit(false));
-    setDrawerOpen(true);
+    // setDrawerOpen(true);
+    dispatch(setModalOpen(true));
     dispatch(resetInitialValues());
   };
 
   const handleEdit = (row) => {
-    setDrawerOpen(true);
+    dispatch(setModalOpen(true));
+    // setDrawerOpen(true);
     dispatch(setEdit(true));
     dispatch(fetchVariationById(row?._id));
   };
@@ -43,7 +46,7 @@ const VariationsContainer = () => {
     dispatch(fetchVariations());
   }, [dispatch]);
 
-  return { isDrawerOpen, setDrawerOpen, actionsBtn, variationData, handleAdd };
+  return { isModalOpen, actionsBtn, variationData, handleAdd };
 };
 
 export default VariationsContainer;
