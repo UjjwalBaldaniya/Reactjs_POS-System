@@ -6,6 +6,7 @@ import { fetchBaseUnits } from "../../redux/slice/baseUnitSlice";
 import {
   fetchUnitById,
   fetchUnits,
+  resetInitialValues,
   setEdit,
   setModalOpen,
 } from "../../redux/slice/unitSlice";
@@ -17,6 +18,7 @@ const UnitsContainer = () => {
   const handleAdd = () => {
     dispatch(setEdit(false));
     dispatch(setModalOpen(true));
+    dispatch(resetInitialValues());
   };
 
   const handleEdit = (row) => {

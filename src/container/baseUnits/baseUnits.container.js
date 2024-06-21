@@ -17,7 +17,7 @@ const BaseUnitsContainer = () => {
   );
 
   const handleAdd = () => {
-    dispatch(resetInitialValues({ name: "" }));
+    dispatch(resetInitialValues());
     dispatch(setEdit(false));
     dispatch(setModalOpen(true));
   };

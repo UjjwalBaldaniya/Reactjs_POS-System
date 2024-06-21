@@ -31,7 +31,7 @@ const baseUnitSlice = createSlice({
   },
   reducers: {
     resetInitialValues: (state, action) => {
-      state.baseUnitDataById = action?.payload;
+      state.baseUnitDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;

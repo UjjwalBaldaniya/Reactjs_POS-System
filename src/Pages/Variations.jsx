@@ -6,7 +6,7 @@ import VariationsContainer from "../container/variations/variations.container";
 import { variationColumns } from "../description/variations.description";
 
 const Variations = () => {
-  const { isModalOpen, actionsBtn, variationData, handleAdd } =
+  const { actionsBtn, variationData, handleAdd, isModalOpen } =
     VariationsContainer();
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteVariation } from "../../api/services/variationsService";
 import { deleteIcon, editIcon } from "../../assets/icons/tables";
@@ -15,19 +15,15 @@ const VariationsContainer = () => {
   const { variationData, isModalOpen } = useSelector(
     (state) => state?.variation
   );
-  console.log("🚀 ~ VariationsContainer ~ isModalOpen:", isModalOpen);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const handleAdd = () => {
     dispatch(setEdit(false));
-    // setDrawerOpen(true);
     dispatch(setModalOpen(true));
     dispatch(resetInitialValues());
   };
 
   const handleEdit = (row) => {
     dispatch(setModalOpen(true));
-    // setDrawerOpen(true);
     dispatch(setEdit(true));
     dispatch(fetchVariationById(row?._id));
   };
@@ -46,7 +42,7 @@ const VariationsContainer = () => {
     dispatch(fetchVariations());
   }, [dispatch]);
 
-  return { isModalOpen, actionsBtn, variationData, handleAdd };
+  return { actionsBtn, variationData, handleAdd, isModalOpen };
 };
 
 export default VariationsContainer;

@@ -25,8 +25,8 @@ const unitSlice = createSlice({
     isModalOpen: false,
   },
   reducers: {
-    resetInitialValues: (state, action) => {
-      state.unitDataById = action?.payload;
+    resetInitialValues: (state) => {
+      state.unitDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
