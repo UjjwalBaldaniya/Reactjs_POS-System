@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCategory } from "../api/services/categoryService";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
@@ -6,30 +6,30 @@ import {
   fetchCategory,
   fetchCategoryById,
   resetInitialValues,
+  setEdit,
+  setModalOpen,
 } from "../redux/slice/categorySlice";
 
 const ProductsCategoriesContainer = () => {
   const dispatch = useDispatch();
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const { categoryData, isModalOpen } = useSelector((state) => state?.category);
-  console.log("🚀 ~ ProductsCategoriesContainer ~ categoryData:", categoryData);
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
-    setDrawerOpen(true);
+    dispatch(setModalOpen(true));
+    dispatch(setEdit(false));
   };
 
   const handleEdit = (row) => {
-    setDrawerOpen(true);
+    dispatch(setModalOpen(true));
+    dispatch(setEdit(true));
     dispatch(fetchCategoryById(row?._id));
-    console.log("Edit row:", row);
   };
 
   const handleDelete = (row) => {
     deleteCategory(row?._id);
     dispatch(fetchCategory());
-    console.log("Delete row:", row);
   };
 
   const actionsBtn = [
@@ -41,7 +41,7 @@ const ProductsCategoriesContainer = () => {
     dispatch(fetchCategory());
   }, [dispatch]);
 
-  return { isDrawerOpen, setDrawerOpen, actionsBtn, categoryData, handleAdd };
+  return { isModalOpen, actionsBtn, categoryData, handleAdd };
 };
 
 export default ProductsCategoriesContainer;

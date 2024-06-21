@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory, editCategory } from "../../api/services/categoryService";
-import { fetchCategory } from "../../redux/slice/categorySlice";
+import { fetchCategory, setModalOpen } from "../../redux/slice/categorySlice";
 
-const AddCategoryContainer = (setDrawerOpen) => {
+const AddCategoryContainer = () => {
   const dispatch = useDispatch();
-  const { categoryDataById, isModalOpen } = useSelector(
-    (state) => state?.category
-  );
+  const { categoryDataById, isEdit } = useSelector((state) => state?.category);
+
+  const onModalClose = () => {
+    dispatch(setModalOpen(false));
+  };
 
   const initialValues = {
     productCategory: categoryDataById?.category_name || "",
@@ -20,7 +22,6 @@ const AddCategoryContainer = (setDrawerOpen) => {
     setSubmitting(true);
     const newValue = {
       category_name: values.productCategory,
-      category_image: values.productImage,
     };
 
     const formData = new FormData();
@@ -28,13 +29,13 @@ const AddCategoryContainer = (setDrawerOpen) => {
     formData.append("category_image", values.productImage);
 
     try {
-      const response = false
+      const response = isEdit
         ? await editCategory(categoryDataById?._id, newValue)
         : await addCategory(formData);
 
       if (response) {
         resetForm();
-        setDrawerOpen(false);
+        dispatch(setModalOpen(false));
         dispatch(fetchCategory());
       }
     } catch (error) {
@@ -46,7 +47,7 @@ const AddCategoryContainer = (setDrawerOpen) => {
     setSubmitting(false);
   };
 
-  return { initialValues, handleSubmit };
+  return { isEdit, initialValues, handleSubmit, onModalClose };
 };
 
 export default AddCategoryContainer;

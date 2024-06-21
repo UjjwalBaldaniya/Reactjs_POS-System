@@ -4,13 +4,14 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import AddCategoryContainer from "../../container/category/addCategory.container";
 import { categorySchema } from "../../utils/validationSchema/productsSchema";
 
-const AddProductsCategories = ({ isDrawerOpen, setDrawerOpen }) => {
-  const { initialValues, handleSubmit } = AddCategoryContainer(setDrawerOpen);
+const AddProductsCategories = ({ isModalOpen }) => {
+  const { isEdit, initialValues, handleSubmit, onModalClose } =
+    AddCategoryContainer();
 
   return (
-    <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
+    <Modal show={isModalOpen} onHide={onModalClose} size="md">
       <Modal.Header closeButton style={{ padding: "1rem 2rem " }}>
-        <Modal.Title>{false ? "Edit" : "Add"} Units</Modal.Title>
+        <Modal.Title>{isEdit ? "Edit" : "Add"} Units</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: "1rem 2rem " }}>
         <div>
@@ -85,7 +86,7 @@ const AddProductsCategories = ({ isDrawerOpen, setDrawerOpen }) => {
                 )}
 
                 <Modal.Footer className="mt-3">
-                  <Button variant="secondary" onClick={setDrawerOpen}>
+                  <Button variant="secondary" onClick={onModalClose}>
                     Close
                   </Button>
                   <Button

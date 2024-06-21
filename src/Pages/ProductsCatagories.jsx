@@ -7,7 +7,7 @@ import "../css/productsCatagories.css";
 import { columns } from "../description/productsCategories.description";
 
 const ProductsCatagories = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn, categoryData, handleAdd } =
+  const { isModalOpen, actionsBtn, categoryData, handleAdd } =
     ProductsCategoriesContainer();
 
   return (
@@ -28,10 +28,7 @@ const ProductsCatagories = () => {
         />
       </div>
 
-      <AddProductsCategories
-        isDrawerOpen={isDrawerOpen}
-        setDrawerOpen={() => setDrawerOpen(false)}
-      />
+      <AddProductsCategories isModalOpen={isModalOpen} />
     </div>
   );
 };
