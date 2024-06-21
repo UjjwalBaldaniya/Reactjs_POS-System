@@ -2,12 +2,12 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import AddBaseUnits from "../components/baseUnits/AddBaseUnits";
-import baseUnitsContainer from "../container/baseUnits.container";
+import BaseUnitsContainer from "../container/baseUnits/baseUnits.container";
 import { baseUnitsColumns } from "../description/baseUnits.description";
 
 const BaseUnits = () => {
   const { handleAdd, actionsBtn, baseUnitsData, isModalOpen } =
-    baseUnitsContainer();
+    BaseUnitsContainer();
 
   return (
     <div className="base-units-section">

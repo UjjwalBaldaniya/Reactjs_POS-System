@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUnit } from "../api/services/unitService";
-import { deleteIcon, editIcon } from "../assets/icons/tables";
-import { fetchBaseUnits } from "../redux/slice/baseUnitSlice";
+import { deleteUnit } from "../../api/services/unitService";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
+import { fetchBaseUnits } from "../../redux/slice/baseUnitSlice";
 import {
   fetchUnitById,
   fetchUnits,
   setEdit,
   setModalOpen,
-} from "../redux/slice/unitSlice";
+} from "../../redux/slice/unitSlice";
 
 const UnitsContainer = () => {
   const dispatch = useDispatch();
