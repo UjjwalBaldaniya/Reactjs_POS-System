@@ -4,10 +4,10 @@ import Navbar from "../common/Navbar";
 import AddProductsCategories from "../components/productsCategories/AddProductsCategories";
 import ProductsCategoriesContainer from "../container/productsCategories.container";
 import "../css/productsCatagories.css";
-import { columns, data } from "../description/productsCategories.description";
+import { columns } from "../description/productsCategories.description";
 
 const ProductsCatagories = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn } =
+  const { isDrawerOpen, setDrawerOpen, actionsBtn, categoryData, handleAdd } =
     ProductsCategoriesContainer();
 
   return (
@@ -17,11 +17,15 @@ const ProductsCatagories = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Catagories"
-        openCanvas={() => setDrawerOpen(true)}
+        openCanvas={handleAdd}
       />
 
       <div className="product-category-table">
-        <DynamicTable columns={columns} data={data} actions={actionsBtn} />
+        <DynamicTable
+          columns={columns}
+          data={categoryData}
+          actions={actionsBtn}
+        />
       </div>
 
       <AddProductsCategories

@@ -1,6 +1,5 @@
 export const columns = [
-  { label: "Product Category", accessor: "category" },
-  { label: "Product Count", accessor: "count" },
+  { label: "Product Category", accessor: "category_name" },
 ];
 
 export const data = [

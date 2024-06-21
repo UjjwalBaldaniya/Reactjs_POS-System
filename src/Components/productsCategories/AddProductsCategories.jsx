@@ -1,54 +1,111 @@
-import { Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { plusIcon } from "../../assets/icons/tables";
-import FormField from "../../common/FormField";
-import OffcanvasDrawer from "../../common/OffcanvasDrawer";
-import { productsCategoriesFields } from "../../description/productsCategories.description";
+import { Button, Modal, Spinner } from "react-bootstrap";
+import AddCategoryContainer from "../../container/category/addCategory.container";
+import { categorySchema } from "../../utils/validationSchema/productsSchema";
 
 const AddProductsCategories = ({ isDrawerOpen, setDrawerOpen }) => {
+  const { initialValues, handleSubmit } = AddCategoryContainer(setDrawerOpen);
+
   return (
-    <OffcanvasDrawer
-      isDrawerOpen={isDrawerOpen}
-      setDrawerOpen={setDrawerOpen}
-      title="Add Categories"
-    >
-      <div>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email) errors.email = "Required";
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              {productsCategoriesFields?.map((field, index) => (
-                <FormField
-                  key={index}
-                  label={field.label}
-                  name={field.name}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                />
-              ))}
-              <div className="add-table-create-btn mt-4">
-                <button disabled={isSubmitting}>
-                  {plusIcon("white")}
-                  <span className="ms-2">Save</span>
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </OffcanvasDrawer>
+    <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
+      <Modal.Header closeButton style={{ padding: "1rem 2rem " }}>
+        <Modal.Title>{false ? "Edit" : "Add"} Units</Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ padding: "1rem 2rem " }}>
+        <div>
+          <Formik
+            initialValues={initialValues}
+            enableReinitialize
+            validationSchema={categorySchema}
+            onSubmit={handleSubmit}
+          >
+            {({ values, errors, touched, isSubmitting, setFieldValue }) => (
+              <Form>
+                <div>
+                  <label className="formField-label" htmlFor="productCategory">
+                    Product Category
+                  </label>
+                  <Field
+                    type="text"
+                    className={`formField-input ${
+                      touched.productCategory && errors.productCategory
+                        ? "form-control-invalid"
+                        : ""
+                    }`}
+                    id="productCategory"
+                    name="productCategory"
+                    placeholder="Enter Product Category"
+                  />
+                  <ErrorMessage
+                    name="productCategory"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="formField-label" htmlFor="productImage">
+                    Product Image
+                  </label>
+                  <input
+                    type="file"
+                    id="productImage"
+                    name="productImage"
+                    onChange={(event) => {
+                      setFieldValue(
+                        "productImage",
+                        event.currentTarget.files[0]
+                      );
+                    }}
+                    className={`form-control ${
+                      touched.productImage && errors.productImage
+                        ? "form-control-invalid"
+                        : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="productImage"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+
+                {values.productImage && (
+                  <div className="mt-4">
+                    <img
+                      src={
+                        typeof values.productImage === "string"
+                          ? `${process.env.REACT_APP_IMG_URL}${values.productImage}`
+                          : URL.createObjectURL(values.productImage)
+                      }
+                      alt="Product Preview"
+                      style={{ maxWidth: "430px", marginTop: "10px" }}
+                    />
+                  </div>
+                )}
+
+                <Modal.Footer className="mt-3">
+                  <Button variant="secondary" onClick={setDrawerOpen}>
+                    Close
+                  </Button>
+                  <Button
+                    className="save-btn"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <Spinner animation="border" size="sm" />
+                    ) : (
+                      "Save"
+                    )}
+                  </Button>
+                </Modal.Footer>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 

@@ -3,6 +3,10 @@ import React from "react";
 import "../css/dynamicTable.css";
 
 const DynamicTable = ({ columns, data, actions }) => {
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+
   return (
     <div className="table-responsive">
       {/* <table className="dynamic-table">
@@ -86,10 +90,14 @@ const DynamicTable = ({ columns, data, actions }) => {
                       key={colIndex}
                       className="dynamic-table-data dynamic-th-common"
                     >
-                      {col?.accessor === "category" && row?.image ? (
+                      {col?.accessor === "category_name" &&
+                      row?.category_image ? (
                         <div className="dynamic-table-img">
-                          <img src={row?.image} alt="" />
-                          <span>{row?.category}</span>
+                          <img
+                            src={`${process.env.REACT_APP_IMG_URL}${row?.category_image}`}
+                            alt=""
+                          />
+                          <span>{row?.category_name}</span>
                         </div>
                       ) : (
                         <div className={bgColorClass}>{cellValue}</div>

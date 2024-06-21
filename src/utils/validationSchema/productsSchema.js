@@ -16,3 +16,8 @@ export const variationSchema = Yup.object().shape({
     Yup.string().required("Variation Type is required")
   ),
 });
+
+export const categorySchema = Yup.object({
+  productCategory: Yup.string().required("Product Category is required"),
+  productImage: Yup.mixed().required("Product Image is required"),
+});
