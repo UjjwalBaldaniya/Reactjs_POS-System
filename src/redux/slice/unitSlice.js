@@ -22,6 +22,7 @@ const unitSlice = createSlice({
     isEdit: false,
     status: "idle",
     error: null,
+    isModalOpen: false,
   },
   reducers: {
     resetInitialValues: (state, action) => {
@@ -29,6 +30,9 @@ const unitSlice = createSlice({
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
+    },
+    setModalOpen: (state, action) => {
+      state.isModalOpen = action.payload;
     },
   },
   extraReducers(builder) {
@@ -58,5 +62,5 @@ const unitSlice = createSlice({
   },
 });
 
-export const { resetInitialValues, setEdit } = unitSlice.actions;
+export const { resetInitialValues, setEdit, setModalOpen } = unitSlice.actions;
 export default unitSlice.reducer;

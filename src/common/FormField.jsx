@@ -2,10 +2,10 @@ import { ErrorMessage, Field } from "formik";
 import "../css/formField.css";
 import Select from "react-select";
 
-const FormField = ({ key, field, setFieldValue, values, errors, touched }) => {
+const FormField = ({ field, setFieldValue, values, errors, touched }) => {
   return (
     <>
-      <div key={key} className={field.mainClassName}>
+      <div className={field.mainClassName}>
         <label className="formField-label">{field.label}</label>
         {field.type === "select" ? (
           <Select

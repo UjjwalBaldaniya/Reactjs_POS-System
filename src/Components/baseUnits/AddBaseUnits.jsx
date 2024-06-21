@@ -1,54 +1,27 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
-import { addBaseUnit, editBaseUnit } from "../../api/services/baseUnitsService";
 import FormField from "../../common/FormField";
+import AddBaseUnitsContainer from "../../container/baseUnits/addBaseUnits.container";
 import { baseUnitsFields } from "../../description/baseUnits.description";
 import { baseUnitSchema } from "../../utils/validationSchema/productsSchema";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchBaseUnits } from "../../redux/slice/baseUnitSlice";
 
-const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
-  const dispatch = useDispatch();
-  const { baseUnitDataById, isEdit } = useSelector((state) => state?.baseUnit);
+const AddBaseUnits = ({ isModalOpen }) => {
+  const { isEdit, initialValues, onModalClose, handleSubmit } =
+    AddBaseUnitsContainer();
 
   return (
-    <Modal show={isDrawerOpen} onHide={setDrawerOpen} size="md">
+    <Modal show={isModalOpen} onHide={onModalClose} size="md">
       <Modal.Header closeButton style={{ padding: "1rem 2rem" }}>
         <Modal.Title>{isEdit ? "Edit" : "Add"} Base Units</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: "1rem 2rem" }}>
         <div>
           <Formik
-            initialValues={{ name: baseUnitDataById?.base_unit_name || "" }}
+            initialValues={initialValues}
             enableReinitialize={true}
             validationSchema={baseUnitSchema}
-            onSubmit={async (
-              values,
-              { setSubmitting, setFieldError, resetForm }
-            ) => {
-              setSubmitting(true);
-              const newValue = {
-                base_unit_name: values.name,
-              };
-              try {
-                const response = isEdit
-                  ? await editBaseUnit(baseUnitDataById?._id, newValue)
-                  : await addBaseUnit(newValue);
-
-                if (response) {
-                  resetForm();
-                  setDrawerOpen(false);
-                  dispatch(fetchBaseUnits());
-                }
-              } catch (error) {
-                setFieldError(
-                  "general",
-                  error.response?.data?.msg || "An error occurred"
-                );
-              }
-              setSubmitting(false);
-            }}
+            onSubmit={handleSubmit}
           >
             {({ errors, touched, values, isSubmitting }) => (
               <Form>
@@ -62,7 +35,7 @@ const AddBaseUnits = ({ isDrawerOpen, setDrawerOpen }) => {
                   />
                 ))}
                 <Modal.Footer className="mt-3">
-                  <Button variant="secondary" onClick={setDrawerOpen}>
+                  <Button variant="secondary" onClick={onModalClose}>
                     Close
                   </Button>
                   <Button

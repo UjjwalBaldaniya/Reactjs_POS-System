@@ -6,8 +6,7 @@ import UnitsContainer from "../container/units.container";
 import { unitsColumns } from "../description/units.description";
 
 const Units = () => {
-  const { isDrawerOpen, setDrawerOpen, actionsBtn, handleAdd, unitsData } =
-    UnitsContainer();
+  const { actionsBtn, handleAdd, unitsData, isModalOpen } = UnitsContainer();
 
   return (
     <div className="products-catagories-section">
@@ -27,10 +26,7 @@ const Units = () => {
         />
       </div>
 
-      <AddUnits
-        isDrawerOpen={isDrawerOpen}
-        setDrawerOpen={() => setDrawerOpen(false)}
-      />
+      <AddUnits isModalOpen={isModalOpen} />
     </div>
   );
 };

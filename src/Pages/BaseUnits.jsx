@@ -6,7 +6,7 @@ import baseUnitsContainer from "../container/baseUnits.container";
 import { baseUnitsColumns } from "../description/baseUnits.description";
 
 const BaseUnits = () => {
-  const { isDrawerOpen, handleAdd, setDrawerOpen, actionsBtn, baseUnitsData } =
+  const { handleAdd, actionsBtn, baseUnitsData, isModalOpen } =
     baseUnitsContainer();
 
   return (
@@ -27,10 +27,7 @@ const BaseUnits = () => {
         />
       </div>
 
-      <AddBaseUnits
-        isDrawerOpen={isDrawerOpen}
-        setDrawerOpen={() => setDrawerOpen(false)}
-      />
+      <AddBaseUnits isModalOpen={isModalOpen} />
     </div>
   );
 };

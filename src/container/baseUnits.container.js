@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteBaseUnit } from "../api/services/baseUnitsService";
 import { deleteIcon, editIcon } from "../assets/icons/tables";
 import {
   fetchBaseUnitById,
   fetchBaseUnits,
   resetInitialValues,
   setEdit,
+  setModalOpen,
 } from "../redux/slice/baseUnitSlice";
-import { deleteBaseUnit } from "../api/services/baseUnitsService";
 
 const BaseUnitsContainer = () => {
   const dispatch = useDispatch();
-  const { baseUnitsData } = useSelector((state) => state?.baseUnit);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const { baseUnitsData, isModalOpen } = useSelector(
+    (state) => state?.baseUnit
+  );
 
   const handleAdd = () => {
     dispatch(resetInitialValues({ name: "" }));
     dispatch(setEdit(false));
-    setDrawerOpen(true);
+    dispatch(setModalOpen(true));
   };
 
   const handleEdit = (row) => {
     dispatch(setEdit(true));
     dispatch(fetchBaseUnitById(row?._id));
-    setDrawerOpen(true);
+    dispatch(setModalOpen(true));
   };
 
   const handleDelete = (row) => {
@@ -41,11 +43,10 @@ const BaseUnitsContainer = () => {
   }, [dispatch]);
 
   return {
-    isDrawerOpen,
     handleAdd,
-    setDrawerOpen,
     actionsBtn,
     baseUnitsData,
+    isModalOpen,
   };
 };
 

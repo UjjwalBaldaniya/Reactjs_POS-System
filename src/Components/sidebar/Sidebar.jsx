@@ -22,8 +22,8 @@ const Sidebar = () => {
       </div>
 
       <div className="py-4">
-        {menuItems.map((item) => (
-          <>
+        {menuItems.map((item, index) => (
+          <React.Fragment key={index}>
             {item.type === "item" ? (
               <NavLink
                 to={item?.to}
@@ -64,7 +64,7 @@ const Sidebar = () => {
                 {t(item?.name)}
               </div>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>
