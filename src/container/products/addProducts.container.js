@@ -1,48 +1,56 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { branchOptions } from "../../description/products/products.description";
+import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
+import { fetchBaseUnits } from "../../redux/slice/baseUnitSlice";
+import { fetchCategory } from "../../redux/slice/categorySlice";
+import { fetchUnits } from "../../redux/slice/unitSlice";
+import { fetchVariations } from "../../redux/slice/variationSlice";
 
 const AddProductsContainer = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [activeTime, setActiveTime] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(branchOptions[0]);
-  const [isInfiniteStock, setInfiniteStock] = useState(false);
+  const { categoryData } = useSelector((state) => state?.category);
+  const { baseUnitsData } = useSelector((state) => state?.baseUnit);
+  const { unitsData } = useSelector((state) => state?.unit);
+  const { variationData } = useSelector((state) => state?.variation);
+
+  const categoryOptions = getDropdownOptions(
+    categoryData,
+    "_id",
+    "category_name"
+  );
+  const baseUnitOptions = getDropdownOptions(
+    baseUnitsData,
+    "_id",
+    "base_unit_name"
+  );
+  const unitOptions = getDropdownOptions(unitsData, "_id", "unit_name");
+  const variationNameOptions = getDropdownOptions(
+    variationData,
+    "_id",
+    "variations_name"
+  );
 
   const handleBack = () => {
     navigate("/products");
   };
 
-  const handleTimeButtonClick = (time) => {
-    setActiveTime(time);
-  };
-
-  const handleFileUpload = (files) => {
-    const filesArray = Array.from(files);
-    setUploadedImages((prevImages) => [...prevImages, ...filesArray]);
-  };
-
-  const handleDeleteImage = (index) => {
-    const updatedImages = uploadedImages.filter((_, i) => i !== index);
-    setUploadedImages(updatedImages);
-  };
-
-  const handleInfiniteStock = () => {
-    setInfiniteStock(!isInfiniteStock);
-  };
+  useEffect(() => {
+    dispatch(fetchCategory());
+    dispatch(fetchBaseUnits());
+    dispatch(fetchUnits());
+    dispatch(fetchVariations());
+  }, [dispatch]);
 
   return {
-    selectedOption,
-    setSelectedOption,
+    categoryOptions,
+    baseUnitOptions,
+    unitOptions,
+    variationNameOptions,
+    variationData,
     handleBack,
-    activeTime,
-    handleTimeButtonClick,
-    uploadedImages,
-    handleDeleteImage,
-    handleFileUpload,
-    isInfiniteStock,
-    handleInfiniteStock,
   };
 };
 

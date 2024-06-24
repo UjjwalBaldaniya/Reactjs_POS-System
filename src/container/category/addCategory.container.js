@@ -20,9 +20,6 @@ const AddCategoryContainer = () => {
     { setSubmitting, setFieldError, resetForm }
   ) => {
     setSubmitting(true);
-    const newValue = {
-      category_name: values.productCategory,
-    };
 
     const formData = new FormData();
     formData.append("category_name", values.productCategory);
@@ -30,7 +27,7 @@ const AddCategoryContainer = () => {
 
     try {
       const response = isEdit
-        ? await editCategory(categoryDataById?._id, newValue)
+        ? await editCategory(categoryDataById?._id, formData)
         : await addCategory(formData);
 
       if (response) {
