@@ -53,32 +53,29 @@ export const productSchema = Yup.object().shape({
     .required("Product Description (Arabic) is required")
     .min(10, "Product Description (Arabic) is too short"),
   productType: Yup.object().required("Product Type is required"),
-  // availability: Yup.object().when("productType", {
-  //   is: (productType) => productType?.value === "single",
-  //   then: Yup.object().required("Availability is required"),
-  // }),
-  // stock: Yup.number().when("availability", {
-  //   is: (availability) => availability?.value === "available",
-  //   then: Yup.number()
-  //     .required("Stock is required")
-  //     .min(1, "Stock must be greater than 0"),
-  // }),
-  // productCost: Yup.number().when("productType", {
-  //   is: (productType) => productType?.value === "single",
-  //   then: Yup.number()
-  //     .required("Product Cost is required")
-  //     .min(0, "Product Cost must be greater than or equal to 0"),
-  // }),
-  // productPrice: Yup.number().when("productType", {
-  //   is: (productType) => productType?.value === "single",
-  //   then: Yup.number()
-  //     .required("Product Price is required")
-  //     .min(0, "Product Price must be greater than or equal to 0"),
-  // }),
-  // variations: Yup.object().when("productType", {
-  //   is: (productType) => productType?.value === "variation",
-  //   then: Yup.object().required("Variations is required"),
-  // }),
+  productCost: Yup.number()
+    .when("productType", {
+      is: (productType) => productType?.value === "single",
+      then: (schema) => schema.required("Product Cost is required"),
+    })
+    .min(0, "Product Cost must be greater than or equal to 0"),
+  productPrice: Yup.number()
+    .when("productType", {
+      is: (productType) => productType?.value === "single",
+      then: (schema) => schema.required("Product Price is required"),
+    })
+    .min(0, "Product Price must be greater than or equal to 0"),
+  stock: Yup.number()
+    .when("productType", {
+      is: (productType) => productType?.value === "single",
+      then: (schema) => schema.required("Stock is required"),
+    })
+    .min(1, "Stock must be greater than 0"),
+
+  variations: Yup.object().when("productType", {
+    is: (productType) => productType?.value === "variation",
+    then: (schema) => schema.required("Variations is required"),
+  }),
   // variationsType: Yup.array().when("productType", {
   //   is: (productType) => productType?.value === "variation",
   //   then: Yup.array()

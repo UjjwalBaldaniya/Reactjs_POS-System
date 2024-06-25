@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const axiosInstanceAuth = axios.create({
+const axiosInstanceAuthFormData = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   Accept: "application/json",
   "Content-Type": "multipart/form-data",
 });
 
-axiosInstanceAuth.interceptors.request.use(
+axiosInstanceAuthFormData.interceptors.request.use(
   async (config) => {
     const authToken = localStorage.getItem("auth_token");
     if (authToken) {
@@ -21,10 +21,10 @@ axiosInstanceAuth.interceptors.request.use(
   }
 );
 
-axiosInstanceAuth.interceptors.response.use(
+axiosInstanceAuthFormData.interceptors.response.use(
   (response) => response,
   (error) => {
     return Promise.reject(error);
   }
 );
-export default axiosInstanceAuth;
+export default axiosInstanceAuthFormData;

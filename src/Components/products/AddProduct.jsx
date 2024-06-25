@@ -13,6 +13,15 @@ import {
   productTypeOption,
 } from "../../description/products/products.description";
 import { productSchema } from "../../utils/validationSchema/productsSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, editProduct } from "../../api/services/productService";
+import { fetchProducts } from "../../redux/slice/product.slice";
+import {
+  ProductPercentageField,
+  ProductSelectField,
+  ProductTextAreaField,
+  ProductTextField,
+} from "../../common/ProductFromField";
 
 const AddProduct = () => {
   const {
@@ -23,6 +32,9 @@ const AddProduct = () => {
     variationData,
     handleBack,
   } = AddProductsContainer();
+
+  const dispatch = useDispatch();
+  const { isEdit, productDataById } = useSelector((state) => state?.product);
 
   const initialValues = {
     availability: availabilityOption?.[0],
@@ -49,9 +61,65 @@ const AddProduct = () => {
     uploadedImages: [],
   };
 
-  const onSubmit = (values, { setSubmitting }) => {
+  const onSubmit = async (
+    values,
+    { setSubmitting, setFieldError, resetForm }
+  ) => {
+    console.log("🚀 ~ onSubmit ~ values:", values);
     setSubmitting(true);
-    console.log("Form Values:", values);
+
+    const newValue = {
+      product_name_en: values.productNameEnglish,
+      product_name_ar: values.productNameArabic,
+      category_id: values.category?.value,
+      unit_id: values.unit?.value,
+      barcode_symbol: values.barcodeSymbology?.value,
+      code: values.productCode,
+      product_description_en: values.productDescriptionEnglish,
+      product_description_ar: values.productDescriptionArabic,
+      images: values.uploadedImages?.[0]?.file,
+      product_type: values.productType?.value,
+      product_cost: values.productCost,
+      product_price: values.productPrice,
+      availability: values.availability?.value === "available" ? true : false,
+      stock: values.stock,
+    };
+    // console.log("🚀 ~ onSubmit ~ newValue:", newValue);
+
+    const formData = new FormData();
+    formData.append("product_name_en", values.productNameEnglish);
+    formData.append("product_name_ar", values.productNameArabic);
+    formData.append("category_id", values.category?.value);
+    formData.append("unit_id", values.unit?.value);
+    formData.append("barcode_symbol", values.barcodeSymbology?.value);
+    formData.append("code", values.productCode);
+    formData.append("product_description_en", values.productDescriptionEnglish);
+    formData.append("product_description_ar", values.productDescriptionArabic);
+    formData.append("images", values.uploadedImages?.[0]?.file);
+    formData.append("product_type", values.productType?.value);
+    formData.append("single_details[product_cost]", values.productCost);
+    formData.append("single_details[product_price]", values.productPrice);
+    formData.append(
+      "single_details[availability]",
+      values.availability?.value === "available" ? true : false
+    );
+    formData.append("single_details[stock]", values.stock);
+
+    try {
+      const response = isEdit
+        ? await editProduct(productDataById?._id, formData)
+        : await addProduct(formData);
+
+      if (response) {
+        resetForm();
+        dispatch(fetchProducts());
+      }
+    } catch (error) {
+      setFieldError(
+        "general",
+        error.response?.data?.msg || "An error occurred"
+      );
+    }
     setSubmitting(false);
   };
 
@@ -113,249 +181,99 @@ const AddProduct = () => {
             </div> */}
 
               <div className="row mt-4">
-                <div className="col-12 col-md">
-                  <label
-                    htmlFor="productNameEnglish"
-                    className="formField-label"
-                  >
-                    Product Name (English)
-                  </label>
-                  <Field
-                    type="text"
-                    className={`formField-input ${
-                      touched?.productNameEnglish && errors?.productNameEnglish
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                    id="productNameEnglish"
-                    name="productNameEnglish"
-                    placeholder="Enter Product Name"
-                  />
-                  <ErrorMessage
-                    name="productNameEnglish"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col-12 col-md">
-                  <label
-                    htmlFor="productNameArabic"
-                    className="formField-label"
-                  >
-                    Product Name (Arabic)
-                  </label>
-                  <Field
-                    type="text"
-                    // className="formField-input"
-                    id="productNameArabic"
-                    name="productNameArabic"
-                    placeholder="Enter Product Name"
-                    className={`formField-input ${
-                      touched?.productNameArabic && errors?.productNameArabic
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="productNameArabic"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductTextField
+                  label="Product Name (English)"
+                  name="productNameEnglish"
+                  placeholder="Enter Product Name"
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductTextField
+                  label="Product Name (Arabic)"
+                  name="productNameArabic"
+                  placeholder="Enter Product Name"
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               <div className="row mt-4">
-                <div className="col-12 col-md">
-                  <label htmlFor="category" className="formField-label">
-                    Category
-                  </label>
-                  <Select
-                    id="category"
-                    name="category"
-                    options={categoryOptions}
-                    placeholder="Select Product Category"
-                    value={values.category}
-                    onChange={(option) => setFieldValue("category", option)}
-                    className={`${
-                      touched?.category && errors?.category
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="category"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col-12 col-md">
-                  <label htmlFor="unit" className="formField-label">
-                    Product Unit
-                  </label>
-                  <Select
-                    id="unit"
-                    name="unit"
-                    options={baseUnitOptions}
-                    placeholder="Select Product Unit"
-                    value={values.unit}
-                    onChange={(option) => setFieldValue("unit", option)}
-                    className={`${
-                      touched?.unit && errors?.unit
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="category"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductSelectField
+                  label="Category"
+                  name="category"
+                  options={categoryOptions}
+                  placeholder="Select Product Category"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductSelectField
+                  label="Product Unit"
+                  name="unit"
+                  options={baseUnitOptions}
+                  placeholder="Select Product Unit"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               <div className="row mt-4">
-                <div className="col-12 col-md">
-                  <label htmlFor="itemType" className="formField-label">
-                    Item Type
-                  </label>
-                  <Select
-                    id="saleUnit"
-                    name="itemType"
-                    options={itemTypeOption}
-                    placeholder="Select Item Type"
-                    value={values.itemType}
-                    onChange={(option) => setFieldValue("itemType", option)}
-                    className={`${
-                      touched?.itemType && errors?.itemType
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="itemType"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col-12 col-md">
-                  <label htmlFor="supplier" className="formField-label">
-                    Supplier Name
-                  </label>
-                  <Field
-                    type="text"
-                    // className="formField-input"
-                    className={`formField-input ${
-                      touched?.supplier && errors?.supplier
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                    id="supplier"
-                    name="supplier"
-                    placeholder="Enter Supplier Name"
-                  />
-                  <ErrorMessage
-                    name="supplier"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductSelectField
+                  label="Item Type"
+                  name="itemType"
+                  options={itemTypeOption}
+                  placeholder="Select Item Type"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductTextField
+                  label="Supplier Name"
+                  name="supplier"
+                  placeholder="Enter Supplier Name"
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
               <div className="row mt-4">
-                <div className="col-12 col-md">
-                  <label htmlFor="saleUnit" className="formField-label">
-                    Sale Unit
-                  </label>
-                  <Select
-                    id="saleUnit"
-                    name="saleUnit"
-                    options={unitOptions}
-                    placeholder="Select Sale Unit"
-                    value={values.saleUnit}
-                    onChange={(option) => setFieldValue("saleUnit", option)}
-                    className={`${
-                      touched?.saleUnit && errors?.saleUnit
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="saleUnit"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col-12 col-md">
-                  <label htmlFor="purchaseUnit" className="formField-label">
-                    Purchase Unit
-                  </label>
-                  <Select
-                    id="purchaseUnit"
-                    name="purchaseUnit"
-                    options={unitOptions}
-                    placeholder="Select Purchase Unit"
-                    value={values.purchaseUnit}
-                    onChange={(option) => setFieldValue("purchaseUnit", option)}
-                    className={`${
-                      touched?.purchaseUnit && errors?.purchaseUnit
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="purchaseUnit"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductSelectField
+                  label="Sale Unit"
+                  name="saleUnit"
+                  options={unitOptions}
+                  placeholder="Select Sale Unit"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductSelectField
+                  label="Purchase Unit"
+                  name="purchaseUnit"
+                  options={unitOptions}
+                  placeholder="Select Purchase Unit"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               <div className="row mt-4">
-                <div className="col">
-                  <label htmlFor="barcodeSymbology" className="formField-label">
-                    Barcode Symbology
-                  </label>
-                  <Select
-                    id="barcodeSymbology"
-                    name="barcodeSymbology"
-                    options={barcodeSymbologyOption}
-                    placeholder="Select Barcode Symbology"
-                    value={values.barcodeSymbology}
-                    onChange={(option) =>
-                      setFieldValue("barcodeSymbology", option)
-                    }
-                    className={`${
-                      touched?.barcodeSymbology && errors?.barcodeSymbology
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="barcodeSymbology"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="productCode" className="formField-label">
-                    Code
-                  </label>
-                  <Field
-                    type="text"
-                    id="productCode"
-                    name="productCode"
-                    placeholder="Enter Product Code"
-                    className={`formField-input ${
-                      touched?.barcodeSymbology && errors?.barcodeSymbology
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="productCode"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductSelectField
+                  label="Barcode Symbology"
+                  name="barcodeSymbology"
+                  options={barcodeSymbologyOption}
+                  placeholder="Select Barcode Symbology"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductTextField
+                  label="Code"
+                  name="productCode"
+                  placeholder="Enter Product Code"
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               <div className="col-12 label-input mt-4">
@@ -409,124 +327,53 @@ const AddProduct = () => {
               </div>
 
               <div className="row mt-4">
-                <div className=" col-12 col-md">
-                  <label
-                    className="formField-label"
-                    htmlFor="productDescriptionEnglish"
-                  >
-                    Product Description (English)
-                  </label>
-                  <Field
-                    as="textarea"
-                    rows={4}
-                    id="productDescriptionEnglish"
-                    name="productDescriptionEnglish"
-                    aria-label="Product Option List"
-                    placeholder="Enter Product Description"
-                    className={`formField-textarea ${
-                      touched?.productDescriptionEnglish &&
-                      errors?.productDescriptionEnglish
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="productDescriptionEnglish"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="col-12 col-md">
-                  <label
-                    className="formField-label"
-                    htmlFor="productDescriptionArabic"
-                  >
-                    Product Description (Arabic)
-                  </label>
-                  <Field
-                    as="textarea"
-                    rows={4}
-                    id="productDescriptionArabic"
-                    name="productDescriptionArabic"
-                    aria-label="Product Option List"
-                    placeholder="Enter Product Description"
-                    className={`formField-textarea ${
-                      touched?.productDescriptionArabic &&
-                      errors?.productDescriptionArabic
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="productDescriptionArabic"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductTextAreaField
+                  label="Product Description (English)"
+                  name="productDescriptionEnglish"
+                  placeholder="Enter Product Description"
+                  touched={touched}
+                  errors={errors}
+                />
+                <ProductTextAreaField
+                  label="Product Description (Arabic)"
+                  name="productDescriptionArabic"
+                  placeholder="Enter Product Description"
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               <div className="row mt-4">
-                <div className="col-6">
-                  <label htmlFor="productType" className="formField-label">
-                    Product Type
-                  </label>
-                  <Select
-                    id="productType"
-                    name="productType"
-                    options={productTypeOption}
-                    value={values.productType}
-                    onChange={(option) => setFieldValue("productType", option)}
-                    className={`${
-                      touched?.productType && errors?.productType
-                        ? "form-control-invalid"
-                        : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    name="productType"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
+                <ProductSelectField
+                  label="Product Type"
+                  name="productType"
+                  options={productTypeOption}
+                  placeholder="Select Product Type"
+                  setFieldValue={setFieldValue}
+                  touched={touched}
+                  errors={errors}
+                />
               </div>
 
               {values?.productType?.value === "single" && (
                 <>
                   <div className="row mt-4">
-                    <div className="col-12 col-md">
-                      <label className="formField-label">Product Cost</label>
-                      <div className="input-percentage">
-                        <Field
-                          type="text"
-                          name="productCost"
-                          className="formField-input-percentage"
-                          placeholder="0.00"
-                        />
-                        <span className="input-symbol-percentage">$</span>
-                      </div>
-                      <ErrorMessage
-                        name="productCost"
-                        component="div"
-                        className="error"
-                      />
-                    </div>
-                    <div className="col-12 col-md">
-                      <label className="formField-label">Product Price</label>
-                      <div className="input-percentage">
-                        <Field
-                          type="text"
-                          name="productPrice"
-                          className="formField-input-percentage"
-                          placeholder="0.00"
-                        />
-                        <span className="input-symbol-percentage">$</span>
-                      </div>
-                      <ErrorMessage
-                        name="productPrice"
-                        component="div"
-                        className="error"
-                      />
-                    </div>
+                    <ProductPercentageField
+                      label="Product Cost"
+                      name="productCost"
+                      placeholder="0.00"
+                      touched={touched}
+                      errors={errors}
+                      symbol="$"
+                    />
+                    <ProductPercentageField
+                      label="Product Price"
+                      name="productPrice"
+                      placeholder="0.00"
+                      touched={touched}
+                      errors={errors}
+                      symbol="$"
+                    />
                   </div>
 
                   <div className="row mt-4">
@@ -536,6 +383,7 @@ const AddProduct = () => {
                       </label>
                       <Select
                         id="availability"
+                        name="availability"
                         options={availabilityOption}
                         placeholder="Select Availability"
                         value={values.availability}
@@ -546,27 +394,13 @@ const AddProduct = () => {
                     </div>
 
                     {values?.availability?.value === "available" && (
-                      <div className="col-12 col-md">
-                        <label htmlFor="stock" className="formField-label">
-                          Stock
-                        </label>
-                        <div className="row">
-                          <div className="col-12 col-md">
-                            <Field
-                              type="number"
-                              className="formField-input"
-                              id="stock"
-                              name="stock"
-                              placeholder="Enter Stock"
-                            />
-                            <ErrorMessage
-                              name="stock"
-                              component="div"
-                              className="error"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      <ProductTextField
+                        label="Stock"
+                        name="stock"
+                        placeholder="Enter Stock"
+                        touched={touched}
+                        errors={errors}
+                      />
                     )}
                   </div>
                 </>
@@ -575,19 +409,15 @@ const AddProduct = () => {
               {values?.productType?.value === "variation" && (
                 <>
                   <div className="row mt-4">
-                    <div className="col-12 col-md-6">
-                      <label htmlFor="variations" className="formField-label">
-                        Variations
-                      </label>
-                      <Select
-                        id="variations-select"
-                        options={variationNameOptions}
-                        value={values.variations}
-                        onChange={(option) =>
-                          setFieldValue("variations", option)
-                        }
-                      />
-                    </div>
+                    <ProductSelectField
+                      label="Variations"
+                      name="variations"
+                      options={variationNameOptions}
+                      placeholder="Select Variations"
+                      setFieldValue={setFieldValue}
+                      touched={touched}
+                      errors={errors}
+                    />
 
                     {isVariationValuePresent && (
                       <>
