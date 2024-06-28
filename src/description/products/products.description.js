@@ -20,16 +20,28 @@ export const productsColumns = [
   {
     label: "Price",
     accessor: (row) => `$ ${row?.single_details?.product_price}`,
-  },
-
-  {
-    label: "Base-Unit",
-    accessor: (row) => row?.base_unit_id?.base_unit_name,
+    bgColor: "blue",
   },
   {
     label: "In Stock",
     accessor: (row) => row?.single_details?.stock,
   },
+  {
+    label: "Item Type",
+    accessor: "item_type",
+    getBgColor: (value) => {
+      if (value === "veg") return "green";
+      return "red";
+    },
+  },
+  {
+    label: "Base-Unit",
+    accessor: (row) => row?.base_unit_id?.base_unit_name,
+  },
+  // {
+  //   label: "Product Type",
+  //   accessor: "product_type",
+  // },
 ];
 
 // export const branchOptions = [

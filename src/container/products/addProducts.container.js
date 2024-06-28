@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { addProduct, editProduct } from "../../api/services/productService";
-import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
+import {
+  editDropdownObject,
+  getDropdownOptions,
+} from "../../common/functions/getDropdownOptions";
 import { availabilityOption } from "../../description/products/products.description";
 import { fetchBaseUnits } from "../../redux/slice/baseUnitSlice";
 import { fetchCategory } from "../../redux/slice/categorySlice";
@@ -20,6 +23,32 @@ const AddProductsContainer = () => {
   const { unitsData } = useSelector((state) => state?.unit);
   const { variationData } = useSelector((state) => state?.variation);
   const { isEdit, productDataById } = useSelector((state) => state?.product);
+  const {
+    category_id,
+    base_unit_id,
+    item_type,
+    sale_unit_id,
+    purchase_unit_id,
+    barcode_symbol,
+    product_type,
+  } = productDataById || {};
+
+  const initialCategory = editDropdownObject(
+    category_id,
+    "category_name",
+    "_id"
+  );
+  const initialBaseUnit = editDropdownObject(
+    base_unit_id,
+    "base_unit_name",
+    "_id"
+  );
+  const initialSaleUnit = editDropdownObject(sale_unit_id, "unit_name", "_id");
+  const initialPurchaseUnit = editDropdownObject(
+    purchase_unit_id,
+    "unit_name",
+    "_id"
+  );
 
   const categoryOptions = getDropdownOptions(
     categoryData,
@@ -42,8 +71,6 @@ const AddProductsContainer = () => {
     navigate("/products");
   };
 
-  ///
-
   const editAvailability =
     productDataById?.single_details?.availability === false
       ? availabilityOption?.[1]
@@ -55,11 +82,11 @@ const AddProductsContainer = () => {
 
   const initialValues = {
     availability: editAvailability,
-    barcodeSymbology: productDataById?.barcode_symbol || "",
-    category: productDataById?.category_id?._id || "",
-    itemType: productDataById?.item_type || "",
+    barcodeSymbology: isEdit ? { value: barcode_symbol } : "",
+    category: isEdit ? initialCategory : "",
+    itemType: isEdit ? { value: item_type } : "",
     options: [],
-    productBaseUnit: productDataById?.base_unit_id?._id || "",
+    productBaseUnit: isEdit ? initialBaseUnit : "",
     productCode: productDataById?.code || "",
     productCost: productDataById?.single_details?.product_cost || "",
     productDescriptionArabic: productDataById?.product_description_ar || "",
@@ -67,9 +94,9 @@ const AddProductsContainer = () => {
     productNameArabic: productDataById?.product_name_ar || "",
     productNameEnglish: productDataById?.product_name_en || "",
     productPrice: productDataById?.single_details?.product_price || "",
-    productType: productDataById?.product_type || "",
-    purchaseUnit: productDataById?.purchase_unit_id?._id || "",
-    saleUnit: productDataById?.sale_unit_id?._id || "",
+    productType: isEdit ? { value: product_type } : "",
+    purchaseUnit: isEdit ? initialPurchaseUnit : "",
+    saleUnit: isEdit ? initialSaleUnit : "",
     stock: productDataById?.single_details?.stock || "",
     supplier: productDataById?.supplier_name || "",
     variations: "",
@@ -81,66 +108,35 @@ const AddProductsContainer = () => {
     values,
     { setSubmitting, setFieldError, resetForm }
   ) => {
-    const getFileFromPath = async (filePath) => {
-      const response = await fetch(filePath);
-      const blob = await response.blob();
-      return new File([blob], filePath.split("\\").pop(), { type: blob.type });
-    };
-
-    const getFileFromBlob = async (blobUrl) => {
-      const response = await fetch(blobUrl);
-      const blob = await response.blob();
-      return new File([blob], "blob_image", { type: blob.type });
-    };
+    const postEditImage = values.uploadedImages
+      ?.filter((el) => el?.files)
+      ?.map((file) => file?.files);
 
     setSubmitting(true);
 
     const formData = new FormData();
     formData.append("product_name_en", values.productNameEnglish);
     formData.append("product_name_ar", values.productNameArabic);
-    formData.append(
-      "category_id",
-      isEdit ? values.category : values.category?.value
-    );
-    formData.append(
-      "base_unit_id",
-      isEdit ? values.productBaseUnit : values.productBaseUnit?.value
-    );
-    formData.append(
-      "item_type",
-      isEdit ? values.itemType : values.itemType?.value
-    );
+    formData.append("category_id", values.category?.value);
+    formData.append("base_unit_id", values.productBaseUnit?.value);
+    formData.append("item_type", values.itemType?.value);
     formData.append("supplier_name", values.supplier);
-    formData.append(
-      "sale_unit_id",
-      isEdit ? values.saleUnit : values.saleUnit?.value
-    );
-    formData.append(
-      "purchase_unit_id",
-      isEdit ? values.purchaseUnit : values.purchaseUnit?.value
-    );
-    formData.append(
-      "barcode_symbol",
-      isEdit ? values.barcodeSymbology : values.barcodeSymbology?.value
-    );
+    formData.append("sale_unit_id", values.saleUnit?.value);
+    formData.append("purchase_unit_id", values.purchaseUnit?.value);
+    formData.append("barcode_symbol", values.barcodeSymbology?.value);
     formData.append("code", values.productCode);
     formData.append("product_description_en", values.productDescriptionEnglish);
     formData.append("product_description_ar", values.productDescriptionArabic);
 
-    for (const image of values?.uploadedImages) {
-      let file;
-      if (image?.file?.startsWith("blob:")) {
-        file = await getFileFromBlob(image?.file);
-      } else {
-        file = await getFileFromPath(image?.file);
+    if (isEdit) {
+      for (const image of postEditImage) {
+        formData.append("images", image);
       }
-      formData.append("images", file);
+    } else {
+      formData.append("images", values.uploadedImages?.[0]?.files);
     }
 
-    formData.append(
-      "product_type",
-      isEdit ? values.productType : values.productType?.value
-    );
+    formData.append("product_type", values.productType?.value);
     formData.append("single_details[product_cost]", values.productCost);
     formData.append("single_details[product_price]", values.productPrice);
     formData.append(
@@ -170,7 +166,7 @@ const AddProductsContainer = () => {
   const handleFileUpload = (files, push) => {
     const filesArray = Array.from(files);
     filesArray?.forEach((file) => {
-      const dataUrl = { file: URL.createObjectURL(file) };
+      const dataUrl = { file: URL.createObjectURL(file), files: file };
       push(dataUrl);
     });
   };
@@ -178,8 +174,6 @@ const AddProductsContainer = () => {
   const handleDeleteImage = (index, remove) => {
     remove(index);
   };
-
-  ///
 
   useEffect(() => {
     dispatch(fetchCategory());

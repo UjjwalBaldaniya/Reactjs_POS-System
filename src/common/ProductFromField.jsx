@@ -33,7 +33,7 @@ const ProductSelectField = ({
   errors,
 }) => {
   const selectedOption =
-    options?.filter((option) => option?.value === value) || null;
+    options?.find((option) => option?.value === value?.value) || null;
 
   return (
     <div className="col-12 col-md">
@@ -46,7 +46,7 @@ const ProductSelectField = ({
         options={options}
         placeholder={placeholder}
         onChange={(option) => setFieldValue(name, option)}
-        value={selectedOption?.[0]}
+        value={selectedOption}
         className={`${
           touched?.[name] && errors?.[name] ? "form-control-invalid" : ""
         }`}

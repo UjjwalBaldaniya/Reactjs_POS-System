@@ -266,7 +266,8 @@ const AddProduct = () => {
                 />
               </div>
 
-              {values?.productType?.value === "Single" && (
+              {(values?.productType?.value || values?.productType) ===
+                "Single" && (
                 <>
                   <div className="row mt-4">
                     <ProductPercentageField
