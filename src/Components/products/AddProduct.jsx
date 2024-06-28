@@ -4,6 +4,12 @@ import React from "react";
 import Select from "react-select";
 import { cancelIcon, fileUploadIcon } from "../../assets/icons/product";
 import Navbar from "../../common/Navbar";
+import {
+  ProductPercentageField,
+  ProductSelectField,
+  ProductTextAreaField,
+  ProductTextField,
+} from "../../common/ProductFromField";
 import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
 import AddProductsContainer from "../../container/products/addProducts.container";
 import {
@@ -13,15 +19,6 @@ import {
   productTypeOption,
 } from "../../description/products/products.description";
 import { productSchema } from "../../utils/validationSchema/productsSchema";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct, editProduct } from "../../api/services/productService";
-import { fetchProducts } from "../../redux/slice/product.slice";
-import {
-  ProductPercentageField,
-  ProductSelectField,
-  ProductTextAreaField,
-  ProductTextField,
-} from "../../common/ProductFromField";
 
 const AddProduct = () => {
   const {
@@ -31,109 +28,11 @@ const AddProduct = () => {
     variationNameOptions,
     variationData,
     handleBack,
+    initialValues,
+    onSubmit,
+    handleFileUpload,
+    handleDeleteImage,
   } = AddProductsContainer();
-
-  const dispatch = useDispatch();
-  const { isEdit, productDataById } = useSelector((state) => state?.product);
-
-  const initialValues = {
-    availability: availabilityOption?.[0],
-    barcodeSymbology: "",
-    category: "",
-    // images: [],
-    itemType: "",
-    options: [],
-    productCode: "",
-    productCost: "",
-    productDescriptionArabic: "",
-    productDescriptionEnglish: "",
-    productNameArabic: "",
-    productNameEnglish: "",
-    productPrice: "",
-    productType: "",
-    purchaseUnit: "",
-    saleUnit: "",
-    stock: "",
-    supplier: "",
-    unit: "",
-    variations: "",
-    variationsType: [],
-    uploadedImages: [],
-  };
-
-  const onSubmit = async (
-    values,
-    { setSubmitting, setFieldError, resetForm }
-  ) => {
-    console.log("🚀 ~ onSubmit ~ values:", values);
-    setSubmitting(true);
-
-    const newValue = {
-      product_name_en: values.productNameEnglish,
-      product_name_ar: values.productNameArabic,
-      category_id: values.category?.value,
-      unit_id: values.unit?.value,
-      barcode_symbol: values.barcodeSymbology?.value,
-      code: values.productCode,
-      product_description_en: values.productDescriptionEnglish,
-      product_description_ar: values.productDescriptionArabic,
-      images: values.uploadedImages?.[0]?.file,
-      product_type: values.productType?.value,
-      product_cost: values.productCost,
-      product_price: values.productPrice,
-      availability: values.availability?.value === "available" ? true : false,
-      stock: values.stock,
-    };
-    // console.log("🚀 ~ onSubmit ~ newValue:", newValue);
-
-    const formData = new FormData();
-    formData.append("product_name_en", values.productNameEnglish);
-    formData.append("product_name_ar", values.productNameArabic);
-    formData.append("category_id", values.category?.value);
-    formData.append("unit_id", values.unit?.value);
-    formData.append("barcode_symbol", values.barcodeSymbology?.value);
-    formData.append("code", values.productCode);
-    formData.append("product_description_en", values.productDescriptionEnglish);
-    formData.append("product_description_ar", values.productDescriptionArabic);
-    formData.append("images", values.uploadedImages?.[0]?.file);
-    formData.append("product_type", values.productType?.value);
-    formData.append("single_details[product_cost]", values.productCost);
-    formData.append("single_details[product_price]", values.productPrice);
-    formData.append(
-      "single_details[availability]",
-      values.availability?.value === "available" ? true : false
-    );
-    formData.append("single_details[stock]", values.stock);
-
-    try {
-      const response = isEdit
-        ? await editProduct(productDataById?._id, formData)
-        : await addProduct(formData);
-
-      if (response) {
-        resetForm();
-        dispatch(fetchProducts());
-      }
-    } catch (error) {
-      setFieldError(
-        "general",
-        error.response?.data?.msg || "An error occurred"
-      );
-    }
-    setSubmitting(false);
-  };
-
-  const handleFileUpload = (files, push) => {
-    const filesArray = Array.from(files);
-    filesArray.forEach((file) => {
-      const dataUrl = { file };
-      push(dataUrl);
-    });
-  };
-
-  const handleDeleteImage = (index, remove) => {
-    remove(index);
-  };
 
   return (
     <div>
@@ -148,10 +47,10 @@ const AddProduct = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={productSchema}
+        enableReinitialize
         onSubmit={onSubmit}
       >
         {({ setFieldValue, values, errors, touched }) => {
-          // console.log("🚀 ~ AddProduct ~ values:", values);
           const isVariationValuePresent = variationData?.some(
             (item) => item?._id === values?.variations?.value
           );
@@ -206,15 +105,17 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.category}
                 />
                 <ProductSelectField
-                  label="Product Unit"
-                  name="unit"
+                  label="Product Base-Unit"
+                  name="productBaseUnit"
                   options={baseUnitOptions}
-                  placeholder="Select Product Unit"
+                  placeholder="Select Product Base-Unit"
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.productBaseUnit}
                 />
               </div>
 
@@ -227,6 +128,7 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.itemType}
                 />
                 <ProductTextField
                   label="Supplier Name"
@@ -245,6 +147,7 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.saleUnit}
                 />
                 <ProductSelectField
                   label="Purchase Unit"
@@ -254,6 +157,7 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.purchaseUnit}
                 />
               </div>
 
@@ -266,6 +170,7 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.barcodeSymbology}
                 />
                 <ProductTextField
                   label="Code"
@@ -290,13 +195,18 @@ const AddProduct = () => {
                               key={index}
                             >
                               <img
-                                className="img-fluid rounded-3 mx-2"
-                                src={URL.createObjectURL(image?.file)}
+                                className="img-fluid rounded-3  w-100"
+                                src={
+                                  image?.file?.includes("blob")
+                                    ? image?.file
+                                    : `${process.env.REACT_APP_IMG_URL}${image?.file}`
+                                }
                                 alt={`Uploaded ${index + 1}`}
                               />
+
                               <button
                                 type="button"
-                                className="cancel-btn btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                                className="cancel-btn btn btn-danger btn-sm position-absolute top-0 end-0 m-2 me-3"
                                 onClick={() => handleDeleteImage(index, remove)}
                               >
                                 {cancelIcon}
@@ -352,10 +262,11 @@ const AddProduct = () => {
                   setFieldValue={setFieldValue}
                   touched={touched}
                   errors={errors}
+                  value={values?.productType}
                 />
               </div>
 
-              {values?.productType?.value === "single" && (
+              {values?.productType?.value === "Single" && (
                 <>
                   <div className="row mt-4">
                     <ProductPercentageField
@@ -406,18 +317,24 @@ const AddProduct = () => {
                 </>
               )}
 
-              {values?.productType?.value === "variation" && (
+              {values?.productType?.value === "Variation" && (
                 <>
                   <div className="row mt-4">
-                    <ProductSelectField
-                      label="Variations"
-                      name="variations"
-                      options={variationNameOptions}
-                      placeholder="Select Variations"
-                      setFieldValue={setFieldValue}
-                      touched={touched}
-                      errors={errors}
-                    />
+                    <div className="col-12 col-md-6">
+                      <label htmlFor="variations" className="formField-label">
+                        Variations
+                      </label>
+                      <Select
+                        id="variations-select"
+                        options={variationNameOptions}
+                        value={values.variations}
+                        onChange={(option) => {
+                          setFieldValue("variations", option);
+                          const newOptions = [];
+                          setFieldValue("options", newOptions);
+                        }}
+                      />
+                    </div>
 
                     {isVariationValuePresent && (
                       <>
@@ -430,63 +347,75 @@ const AddProduct = () => {
                           </label>
                           <Field name="variationsType">
                             {({ field, form }) => (
-                              <Select
-                                isMulti
-                                name="variationsType"
-                                options={variationTypeOptions}
-                                className="basic-multi-select"
-                                classNamePrefix="select"
-                                value={variationTypeOptions?.filter((option) =>
-                                  form.values.variationsType?.includes(
-                                    option?.value
-                                  )
-                                )}
-                                onChange={(selectedOptions) => {
-                                  const selectedValues = selectedOptions
-                                    ? selectedOptions?.map((option) => ({
-                                        type: option?.value,
-                                        name: option?.label,
-                                      }))
-                                    : [];
-                                  form.setFieldValue(
-                                    "variationsType",
-                                    selectedValues?.map(
-                                      (option) => option?.type
-                                    )
-                                  );
-
-                                  const newOptions = [...values.options];
-                                  selectedOptions?.forEach((option) => {
-                                    if (
-                                      !newOptions?.find(
-                                        (opt) => opt?.type === option?.value
+                              <>
+                                <Select
+                                  isMulti
+                                  name="variationsType"
+                                  options={variationTypeOptions}
+                                  className="basic-multi-select"
+                                  classNamePrefix="select"
+                                  value={variationTypeOptions?.filter(
+                                    (option) =>
+                                      form.values.variationsType?.includes(
+                                        option?.value
                                       )
-                                    ) {
-                                      newOptions?.push({
-                                        type: option?.value,
-                                        name: option?.label,
-                                      });
-                                    }
-                                  });
-
-                                  const removedOptions = newOptions?.filter(
-                                    (opt) =>
-                                      !selectedValues
-                                        ?.map((option) => option?.type)
-                                        ?.includes(opt?.type)
-                                  );
-                                  removedOptions?.forEach((opt) => {
-                                    const index = newOptions?.findIndex(
-                                      (o) => o?.type === opt?.type
+                                  )}
+                                  onChange={(selectedOptions) => {
+                                    const selectedValues = selectedOptions
+                                      ? selectedOptions?.map((option) => ({
+                                          type: option?.value,
+                                          name: option?.label,
+                                        }))
+                                      : [];
+                                    form.setFieldValue(
+                                      "variationsType",
+                                      selectedValues?.map(
+                                        (option) => option?.type
+                                      )
                                     );
-                                    newOptions?.splice(index, 1);
-                                  });
 
-                                  setFieldValue("options", newOptions);
-                                }}
-                              />
+                                    const newOptions = [...values.options];
+                                    selectedOptions?.forEach((option) => {
+                                      if (
+                                        !newOptions?.find(
+                                          (opt) => opt?.type === option?.value
+                                        )
+                                      ) {
+                                        newOptions?.push({
+                                          type: option?.value,
+                                          name: option?.label,
+                                          availability: availabilityOption?.[0],
+                                          productCost: "",
+                                          productPrice: "",
+                                          stock: "",
+                                        });
+                                      }
+                                    });
+
+                                    const removedOptions = newOptions?.filter(
+                                      (opt) =>
+                                        !selectedValues
+                                          ?.map((option) => option?.type)
+                                          ?.includes(opt?.type)
+                                    );
+                                    removedOptions?.forEach((opt) => {
+                                      const index = newOptions?.findIndex(
+                                        (o) => o?.type === opt?.type
+                                      );
+                                      newOptions?.splice(index, 1);
+                                    });
+
+                                    setFieldValue("options", newOptions);
+                                  }}
+                                />
+                              </>
                             )}
                           </Field>
+                          <ErrorMessage
+                            name="variationsType"
+                            component="div"
+                            className="text-danger"
+                          />
                         </div>
                       </>
                     )}
@@ -506,11 +435,6 @@ const AddProduct = () => {
                             value={option?.name}
                             style={{ opacity: "0.5" }}
                           />
-                          <ErrorMessage
-                            name={`options[${index}].productCost`}
-                            component="div"
-                            className="error"
-                          />
                         </div>
                       </div>
                       <div className="row mt-4">
@@ -522,7 +446,12 @@ const AddProduct = () => {
                             <Field
                               type="text"
                               name={`options[${index}].productCost`}
-                              className="formField-input-percentage"
+                              className={`formField-input-percentage ${
+                                touched.options?.[index]?.productCost &&
+                                errors.options?.[index]?.productCost
+                                  ? "form-control-invalid"
+                                  : ""
+                              }`}
                               placeholder="0.00"
                             />
                             <span className="input-symbol-percentage">$</span>
@@ -541,8 +470,13 @@ const AddProduct = () => {
                             <Field
                               type="text"
                               name={`options[${index}].productPrice`}
-                              className="formField-input-percentage"
                               placeholder="0.00"
+                              className={`formField-input-percentage ${
+                                touched.options?.[index]?.productPrice &&
+                                errors.options?.[index]?.productPrice
+                                  ? "form-control-invalid"
+                                  : ""
+                              }`}
                             />
                             <span className="input-symbol-percentage">$</span>
                           </div>

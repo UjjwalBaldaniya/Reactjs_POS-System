@@ -90,15 +90,8 @@ const DynamicTable = ({ columns, data, actions }) => {
                       key={colIndex}
                       className="dynamic-table-data dynamic-th-common"
                     >
-                      {col?.accessor === "category_name" &&
-                      row?.category_image ? (
-                        <div className="dynamic-table-img">
-                          <img
-                            src={`${process.env.REACT_APP_IMG_URL}${row?.category_image}`}
-                            alt=""
-                          />
-                          <span>{row?.category_name}</span>
-                        </div>
+                      {col.render ? (
+                        col.render(row)
                       ) : (
                         <div className={bgColorClass}>{cellValue}</div>
                       )}

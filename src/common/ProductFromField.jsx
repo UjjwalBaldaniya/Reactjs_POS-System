@@ -28,9 +28,13 @@ const ProductSelectField = ({
   options,
   placeholder,
   setFieldValue,
+  value,
   touched,
   errors,
 }) => {
+  const selectedOption =
+    options?.filter((option) => option?.value === value) || null;
+
   return (
     <div className="col-12 col-md">
       <label htmlFor={name} className="formField-label">
@@ -42,6 +46,7 @@ const ProductSelectField = ({
         options={options}
         placeholder={placeholder}
         onChange={(option) => setFieldValue(name, option)}
+        value={selectedOption?.[0]}
         className={`${
           touched?.[name] && errors?.[name] ? "form-control-invalid" : ""
         }`}

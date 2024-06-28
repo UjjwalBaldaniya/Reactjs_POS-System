@@ -12,12 +12,12 @@ import Products from "./pages/Products.jsx";
 import ProductsCatagories from "./pages/ProductsCatagories.jsx";
 import PurchaseReturn from "./pages/PurchaseReturn.jsx";
 import Purchases from "./pages/Purchases.jsx";
+import Sales from "./pages/Sales.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import Sales from "./pages/Sales.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -36,6 +36,7 @@ function App() {
             <Route path="/table" element={<Table />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/create" element={<AddProduct />} />
+            <Route path="/products/edit/:id" element={<AddProduct />} />
             <Route path="/categories" element={<ProductsCatagories />} />
             <Route path="/variations" element={<Variations />} />
             <Route path="/units" element={<Units />} />

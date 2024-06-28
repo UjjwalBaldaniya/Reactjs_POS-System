@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getByIdUnit, getUnits } from "../../api/services/unitService";
+import { getByIdProduct, getProducts } from "../../api/services/productService";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await getUnits();
+    const response = await getProducts();
     return response.data;
   }
 );
@@ -12,7 +12,7 @@ export const fetchProducts = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (id) => {
-    const response = await getByIdUnit(id);
+    const response = await getByIdProduct(id);
     return response.data;
   }
 );

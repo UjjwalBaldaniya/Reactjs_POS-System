@@ -29,15 +29,15 @@ export const productSchema = Yup.object().shape({
   productNameArabic: Yup.string()
     .required("Product Name (Arabic) is required")
     .min(2, "Product Name (Arabic) is too short"),
-  category: Yup.object().required("Category is required"),
-  unit: Yup.object().required("Product Unit is required"),
-  itemType: Yup.object().required("Item Type is required"),
+  category: Yup.mixed().required("Category is required"),
+  productBaseUnit: Yup.mixed().required("Product Unit is required"),
+  itemType: Yup.mixed().required("Item Type is required"),
   supplier: Yup.string()
     .required("Supplier Name is required")
     .min(2, "Supplier Name is too short"),
-  saleUnit: Yup.object().required("Sale Unit is required"),
-  purchaseUnit: Yup.object().required("Purchase Unit is required"),
-  barcodeSymbology: Yup.object().required("Barcode Symbology is required"),
+  saleUnit: Yup.mixed().required("Sale Unit is required"),
+  purchaseUnit: Yup.mixed().required("Purchase Unit is required"),
+  barcodeSymbology: Yup.mixed().required("Barcode Symbology is required"),
   productCode: Yup.string()
     .required("Product Code is required")
     .min(2, "Product Code is too short"),
@@ -52,28 +52,28 @@ export const productSchema = Yup.object().shape({
   productDescriptionArabic: Yup.string()
     .required("Product Description (Arabic) is required")
     .min(10, "Product Description (Arabic) is too short"),
-  productType: Yup.object().required("Product Type is required"),
+  productType: Yup.mixed().required("Product Type is required"),
   productCost: Yup.number()
     .when("productType", {
-      is: (productType) => productType?.value === "single",
+      is: (productType) => productType?.value === "Single",
       then: (schema) => schema.required("Product Cost is required"),
     })
     .min(0, "Product Cost must be greater than or equal to 0"),
   productPrice: Yup.number()
     .when("productType", {
-      is: (productType) => productType?.value === "single",
+      is: (productType) => productType?.value === "Single",
       then: (schema) => schema.required("Product Price is required"),
     })
     .min(0, "Product Price must be greater than or equal to 0"),
   stock: Yup.number()
     .when("productType", {
-      is: (productType) => productType?.value === "single",
+      is: (productType) => productType?.value === "Single",
       then: (schema) => schema.required("Stock is required"),
     })
     .min(1, "Stock must be greater than 0"),
 
   variations: Yup.object().when("productType", {
-    is: (productType) => productType?.value === "variation",
+    is: (productType) => productType?.value === "Variation",
     then: (schema) => schema.required("Variations is required"),
   }),
   // variationsType: Yup.array().when("productType", {
@@ -82,6 +82,13 @@ export const productSchema = Yup.object().shape({
   //     .of(Yup.string().required())
   //     .required("Variation Type is required"),
   // }),
+
+  options: Yup.array().of(
+    Yup.object().shape({
+      productCost: Yup.mixed().required("Sale Unit is required"),
+    })
+  ),
+
   // options: Yup.array().of(
   //   Yup.object().shape({
   //     type: Yup.string().required("Variation Type is required"),
