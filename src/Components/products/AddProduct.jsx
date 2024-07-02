@@ -51,6 +51,7 @@ const AddProduct = () => {
         onSubmit={onSubmit}
       >
         {({ setFieldValue, values, errors, touched }) => {
+          console.log("🚀 ~ AddProduct ~ values:", values);
           const isVariationValuePresent = variationData?.some(
             (item) => item?._id === values?.variations?.value
           );
@@ -207,7 +208,9 @@ const AddProduct = () => {
                               <button
                                 type="button"
                                 className="cancel-btn btn btn-danger btn-sm position-absolute top-0 end-0 m-2 me-3"
-                                onClick={() => handleDeleteImage(index, remove)}
+                                onClick={() =>
+                                  handleDeleteImage(index, remove, image?.id)
+                                }
                               >
                                 {cancelIcon}
                               </button>

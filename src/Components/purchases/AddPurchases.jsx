@@ -102,13 +102,9 @@ const AddPurchases = () => {
     },
   ];
 
-  const handleEdit = (row) => {
-    console.log("Edit row:", row);
-  };
+  const handleEdit = (row) => {};
 
-  const handleDelete = (row) => {
-    console.log("Delete row:", row);
-  };
+  const handleDelete = (row) => {};
 
   const actionsBtn = [
     { name: "edit", icon: editIcon, handler: handleEdit },
@@ -141,7 +137,6 @@ const AddPurchases = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("🚀 ~ AddPurchases ~ values:", values);
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);

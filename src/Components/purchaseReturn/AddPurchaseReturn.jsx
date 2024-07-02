@@ -39,13 +39,9 @@ const AddPurchaseReturn = () => {
     },
   ];
 
-  const handleEdit = (row) => {
-    console.log("Edit row:", row);
-  };
+  const handleEdit = (row) => {};
 
-  const handleDelete = (row) => {
-    console.log("Delete row:", row);
-  };
+  const handleDelete = (row) => {};
 
   const actionsBtn = [
     { name: "edit", icon: editIcon, handler: handleEdit },

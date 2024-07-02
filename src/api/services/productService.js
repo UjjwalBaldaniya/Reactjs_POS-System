@@ -48,3 +48,15 @@ export const deleteProduct = async (id) => {
     return null;
   }
 };
+
+export const deleteProductImage = async (id, imageId) => {
+  try {
+    const response = await axiosInstanceAuth.delete(`/product/image/${id}`, {
+      data: imageId,
+    });
+    toast.success(response?.data?.msg);
+    return response?.data;
+  } catch (error) {
+    return null;
+  }
+};

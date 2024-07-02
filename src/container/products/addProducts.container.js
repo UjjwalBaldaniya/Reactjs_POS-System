@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addProduct, editProduct } from "../../api/services/productService";
+import {
+  addProduct,
+  deleteProductImage,
+  editProduct,
+} from "../../api/services/productService";
 import {
   editDropdownObject,
   getDropdownOptions,
@@ -27,12 +31,21 @@ const AddProductsContainer = () => {
   const {
     category_id = {},
     base_unit_id = {},
-    item_type,
+    item_type = "",
     sale_unit_id = {},
     purchase_unit_id = {},
-    barcode_symbol,
-    product_type,
+    barcode_symbol = "",
+    product_type = "",
     variation_details = [],
+    single_details = {},
+    product_images = [],
+    code = "",
+    product_description_ar = "",
+    product_description_en = "",
+    product_name_ar = "",
+    product_name_en = "",
+    supplier_name = "",
+    _id = "",
   } = productDataById || {};
 
   const initialCategory = editDropdownObject(
@@ -63,7 +76,6 @@ const AddProductsContainer = () => {
     for (const variation of variations) {
       for (const type of variation?.variations_types) {
         if (type?._id === id) {
-          console.log("type?.name", type?.name);
           return type?.name;
         }
       }
@@ -104,12 +116,13 @@ const AddProductsContainer = () => {
   };
 
   const editAvailability =
-    productDataById?.single_details?.availability === false
+    single_details?.availability === false
       ? availabilityOption?.[1]
       : availabilityOption?.[0];
 
-  const getEditImages = productDataById?.product_images?.map((image) => ({
+  const getEditImages = product_images?.map((image) => ({
     file: image?.images,
+    id: image?._id,
   }));
 
   const initialValues = {
@@ -119,18 +132,18 @@ const AddProductsContainer = () => {
     itemType: isEdit ? { value: item_type } : "",
     options: isEdit ? initialOptions : [],
     productBaseUnit: isEdit ? initialBaseUnit : "",
-    productCode: productDataById?.code || "",
-    productCost: productDataById?.single_details?.product_cost || "",
-    productDescriptionArabic: productDataById?.product_description_ar || "",
-    productDescriptionEnglish: productDataById?.product_description_en || "",
-    productNameArabic: productDataById?.product_name_ar || "",
-    productNameEnglish: productDataById?.product_name_en || "",
-    productPrice: productDataById?.single_details?.product_price || "",
+    productCode: code || "",
+    productCost: single_details?.product_cost || "",
+    productDescriptionArabic: product_description_ar || "",
+    productDescriptionEnglish: product_description_en || "",
+    productNameArabic: product_name_ar || "",
+    productNameEnglish: product_name_en || "",
+    productPrice: single_details?.product_price || "",
     productType: isEdit ? { value: product_type } : "",
     purchaseUnit: isEdit ? initialPurchaseUnit : "",
     saleUnit: isEdit ? initialSaleUnit : "",
-    stock: productDataById?.single_details?.stock || "",
-    supplier: productDataById?.supplier_name || "",
+    stock: single_details?.stock || "",
+    supplier: supplier_name || "",
     variations: isEdit ? initialVariationId : "",
     variationsType: isEdit ? initialVariationTypeId : [],
     uploadedImages: isEdit ? getEditImages : [],
@@ -167,7 +180,6 @@ const AddProductsContainer = () => {
     } else {
       formData.append("images", values.uploadedImages?.[0]?.files);
     }
-
     formData.append("product_type", values.productType?.value);
 
     if (values.productType?.value === "Single") {
@@ -205,7 +217,7 @@ const AddProductsContainer = () => {
 
     try {
       const response = isEdit
-        ? await editProduct(productDataById?._id, formData)
+        ? await editProduct(_id, formData)
         : await addProduct(formData);
 
       if (response) {
@@ -229,7 +241,11 @@ const AddProductsContainer = () => {
     });
   };
 
-  const handleDeleteImage = (index, remove) => {
+  const handleDeleteImage = async (index, remove, id) => {
+    const imageId = {
+      imageId: id,
+    };
+    await deleteProductImage(_id, imageId);
     remove(index);
   };
 

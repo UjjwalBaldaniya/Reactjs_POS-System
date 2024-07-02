@@ -6,7 +6,6 @@ const FormikFormField = ({ fields, setFieldValue, values }) => {
   return (
     <div>
       {fields.map((field) => {
-        console.log("🚀 ~ {fields.map ~ field:", field);
         return (
           <div className={`${field.rowClass ? "row" : ""}`} key={field.name}>
             <div key={field.name} className={field.className}>

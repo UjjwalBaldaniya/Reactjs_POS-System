@@ -16,6 +16,10 @@ export const columns = [
       </>
     ),
   },
+  {
+    label: "Count",
+    accessor: "product_count",
+  },
 ];
 
 export const productsCategoriesFields = [

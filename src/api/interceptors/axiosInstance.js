@@ -21,7 +21,6 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log("🚀 ~ error:", error);
     if (error?.response) {
       toast.error(error?.response?.data?.msg);
     } else {
