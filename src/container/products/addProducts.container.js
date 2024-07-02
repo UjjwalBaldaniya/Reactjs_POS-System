@@ -23,14 +23,16 @@ const AddProductsContainer = () => {
   const { unitsData } = useSelector((state) => state?.unit);
   const { variationData } = useSelector((state) => state?.variation);
   const { isEdit, productDataById } = useSelector((state) => state?.product);
+
   const {
-    category_id,
-    base_unit_id,
+    category_id = {},
+    base_unit_id = {},
     item_type,
-    sale_unit_id,
-    purchase_unit_id,
+    sale_unit_id = {},
+    purchase_unit_id = {},
     barcode_symbol,
     product_type,
+    variation_details = [],
   } = productDataById || {};
 
   const initialCategory = editDropdownObject(
@@ -49,6 +51,36 @@ const AddProductsContainer = () => {
     "unit_name",
     "_id"
   );
+  const initialVariationId = editDropdownObject(
+    variation_details?.[0]?.variation_id,
+    "variations_name",
+    "_id"
+  );
+  const initialVariationTypeId = variation_details?.map(
+    (value) => value?.variations_type_id
+  );
+  const findVariationNameById = (variations, id) => {
+    for (const variation of variations) {
+      for (const type of variation?.variations_types) {
+        if (type?._id === id) {
+          console.log("type?.name", type?.name);
+          return type?.name;
+        }
+      }
+    }
+    return null;
+  };
+  const findAvailabilityOnEdit = (isAvailable) =>
+    isAvailable ? availabilityOption?.[0] : availabilityOption?.[1];
+
+  const initialOptions = variation_details?.map((value) => ({
+    name: findVariationNameById(variationData, value?.variations_type_id),
+    productCost: value?.product_cost,
+    productPrice: value?.product_price,
+    availability: findAvailabilityOnEdit(value?.availability),
+    stock: value?.stock,
+    type: value?.variations_type_id,
+  }));
 
   const categoryOptions = getDropdownOptions(
     categoryData,
@@ -85,7 +117,7 @@ const AddProductsContainer = () => {
     barcodeSymbology: isEdit ? { value: barcode_symbol } : "",
     category: isEdit ? initialCategory : "",
     itemType: isEdit ? { value: item_type } : "",
-    options: [],
+    options: isEdit ? initialOptions : [],
     productBaseUnit: isEdit ? initialBaseUnit : "",
     productCode: productDataById?.code || "",
     productCost: productDataById?.single_details?.product_cost || "",
@@ -99,8 +131,8 @@ const AddProductsContainer = () => {
     saleUnit: isEdit ? initialSaleUnit : "",
     stock: productDataById?.single_details?.stock || "",
     supplier: productDataById?.supplier_name || "",
-    variations: "",
-    variationsType: [],
+    variations: isEdit ? initialVariationId : "",
+    variationsType: isEdit ? initialVariationTypeId : [],
     uploadedImages: isEdit ? getEditImages : [],
   };
 
@@ -137,13 +169,39 @@ const AddProductsContainer = () => {
     }
 
     formData.append("product_type", values.productType?.value);
-    formData.append("single_details[product_cost]", values.productCost);
-    formData.append("single_details[product_price]", values.productPrice);
-    formData.append(
-      "single_details[availability]",
-      values.availability?.value === "available" ? true : false
-    );
-    formData.append("single_details[stock]", values.stock);
+
+    if (values.productType?.value === "Single") {
+      formData.append("single_details[product_cost]", values.productCost);
+      formData.append("single_details[product_price]", values.productPrice);
+      formData.append(
+        "single_details[availability]",
+        values.availability?.value === "available" ? true : false
+      );
+      formData.append("single_details[stock]", values.stock);
+    } else {
+      const appendVariationDetails = (variations, formData) => {
+        variations?.forEach((data, index) => {
+          const variationDetails = {
+            variations_type_id: data?.type,
+            product_cost: data?.productCost,
+            product_price: data?.productPrice,
+            availability:
+              data?.availability?.value === "available" ? true : false,
+            stock: data?.stock,
+          };
+
+          Object.entries(variationDetails)?.forEach(([key, value]) => {
+            formData.append(`variation_details[${index}][${key}]`, value);
+          });
+          formData.append(
+            `variation_details[${index}][variation_id]`,
+            values.variations?.value
+          );
+        });
+      };
+
+      appendVariationDetails(values?.options, formData);
+    }
 
     try {
       const response = isEdit

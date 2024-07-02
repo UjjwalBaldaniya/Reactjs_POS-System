@@ -14,7 +14,6 @@ export const addUnit = async (value) => {
 export const getUnits = async () => {
   try {
     const response = await axiosInstanceAuth.get("/unit");
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;
@@ -24,7 +23,6 @@ export const getUnits = async () => {
 export const getByIdUnit = async (id) => {
   try {
     const response = await axiosInstanceAuth.get(`/unit/${id}`);
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;

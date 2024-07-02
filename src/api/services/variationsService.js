@@ -14,7 +14,6 @@ export const addVariation = async (value) => {
 export const getVariations = async () => {
   try {
     const response = await axiosInstanceAuth.get("/variation");
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;
@@ -24,7 +23,6 @@ export const getVariations = async () => {
 export const getByIdVariation = async (id) => {
   try {
     const response = await axiosInstanceAuth.get(`/variation/${id}`);
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;

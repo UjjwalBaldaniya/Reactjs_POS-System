@@ -14,7 +14,6 @@ export const addCategory = async (value) => {
 export const getCategory = async () => {
   try {
     const response = await axiosInstanceAuth.get("/category");
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;
@@ -24,7 +23,6 @@ export const getCategory = async () => {
 export const getByIdCategory = async (id) => {
   try {
     const response = await axiosInstanceAuth.get(`/category/${id}`);
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;

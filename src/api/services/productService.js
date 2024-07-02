@@ -14,7 +14,6 @@ export const addProduct = async (value) => {
 export const getProducts = async () => {
   try {
     const response = await axiosInstanceAuth.get("/product");
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;
@@ -24,7 +23,6 @@ export const getProducts = async () => {
 export const getByIdProduct = async (id) => {
   try {
     const response = await axiosInstanceAuth.get(`/product/${id}`);
-    toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {
     return null;
