@@ -18,6 +18,8 @@ import SignUp from "./pages/SignUp.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
+import Suppliers from "./pages/Suppliers.jsx";
+import CreateSupplier from "./components/supplier/CreateSupplier.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -50,6 +52,8 @@ function App() {
             />
             <Route path="/sales" element={<Sales />} />
             <Route path="/sales-return" element={<PurchaseReturn />} />
+            <Route path="/suppliers" element={<Suppliers />} />
+            <Route path="/suppliers/create" element={<CreateSupplier />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
