@@ -1,30 +1,40 @@
+import {
+  getMaxStock,
+  getMinMaxPrice,
+} from "../../common/functions/getDropdownOptions";
+
 export const productsColumns = [
   {
     label: "Product Name",
     accessor: "product_name_en",
     render: (row) => (
-      <>
-        {row?.product_name_en && (
-          <div className="dynamic-table-img">
-            <img
-              src={`${process.env.REACT_APP_IMG_URL}${row?.product_images?.[0]?.images}`}
-              alt=""
-            />
-            <span>{row?.product_name_en}</span>
-          </div>
-        )}
-      </>
+      <div className="dynamic-table-img">
+        <img
+          src={`${process.env.REACT_APP_IMG_URL}${row?.product_images?.[0]?.images}`}
+          alt=""
+        />
+        <span>{row?.product_name_en}</span>
+      </div>
     ),
   },
-  { label: "Code", accessor: "code" },
+  {
+    label: "Code",
+    accessor: "code",
+  },
   {
     label: "Price",
-    accessor: (row) => `$ ${row?.single_details?.product_price}`,
+    accessor: (row) =>
+      row?.product_type === "Single"
+        ? `$ ${row?.single_details?.product_price}`
+        : getMinMaxPrice(row?.variation_details),
     bgColor: "blue",
   },
   {
     label: "In Stock",
-    accessor: (row) => row?.single_details?.stock,
+    accessor: (row) =>
+      row?.product_type === "Single"
+        ? row?.single_details?.stock
+        : getMaxStock(row?.variation_details),
   },
   {
     label: "Item Type",
@@ -38,10 +48,6 @@ export const productsColumns = [
     label: "Base-Unit",
     accessor: (row) => row?.base_unit_id?.base_unit_name,
   },
-  // {
-  //   label: "Product Type",
-  //   accessor: "product_type",
-  // },
 ];
 
 // export const branchOptions = [

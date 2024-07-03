@@ -76,36 +76,16 @@ export const productSchema = Yup.object().shape({
     is: (productType) => productType?.value === "Variation",
     then: (schema) => schema.required("Variations is required"),
   }),
-  // variationsType: Yup.array().when("productType", {
-  //   is: (productType) => productType?.value === "variation",
-  //   then: Yup.array()
-  //     .of(Yup.string().required())
-  //     .required("Variation Type is required"),
-  // }),
+
+  variationsType: Yup.array()
+    .of(Yup.string().matches(/^[0-9a-fA-F]{24}$/, "Invalid ID format"))
+    .min(1, "At least one option must be selected")
+    .required("Required"),
 
   options: Yup.array().of(
     Yup.object().shape({
-      productCost: Yup.mixed().required("Sale Unit is required"),
+      productCost: Yup.mixed().required("Product Cost is required"),
+      productPrice: Yup.mixed().required("Product Price is required"),
     })
   ),
-
-  // options: Yup.array().of(
-  //   Yup.object().shape({
-  //     type: Yup.string().required("Variation Type is required"),
-  //     name: Yup.string().required("Variation Name is required"),
-  //     productCost: Yup.number()
-  //       .required("Product Cost is required")
-  //       .min(0, "Product Cost must be greater than or equal to 0"),
-  //     productPrice: Yup.number()
-  //       .required("Product Price is required")
-  //       .min(0, "Product Price must be greater than or equal to 0"),
-  //     availability: Yup.object().required("Availability is required"),
-  //     stock: Yup.number().when("availability", {
-  //       is: (availability) => availability?.value === "available",
-  //       then: Yup.number()
-  //         .required("Stock is required")
-  //         .min(1, "Stock must be greater than 0"),
-  //     }),
-  //   })
-  // ),
 });

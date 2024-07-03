@@ -1,4 +1,4 @@
-import { ErrorMessage, Field } from "formik";
+import { ErrorMessage, Field, useField } from "formik";
 import Select from "react-select";
 import React from "react";
 
@@ -31,6 +31,7 @@ const ProductSelectField = ({
   value,
   touched,
   errors,
+  className = "",
 }) => {
   const selectedOption =
     options?.find((option) => option?.value === value?.value) || null;
@@ -47,7 +48,7 @@ const ProductSelectField = ({
         placeholder={placeholder}
         onChange={(option) => setFieldValue(name, option)}
         value={selectedOption}
-        className={`${
+        className={`${className} ${
           touched?.[name] && errors?.[name] ? "form-control-invalid" : ""
         }`}
       />
@@ -91,16 +92,21 @@ const ProductPercentageField = ({
   errors,
   symbol,
 }) => {
+  const [field, meta] = useField(name);
   return (
     <div className="col-12 col-md">
       <label className="formField-label">{label}</label>
-      <div className="input-percentage">
-        <Field
-          type="text"
-          name={name}
+      <div
+        className={`input-percentage ${
+          meta.touched && meta.error ? "form-control-invalid" : ""
+        }`}
+      >
+        <input
+          {...field}
+          type="number"
           placeholder={placeholder}
           className={`formField-input-percentage ${
-            touched[name] && errors[name] ? "form-control-invalid" : ""
+            meta.touched && meta.error ? "form-control-invalid" : ""
           }`}
         />
         <span className="input-symbol-percentage">{symbol}</span>

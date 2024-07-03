@@ -51,7 +51,6 @@ const AddProduct = () => {
         onSubmit={onSubmit}
       >
         {({ setFieldValue, values, errors, touched }) => {
-          console.log("🚀 ~ AddProduct ~ values:", values);
           const isVariationValuePresent = variationData?.some(
             (item) => item?._id === values?.variations?.value
           );
@@ -169,6 +168,7 @@ const AddProduct = () => {
                   options={barcodeSymbologyOption}
                   placeholder="Select Barcode Symbology"
                   setFieldValue={setFieldValue}
+                  className="z-3"
                   touched={touched}
                   errors={errors}
                   value={values?.barcodeSymbology}
@@ -306,6 +306,11 @@ const AddProduct = () => {
                           setFieldValue("availability", option)
                         }
                       />
+                      <ErrorMessage
+                        name="availability"
+                        component="div"
+                        className="text-danger"
+                      />
                     </div>
 
                     {values?.availability?.value === "available" && (
@@ -329,14 +334,32 @@ const AddProduct = () => {
                         Variations
                       </label>
                       <Select
-                        id="variations-select"
+                        id="variations"
+                        name="variations"
                         options={variationNameOptions}
-                        value={values.variations}
+                        placeholder="Select Variation"
                         onChange={(option) => {
+                          if (
+                            values.variations &&
+                            option.value !== values.variations.value
+                          ) {
+                            const newOptions = [];
+                            setFieldValue("options", newOptions);
+                            setFieldValue("variationsType", newOptions);
+                          }
                           setFieldValue("variations", option);
-                          const newOptions = [];
-                          setFieldValue("options", newOptions);
                         }}
+                        value={values.variations}
+                        className={`${
+                          touched?.variations && errors?.variations
+                            ? "form-control-invalid"
+                            : ""
+                        }`}
+                      />
+                      <ErrorMessage
+                        name="variations"
+                        component="div"
+                        className="text-danger"
                       />
                     </div>
 
@@ -353,10 +376,17 @@ const AddProduct = () => {
                             {({ field, form }) => (
                               <>
                                 <Select
+                                  {...field}
                                   isMulti
+                                  id="variationsType"
                                   name="variationsType"
                                   options={variationTypeOptions}
-                                  className="basic-multi-select"
+                                  className={`basic-multi-select ${
+                                    touched?.variationsType &&
+                                    errors?.variationsType
+                                      ? "form-control-invalid"
+                                      : ""
+                                  }`}
                                   classNamePrefix="select"
                                   value={variationTypeOptions?.filter(
                                     (option) =>
@@ -412,14 +442,14 @@ const AddProduct = () => {
                                     setFieldValue("options", newOptions);
                                   }}
                                 />
+                                <ErrorMessage
+                                  name="variationsType"
+                                  component="div"
+                                  className="text-danger"
+                                />
                               </>
                             )}
                           </Field>
-                          <ErrorMessage
-                            name="variationsType"
-                            component="div"
-                            className="text-danger"
-                          />
                         </div>
                       </>
                     )}
@@ -442,54 +472,18 @@ const AddProduct = () => {
                         </div>
                       </div>
                       <div className="row mt-4">
-                        <div className="col-12 col-md">
-                          <label className="formField-label">
-                            Product Cost
-                          </label>
-                          <div className="input-percentage">
-                            <Field
-                              type="text"
-                              name={`options[${index}].productCost`}
-                              className={`formField-input-percentage ${
-                                touched.options?.[index]?.productCost &&
-                                errors.options?.[index]?.productCost
-                                  ? "form-control-invalid"
-                                  : ""
-                              }`}
-                              placeholder="0.00"
-                            />
-                            <span className="input-symbol-percentage">$</span>
-                          </div>
-                          <ErrorMessage
-                            name={`options[${index}].productCost`}
-                            component="div"
-                            className="error"
-                          />
-                        </div>
-                        <div className="col-12 col-md">
-                          <label className="formField-label">
-                            Product Price
-                          </label>
-                          <div className="input-percentage">
-                            <Field
-                              type="text"
-                              name={`options[${index}].productPrice`}
-                              placeholder="0.00"
-                              className={`formField-input-percentage ${
-                                touched.options?.[index]?.productPrice &&
-                                errors.options?.[index]?.productPrice
-                                  ? "form-control-invalid"
-                                  : ""
-                              }`}
-                            />
-                            <span className="input-symbol-percentage">$</span>
-                          </div>
-                          <ErrorMessage
-                            name={`options[${index}].productPrice`}
-                            component="div"
-                            className="error"
-                          />
-                        </div>
+                        <ProductPercentageField
+                          label="Product Cost"
+                          name={`options[${index}].productCost`}
+                          placeholder="0.00"
+                          symbol="$"
+                        />
+                        <ProductPercentageField
+                          label="Product Price"
+                          name={`options[${index}].productPrice`}
+                          placeholder="0.00"
+                          symbol="$"
+                        />
                       </div>
 
                       <div className="row mt-4">
@@ -516,30 +510,13 @@ const AddProduct = () => {
 
                         {values?.options[index]?.availability?.value ===
                           "available" && (
-                          <div className="col-12 col-md-6">
-                            <label
-                              htmlFor={`options[${index}].stock`}
-                              className="formField-label"
-                            >
-                              Stock
-                            </label>
-                            <div className="row">
-                              <div className="col-12 col-md">
-                                <Field
-                                  type="text"
-                                  className="formField-input"
-                                  id={`options[${index}].stock`}
-                                  name={`options[${index}].stock`}
-                                  placeholder="Enter Stock"
-                                />
-                                <ErrorMessage
-                                  name={`options[${index}].stock`}
-                                  component="div"
-                                  className="error"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                          <ProductTextField
+                            label="Stock"
+                            name={`options[${index}].stock`}
+                            placeholder="Enter Stock"
+                            touched={touched}
+                            errors={errors}
+                          />
                         )}
                       </div>
                     </div>
