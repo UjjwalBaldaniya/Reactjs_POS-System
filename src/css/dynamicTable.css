@@ -171,3 +171,16 @@
   padding: 0.65rem 1.25rem 0.65rem 0.875rem;
   background-color: rgb(240, 44, 44, 0.12);
 }
+
+.dynamic-calc-count-btn {
+  cursor: pointer;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+  transition: all 0.3s ease 0s;
+  background-color: #0d6efd;
+  color: rgb(255, 255, 255);
+  width: 30px;
+}

@@ -1,0 +1,37 @@
+.purchase-table-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.purchase-table {
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid rgb(223, 220, 239);
+  border-radius: 10px;
+  width: 600px;
+}
+
+.purchase-table-key div {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(223, 220, 239);
+  height: 45px;
+}
+.purchase-table-key div p {
+  margin-bottom: 0px;
+  margin-left: 15px;
+  color: rgb(150, 145, 172);
+  font-weight: 600;
+}
+
+.purchase-table-end div {
+  display: flex;
+  justify-content: end;
+}
+.purchase-table-end div p {
+  margin-right: 20px;
+}
+
+.purchase-table-key div:last-child {
+  border-bottom: none;
+}

@@ -1,4 +1,3 @@
-import "@yaireo/tagify/dist/tagify.css"; // Import Tagify CSS
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
 import Select from "react-select";

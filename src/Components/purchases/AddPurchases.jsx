@@ -1,120 +1,32 @@
+import { DatePicker } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import * as Yup from "yup";
-import { deleteIcon, editIcon, plusIcon } from "../../assets/icons/tables";
+import { plusIcon } from "../../assets/icons/tables";
+import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import Navbar from "../../common/Navbar";
-import DynamicTable from "../../common/DynamicTable";
+import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
+import "../../css/purchase.css";
+import {
+  addPurchaseColumns,
+  options,
+  purchaseTableColumns,
+  statusOptions,
+} from "../../description/purchases.description";
 
 const AddPurchases = () => {
-  const navigate = useNavigate();
-  const handleBack = () => {
-    navigate("/purchases");
-  };
-
-  const options = [
-    { value: "all", label: "For all branch" },
-    { value: "doha", label: "doha" },
-  ];
-
-  const fields = [
-    {
-      name: "date",
-      type: "date",
-      label: "Date",
-      className: "col",
-      rowClass: true,
-    },
-    {
-      name: "warehouse",
-      type: "select",
-      label: "Warehouse",
-      options,
-      className: "col",
-      rowClass: false,
-    },
-    {
-      name: "supplier",
-      type: "select",
-      label: "Supplier",
-      options,
-      className: "col",
-      rowClass: false,
-    },
-    {
-      name: "product",
-      type: "text",
-      label: "Product",
-      placeholder: "Search product by code name",
-      className: "mt-3",
-      rowClass: true,
-    },
-    {
-      name: "orderTax",
-      type: "text",
-      label: "Order Tax",
-      placeholder: "0.00",
-      className: "col",
-    },
-    {
-      name: "discount",
-      type: "text",
-      label: "Discount",
-      placeholder: "0.00",
-      className: "col",
-    },
-    {
-      name: "shipping",
-      type: "text",
-      label: "Shipping",
-      placeholder: "0.00",
-      className: "col",
-    },
-    {
-      name: "note",
-      type: "textarea",
-      label: "Note",
-      placeholder: "Enter notes",
-      className: "mt-3",
-    },
-  ];
-
-  const baseUnitsColumns = [
-    { label: "Product", accessor: "product" },
-    { label: "Net Unit Cost", accessor: "netUnitCost" },
-    { label: "Stock", accessor: "stock" },
-    { label: "QTY", accessor: "qty" },
-    { label: "Discount", accessor: "discount" },
-    { label: "Tax", accessor: "tax" },
-    { label: "Subtotal", accessor: "subtotal" },
-  ];
-
-  const baseUnitsData = [
-    {
-      product: "Cake",
-      netUnitCost: "100$",
-      stock: "10",
-      qty: "1",
-      discount: "10%",
-      tax: "5%",
-      subtotal: "150$",
-    },
-  ];
-
-  const handleEdit = (row) => {};
-
-  const handleDelete = (row) => {};
-
-  const actionsBtn = [
-    { name: "edit", icon: editIcon, handler: handleEdit },
-    { name: "delete", icon: deleteIcon, handler: handleDelete },
-  ];
-
-  const validationSchema = Yup.object().shape({
-    product: Yup.string().required("Required"),
-    note: Yup.string().required("Required"),
-  });
+  const {
+    handleBack,
+    actionsBtn,
+    initialValues,
+    handleSubmit,
+    handleInputChange,
+    setProductTableData,
+    handleChange,
+    productTableData,
+    calculateTotals,
+    preventNegative,
+  } = AddPurchasesContainer();
 
   return (
     <div>
@@ -124,166 +36,265 @@ const AddPurchases = () => {
         handleBackBtn={() => handleBack()}
       />
 
-      <Formik
-        initialValues={{
-          date: "",
-          warehouse: options?.[1],
-          supplier: "",
-          product: "",
-          orderTax: "",
-          discount: "",
-          shipping: "",
-          note: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        {({ isSubmitting, setFieldValue, values }) => (
-          <Form>
-            <div>
-              <div className="row">
-                <div className="col">
-                  <label htmlFor="date" className="formField-label">
-                    Date:
-                  </label>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ isSubmitting, setFieldValue, values }) => {
+          const { grandTotal, taxAmount, discountAmount, shippingAmount } =
+            calculateTotals(
+              productTableData,
+              values?.orderTax,
+              values?.orderTaxType,
+              values?.discount,
+              values?.discountType,
+              values?.shipping,
+              values?.shippingType
+            );
+
+          return (
+            <Form>
+              <div>
+                <div className="row">
+                  <div className="col">
+                    <label htmlFor="date" className="formField-label">
+                      Date:
+                    </label>
+                    <DatePicker
+                      onChange={(_, dateString) =>
+                        setFieldValue("date", dateString)
+                      }
+                      className="formField-input"
+                    />
+                  </div>
+
+                  <div className="col">
+                    <label htmlFor="supplier" className="formField-label">
+                      Supplier:
+                    </label>
+                    <Select
+                      id="supplier"
+                      options={options}
+                      onChange={(option) => setFieldValue("supplier", option)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="formField-label">Product:</label>
+                  <Field name="search">
+                    {({ field }) => (
+                      <Select
+                        {...field}
+                        options={values.options}
+                        inputValue={values.inputValue}
+                        onInputChange={(newValue, actionMeta) => {
+                          if (
+                            actionMeta.action !== "input-blur" &&
+                            actionMeta.action !== "menu-close"
+                          ) {
+                            handleInputChange(newValue, setFieldValue);
+                          }
+                        }}
+                        onChange={(option) => {
+                          handleChange(option, setFieldValue);
+                        }}
+                        isClearable
+                        menuIsOpen={values.inputValue?.length > 0}
+                        placeholder="Search Product by Name"
+                      />
+                    )}
+                  </Field>
+                </div>
+
+                <div className="mt-4">
+                  <label className="formField-label">Order Items:</label>
+                  <DynamicCalculateTable
+                    columns={addPurchaseColumns}
+                    data={productTableData}
+                    setData={setProductTableData}
+                    actions={actionsBtn}
+                  />
+                </div>
+
+                <div className="purchase-table-container">
+                  <div className="purchase-table mt-4">
+                    <div className="purchase-table-key col">
+                      {purchaseTableColumns?.map((data, index) => (
+                        <div key={index}>
+                          <p>{data}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="purchase-table-key col">
+                      <div className="input-per-table">
+                        <Field name="orderTax">
+                          {({ field }) => (
+                            <input
+                              {...field}
+                              type="number"
+                              className="formField-input-per-table"
+                              placeholder="0.00"
+                              disabled={productTableData?.length === 0}
+                              onChange={(event) =>
+                                preventNegative(
+                                  event,
+                                  setFieldValue,
+                                  "orderTax"
+                                )
+                              }
+                            />
+                          )}
+                        </Field>
+                        <select
+                          className="input-symbol-per-table"
+                          name="orderTaxType"
+                          value={values.orderTaxType}
+                          onChange={(e) =>
+                            setFieldValue("orderTaxType", e?.target?.value)
+                          }
+                        >
+                          <option value="%">%</option>
+                          <option value="$">$</option>
+                        </select>
+                      </div>
+                      <div className="input-per-table">
+                        <Field name="discount">
+                          {({ field }) => (
+                            <input
+                              {...field}
+                              type="number"
+                              className="formField-input-per-table"
+                              placeholder="0.00"
+                              disabled={productTableData?.length === 0}
+                              onChange={(event) =>
+                                preventNegative(
+                                  event,
+                                  setFieldValue,
+                                  "discount"
+                                )
+                              }
+                            />
+                          )}
+                        </Field>
+                        <select
+                          className="input-symbol-per-table"
+                          name="discountType"
+                          value={values.discountType}
+                          onChange={(e) =>
+                            setFieldValue("discountType", e?.target?.value)
+                          }
+                        >
+                          <option value="%">%</option>
+                          <option value="$">$</option>
+                        </select>
+                      </div>
+                      <div className="input-per-table border-bottom">
+                        <Field name="shipping">
+                          {({ field }) => (
+                            <input
+                              {...field}
+                              type="number"
+                              className="formField-input-per-table"
+                              placeholder="0.00"
+                              disabled={productTableData?.length === 0}
+                              onChange={(event) =>
+                                preventNegative(
+                                  event,
+                                  setFieldValue,
+                                  "shipping"
+                                )
+                              }
+                            />
+                          )}
+                        </Field>
+                        <select
+                          className="input-symbol-per-table "
+                          value={values.shippingType}
+                          name="shippingType"
+                          onChange={(e) =>
+                            setFieldValue("shippingType", e?.target?.value)
+                          }
+                        >
+                          <option value="%">%</option>
+                          <option value="$">$</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col purchase-table-key purchase-table-end">
+                      <div>
+                        {values.orderTaxType === "%" ? (
+                          <p>{`$ ${taxAmount} ( ${
+                            values?.orderTax || 0
+                          }% )`}</p>
+                        ) : (
+                          <p>{`$ ${taxAmount}`}</p>
+                        )}
+                      </div>
+                      <div>
+                        {values.discountType === "%" ? (
+                          <p>{`$ ${discountAmount} ( ${
+                            values?.discount || 0
+                          }% )`}</p>
+                        ) : (
+                          <p>{`$ ${discountAmount}`}</p>
+                        )}
+                      </div>
+                      <div>
+                        {values.shippingType === "%" ? (
+                          <p>{`$ ${shippingAmount} ( ${
+                            values?.shipping || 0
+                          }% )`}</p>
+                        ) : (
+                          <p>{`$ ${shippingAmount}`}</p>
+                        )}
+                      </div>
+                      <div>
+                        <p>{`$ ${grandTotal?.toFixed(2)}`}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row mt-3">
+                  <div className="col-6">
+                    <label htmlFor="status" className="formField-label">
+                      Status:
+                    </label>
+                    <Select
+                      id="status"
+                      name="status"
+                      options={statusOptions}
+                      value={values.status}
+                      onChange={(option) => setFieldValue("status", option)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="formField-label">Note:</label>
                   <Field
-                    type="date"
-                    name="date"
-                    className="formField-input"
-                    value={values.date}
+                    as="textarea"
+                    className="formField-textarea"
+                    rows={4}
+                    id="note"
+                    name="note"
+                    placeholder="Enter notes"
                   />
-                </div>
-                <div className="col">
-                  <label htmlFor="warehouse" className="formField-label">
-                    Warehouse:
-                  </label>
-                  <Select
-                    id="warehouse"
-                    options={options}
-                    value={values.warehouse}
-                    onChange={(option) => setFieldValue("warehouse", option)}
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="supplier" className="formField-label">
-                    Supplier:
-                  </label>
-                  <Select
-                    id="supplier"
-                    options={options}
-                    onChange={(option) => setFieldValue("supplier", option)}
+                  <ErrorMessage
+                    name="note"
+                    component="div"
+                    className="text-danger"
                   />
                 </div>
               </div>
 
-              <div className="mt-3">
-                <label className="formField-label">Product:</label>
-                <Field
-                  type="text"
-                  name="product"
-                  className="formField-input"
-                  placeholder="Search product by code name"
-                />
-                <ErrorMessage
-                  name="product"
-                  component="div"
-                  className="text-danger"
-                />
+              <div className="add-table-create-btn my-4">
+                <button type="submit" disabled={isSubmitting}>
+                  {plusIcon("white")}
+                  <span className="ms-2">Save</span>
+                </button>
               </div>
-
-              <div className="mt-4">
-                <label className="formField-label">Order Items:</label>
-                <DynamicTable
-                  columns={baseUnitsColumns}
-                  data={baseUnitsData}
-                  actions={actionsBtn}
-                />
-              </div>
-
-              <div className="row mt-3">
-                <div className="col">
-                  <label className="formField-label">Order Tax:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="orderTax"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">%</span>
-                  </div>
-                </div>
-                <div className="col">
-                  <label className="formField-label">Discount:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="discount"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">$</span>
-                  </div>
-                </div>
-                <div className="col">
-                  <label className="formField-label">Shipping:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="shipping"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">$</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mt-3">
-                <div className="col-4">
-                  <label htmlFor="warehouse" className="formField-label">
-                    Warehouse:
-                  </label>
-                  <Select
-                    id="warehouse"
-                    options={options}
-                    value={values.warehouse}
-                    onChange={(option) => setFieldValue("warehouse", option)}
-                  />
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <label className="formField-label">Note:</label>
-                <Field
-                  as="textarea"
-                  className="formField-textarea"
-                  rows={4}
-                  id="note"
-                  name="note"
-                  placeholder="Enter notes"
-                />
-                <ErrorMessage
-                  name="note"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-            </div>
-
-            <div className="add-table-create-btn mt-4">
-              <button type="submit" disabled={isSubmitting}>
-                {plusIcon("white")}
-                <span className="ms-2">Save</span>
-              </button>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

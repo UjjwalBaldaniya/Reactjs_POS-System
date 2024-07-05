@@ -1,9 +1,27 @@
 import React from "react";
 import "../css/dynamicTable.css";
 
-const DynamicTable = ({ columns, data, actions }) => {
+const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
   const getCellValue = (row, accessor) =>
     typeof accessor === "function" ? accessor(row) : row?.[accessor];
+
+  const handleQtyChange = (row, newQty) => {
+    if (newQty < 1) return;
+
+    const updatedData = data?.map((item) => {
+      if (item === row) {
+        const updatedItem = {
+          ...item,
+          qty: newQty,
+          subtotal: newQty * item?.single_details?.product_price,
+        };
+        return updatedItem;
+      }
+      return item;
+    });
+
+    setData(updatedData);
+  };
 
   return (
     <div className="table-responsive">
@@ -25,7 +43,9 @@ const DynamicTable = ({ columns, data, actions }) => {
         </thead>
         <tbody>
           {!data || data?.length === 0 ? (
-            <div>No data available</div>
+            <tr>
+              <td colSpan={columns.length + 1}>No data available</td>
+            </tr>
           ) : (
             data?.map((row, rowIndex) => (
               <tr key={rowIndex}>
@@ -44,7 +64,7 @@ const DynamicTable = ({ columns, data, actions }) => {
                       className="dynamic-table-data dynamic-th-common"
                     >
                       {col?.render ? (
-                        col?.render(row)
+                        col?.render(row, handleQtyChange)
                       ) : (
                         <div className={bgColor}>
                           {getCellValue(row, col?.accessor)}
@@ -75,4 +95,4 @@ const DynamicTable = ({ columns, data, actions }) => {
   );
 };
 
-export default DynamicTable;
+export default DynamicCalculateTable;

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { deleteIcon, editIcon } from "../assets/icons/tables";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
 
 const PurchasesContainer = () => {
   const navigate = useNavigate();
