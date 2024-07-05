@@ -137,3 +137,9 @@ export const optionalAmountType = [
   { value: "$", label: "$" },
   { value: "%", label: "%" },
 ];
+
+export const PurchaseTableInputs = [
+  { fieldName: "orderTax", typeName: "orderTaxType" },
+  { fieldName: "discount", typeName: "discountType" },
+  { fieldName: "shipping", typeName: "shippingType" },
+];

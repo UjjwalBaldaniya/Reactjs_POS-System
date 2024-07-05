@@ -2,7 +2,7 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import AddProductsCategories from "../components/productsCategories/AddProductsCategories";
-import ProductsCategoriesContainer from "../container/productsCategories.container";
+import ProductsCategoriesContainer from "../container/category/productsCategories.container";
 import "../css/productsCatagories.css";
 import { columns } from "../description/productsCategories.description";
 

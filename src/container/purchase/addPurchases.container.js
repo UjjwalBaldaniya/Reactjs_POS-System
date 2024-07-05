@@ -127,6 +127,14 @@ const AddPurchasesContainer = () => {
     }
   };
 
+  const AmountDisplay = ({ amount, value, type }) => {
+    return (
+      <p>
+        {`$ ${amount}`} {type === "%" && `(${value || 0}% )`}
+      </p>
+    );
+  };
+
   const initialValues = {
     search: null,
     inputValue: "",
@@ -163,6 +171,7 @@ const AddPurchasesContainer = () => {
     productTableData,
     calculateTotals,
     preventNegative,
+    AmountDisplay,
   };
 };
 

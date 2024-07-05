@@ -1,9 +1,10 @@
 import { DatePicker } from "antd";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import React from "react";
 import Select from "react-select";
 import { plusIcon } from "../../assets/icons/tables";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
+import InputWithSelect from "../../common/InputWithSelect";
 import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import "../../css/purchase.css";
@@ -11,6 +12,7 @@ import {
   addPurchaseColumns,
   options,
   purchaseTableColumns,
+  PurchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
 
@@ -26,6 +28,7 @@ const AddPurchases = () => {
     productTableData,
     calculateTotals,
     preventNegative,
+    AmountDisplay,
   } = AddPurchasesContainer();
 
   return (
@@ -48,6 +51,25 @@ const AddPurchases = () => {
               values?.shipping,
               values?.shippingType
             );
+
+          const summaryData = [
+            {
+              amount: taxAmount,
+              value: values.orderTax,
+              type: values.orderTaxType,
+            },
+            {
+              amount: discountAmount,
+              value: values.discount,
+              type: values.discountType,
+            },
+            {
+              amount: shippingAmount,
+              value: values.shipping,
+              type: values.shippingType,
+            },
+            { amount: grandTotal?.toFixed(2), value: null, type: null },
+          ];
 
           return (
             <Form>
@@ -124,131 +146,28 @@ const AddPurchases = () => {
                       ))}
                     </div>
                     <div className="purchase-table-key col">
-                      <div className="input-per-table">
-                        <Field name="orderTax">
-                          {({ field }) => (
-                            <input
-                              {...field}
-                              type="number"
-                              className="formField-input-per-table"
-                              placeholder="0.00"
-                              disabled={productTableData?.length === 0}
-                              onChange={(event) =>
-                                preventNegative(
-                                  event,
-                                  setFieldValue,
-                                  "orderTax"
-                                )
-                              }
-                            />
-                          )}
-                        </Field>
-                        <select
-                          className="input-symbol-per-table"
-                          name="orderTaxType"
-                          value={values.orderTaxType}
-                          onChange={(e) =>
-                            setFieldValue("orderTaxType", e?.target?.value)
-                          }
-                        >
-                          <option value="%">%</option>
-                          <option value="$">$</option>
-                        </select>
-                      </div>
-                      <div className="input-per-table">
-                        <Field name="discount">
-                          {({ field }) => (
-                            <input
-                              {...field}
-                              type="number"
-                              className="formField-input-per-table"
-                              placeholder="0.00"
-                              disabled={productTableData?.length === 0}
-                              onChange={(event) =>
-                                preventNegative(
-                                  event,
-                                  setFieldValue,
-                                  "discount"
-                                )
-                              }
-                            />
-                          )}
-                        </Field>
-                        <select
-                          className="input-symbol-per-table"
-                          name="discountType"
-                          value={values.discountType}
-                          onChange={(e) =>
-                            setFieldValue("discountType", e?.target?.value)
-                          }
-                        >
-                          <option value="%">%</option>
-                          <option value="$">$</option>
-                        </select>
-                      </div>
-                      <div className="input-per-table border-bottom">
-                        <Field name="shipping">
-                          {({ field }) => (
-                            <input
-                              {...field}
-                              type="number"
-                              className="formField-input-per-table"
-                              placeholder="0.00"
-                              disabled={productTableData?.length === 0}
-                              onChange={(event) =>
-                                preventNegative(
-                                  event,
-                                  setFieldValue,
-                                  "shipping"
-                                )
-                              }
-                            />
-                          )}
-                        </Field>
-                        <select
-                          className="input-symbol-per-table "
-                          value={values.shippingType}
-                          name="shippingType"
-                          onChange={(e) =>
-                            setFieldValue("shippingType", e?.target?.value)
-                          }
-                        >
-                          <option value="%">%</option>
-                          <option value="$">$</option>
-                        </select>
-                      </div>
+                      {PurchaseTableInputs?.map((input, index) => (
+                        <InputWithSelect
+                          key={index}
+                          fieldName={input.fieldName}
+                          typeName={input.typeName}
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          productTableData={productTableData}
+                          preventNegative={preventNegative}
+                        />
+                      ))}
                     </div>
                     <div className="col purchase-table-key purchase-table-end">
-                      <div>
-                        {values.orderTaxType === "%" ? (
-                          <p>{`$ ${taxAmount} ( ${
-                            values?.orderTax || 0
-                          }% )`}</p>
-                        ) : (
-                          <p>{`$ ${taxAmount}`}</p>
-                        )}
-                      </div>
-                      <div>
-                        {values.discountType === "%" ? (
-                          <p>{`$ ${discountAmount} ( ${
-                            values?.discount || 0
-                          }% )`}</p>
-                        ) : (
-                          <p>{`$ ${discountAmount}`}</p>
-                        )}
-                      </div>
-                      <div>
-                        {values.shippingType === "%" ? (
-                          <p>{`$ ${shippingAmount} ( ${
-                            values?.shipping || 0
-                          }% )`}</p>
-                        ) : (
-                          <p>{`$ ${shippingAmount}`}</p>
-                        )}
-                      </div>
-                      <div>
-                        <p>{`$ ${grandTotal?.toFixed(2)}`}</p>
-                      </div>
+                      {summaryData.map((item, index) => (
+                        <div key={index}>
+                          <AmountDisplay
+                            amount={item.amount}
+                            value={item.value}
+                            type={item.type}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -277,11 +196,6 @@ const AddPurchases = () => {
                     id="note"
                     name="note"
                     placeholder="Enter notes"
-                  />
-                  <ErrorMessage
-                    name="note"
-                    component="div"
-                    className="text-danger"
                   />
                 </div>
               </div>

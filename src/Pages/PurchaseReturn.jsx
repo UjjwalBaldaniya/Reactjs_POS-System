@@ -1,7 +1,7 @@
 import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
-import PurchaseReturnContainer from "../container/purchaseReturn.container";
+import PurchaseReturnContainer from "../container/purchase/purchaseReturn.container";
 import {
   purchaseReturnColumns,
   purchaseReturnData,
