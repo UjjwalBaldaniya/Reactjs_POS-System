@@ -61,7 +61,10 @@ export const menuItems = [
     type: "accordion",
     icon: customersIcon,
     title: "Peoples",
-    links: [{ to: "/suppliers", name: "Suppliers" }],
+    links: [
+      { to: "/suppliers", name: "Suppliers" },
+      { to: "/customers", name: "Customers" },
+    ],
   },
   { type: "heading", name: "sidebar.features" },
   {
