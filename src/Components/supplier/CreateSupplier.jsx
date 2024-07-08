@@ -5,6 +5,7 @@ import Navbar from "../../common/Navbar";
 import CreateSupplierContainer from "../../container/supplier/createSupplier.container";
 import { supplierFormField } from "../../description/suppliers.description";
 import { supplierSchema } from "../../utils/validationSchema/PeoplesSchema";
+import CommonButton from "../../common/CommonButton";
 
 const CreateSupplier = () => {
   const { handleBack, initialValues, handleSubmit } = CreateSupplierContainer();
@@ -38,12 +39,10 @@ const CreateSupplier = () => {
               ))}
             </div>
             <div className="my-5">
-              <button
-                className="product-optionlist-btn mt-3 create-product"
-                type="submit"
-              >
-                Create Product
-              </button>
+              <CommonButton
+                isSubmitting={isSubmitting}
+                text="Create Supplier"
+              />
             </div>
           </Form>
         )}

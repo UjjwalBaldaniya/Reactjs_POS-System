@@ -2,7 +2,7 @@ import { DatePicker } from "antd";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import Select from "react-select";
-import { plusIcon } from "../../assets/icons/tables";
+import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
 import Navbar from "../../common/Navbar";
@@ -198,11 +198,11 @@ const AddPurchaseReturn = () => {
                 </div>
               </div>
 
-              <div className="add-table-create-btn mt-4">
-                <button disabled={isSubmitting}>
-                  {plusIcon("white")}
-                  <span className="ms-2">Save</span>
-                </button>
+              <div className="my-5">
+                <CommonButton
+                  isSubmitting={isSubmitting}
+                  text="Create Purchase"
+                />
               </div>
             </Form>
           );

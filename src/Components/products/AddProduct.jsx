@@ -2,6 +2,7 @@ import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
 import Select from "react-select";
 import { cancelIcon, fileUploadIcon } from "../../assets/icons/product";
+import CommonButton from "../../common/CommonButton";
 import Navbar from "../../common/Navbar";
 import {
   ProductPercentageField,
@@ -49,7 +50,7 @@ const AddProduct = () => {
         enableReinitialize
         onSubmit={onSubmit}
       >
-        {({ setFieldValue, values, errors, touched }) => {
+        {({ setFieldValue, values, errors, touched, isSubmitting }) => {
           const isVariationValuePresent = variationData?.some(
             (item) => item?._id === values?.variations?.value
           );
@@ -524,12 +525,10 @@ const AddProduct = () => {
               )}
 
               <div className="my-5">
-                <button
-                  className="product-optionlist-btn mt-3 create-product"
-                  type="submit"
-                >
-                  Create Product
-                </button>
+                <CommonButton
+                  isSubmitting={isSubmitting}
+                  text="Create Product"
+                />
               </div>
             </Form>
           );

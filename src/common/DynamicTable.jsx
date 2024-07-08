@@ -25,7 +25,9 @@ const DynamicTable = ({ columns, data, actions }) => {
         </thead>
         <tbody>
           {!data || data?.length === 0 ? (
-            <div>No data available</div>
+            <tr>
+              <td colSpan={columns?.length + 1}>No data available</td>
+            </tr>
           ) : (
             data?.map((row, rowIndex) => (
               <tr key={rowIndex}>

@@ -44,7 +44,7 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
         <tbody>
           {!data || data?.length === 0 ? (
             <tr>
-              <td colSpan={columns.length + 1}>No data available</td>
+              <td colSpan={columns?.length + 1}>No data available</td>
             </tr>
           ) : (
             data?.map((row, rowIndex) => (
