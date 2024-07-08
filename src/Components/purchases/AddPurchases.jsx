@@ -159,12 +159,12 @@ const AddPurchases = () => {
                       ))}
                     </div>
                     <div className="col purchase-table-key purchase-table-end">
-                      {summaryData.map((item, index) => (
+                      {summaryData?.map((item, index) => (
                         <div key={index}>
                           <AmountDisplay
-                            amount={item.amount}
-                            value={item.value}
-                            type={item.type}
+                            amount={item?.amount}
+                            value={item?.value}
+                            type={item?.type}
                           />
                         </div>
                       ))}

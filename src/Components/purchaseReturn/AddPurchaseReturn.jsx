@@ -1,52 +1,34 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { DatePicker } from "antd";
+import { Field, Form, Formik } from "formik";
 import React from "react";
-import { deleteIcon, editIcon, plusIcon } from "../../assets/icons/tables";
-import Navbar from "../../common/Navbar";
-import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import DynamicTable from "../../common/DynamicTable";
+import { plusIcon } from "../../assets/icons/tables";
+import DynamicCalculateTable from "../../common/DynamicCalculateTable";
+import InputWithSelect from "../../common/InputWithSelect";
+import Navbar from "../../common/Navbar";
+import AddPurchaseReturnContainer from "../../container/purchase/addPurchaseReturn.container";
+import {
+  addPurchaseColumns,
+  options,
+  purchaseTableColumns,
+  PurchaseTableInputs,
+  statusOptions,
+} from "../../description/purchases.description";
 
 const AddPurchaseReturn = () => {
-  const navigate = useNavigate();
-  const handleBack = () => {
-    navigate("/purchase-return");
-  };
-
-  const options = [
-    { value: "all", label: "For all branch" },
-    { value: "doha", label: "doha" },
-  ];
-
-  const baseUnitsColumns = [
-    { label: "Product", accessor: "product" },
-    { label: "Net Unit Cost", accessor: "netUnitCost" },
-    { label: "Stock", accessor: "stock" },
-    { label: "QTY", accessor: "qty" },
-    { label: "Discount", accessor: "discount" },
-    { label: "Tax", accessor: "tax" },
-    { label: "Subtotal", accessor: "subtotal" },
-  ];
-
-  const baseUnitsData = [
-    {
-      product: "Cake",
-      netUnitCost: "100$",
-      stock: "10",
-      qty: "1",
-      discount: "10%",
-      tax: "5%",
-      subtotal: "150$",
-    },
-  ];
-
-  const handleEdit = (row) => {};
-
-  const handleDelete = (row) => {};
-
-  const actionsBtn = [
-    { name: "edit", icon: editIcon, handler: handleEdit },
-    { name: "delete", icon: deleteIcon, handler: handleDelete },
-  ];
+  const {
+    productTableData,
+    handleBack,
+    setProductTableData,
+    actionsBtn,
+    handleInputChange,
+    handleChange,
+    initialValues,
+    handleSubmit,
+    calculateTotals,
+    preventNegative,
+    AmountDisplay,
+  } = AddPurchaseReturnContainer();
 
   return (
     <div>
@@ -56,160 +38,175 @@ const AddPurchaseReturn = () => {
         handleBackBtn={() => handleBack()}
       />
 
-      <Formik
-        initialValues={{ name: "", shortName: "", baseUnit: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.name) errors.name = `Required`;
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        {({ isSubmitting, setFieldValue, values }) => (
-          <Form>
-            <div>
-              <div className="row">
-                <div className="col">
-                  <label htmlFor="date" className="formField-label">
-                    Date:
-                  </label>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ isSubmitting, setFieldValue, values }) => {
+          const { grandTotal, taxAmount, discountAmount, shippingAmount } =
+            calculateTotals(
+              productTableData,
+              values?.orderTax,
+              values?.orderTaxType,
+              values?.discount,
+              values?.discountType,
+              values?.shipping,
+              values?.shippingType
+            );
+
+          const summaryData = [
+            {
+              amount: taxAmount,
+              value: values.orderTax,
+              type: values.orderTaxType,
+            },
+            {
+              amount: discountAmount,
+              value: values.discount,
+              type: values.discountType,
+            },
+            {
+              amount: shippingAmount,
+              value: values.shipping,
+              type: values.shippingType,
+            },
+            { amount: grandTotal?.toFixed(2), value: null, type: null },
+          ];
+
+          return (
+            <Form>
+              <div>
+                <div className="row">
+                  <div className="col">
+                    <label htmlFor="date" className="formField-label">
+                      Date:
+                    </label>
+                    <DatePicker
+                      onChange={(_, dateString) =>
+                        setFieldValue("date", dateString)
+                      }
+                      className="formField-input"
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="supplier" className="formField-label">
+                      Supplier:
+                    </label>
+                    <Select
+                      id="supplier"
+                      options={options}
+                      onChange={(option) => setFieldValue("supplier", option)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="formField-label">Product:</label>
+                  <Field name="search">
+                    {({ field }) => (
+                      <Select
+                        {...field}
+                        options={values.options}
+                        inputValue={values.inputValue}
+                        onInputChange={(newValue, actionMeta) => {
+                          if (
+                            actionMeta.action !== "input-blur" &&
+                            actionMeta.action !== "menu-close"
+                          ) {
+                            handleInputChange(newValue, setFieldValue);
+                          }
+                        }}
+                        onChange={(option) => {
+                          handleChange(option, setFieldValue);
+                        }}
+                        isClearable
+                        menuIsOpen={values.inputValue?.length > 0}
+                        placeholder="Search Product by Name"
+                      />
+                    )}
+                  </Field>
+                </div>
+
+                <div className="mt-4">
+                  <label className="formField-label">Order Items:</label>
+                  <DynamicCalculateTable
+                    columns={addPurchaseColumns}
+                    data={productTableData}
+                    setData={setProductTableData}
+                    actions={actionsBtn}
+                  />
+                </div>
+
+                <div className="purchase-table-container">
+                  <div className="purchase-table mt-4">
+                    <div className="purchase-table-key col">
+                      {purchaseTableColumns?.map((data, index) => (
+                        <div key={index}>
+                          <p>{data}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="purchase-table-key col">
+                      {PurchaseTableInputs?.map((input, index) => (
+                        <InputWithSelect
+                          key={index}
+                          fieldName={input.fieldName}
+                          typeName={input.typeName}
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          productTableData={productTableData}
+                          preventNegative={preventNegative}
+                        />
+                      ))}
+                    </div>
+                    <div className="col purchase-table-key purchase-table-end">
+                      {summaryData?.map((item, index) => (
+                        <div key={index}>
+                          <AmountDisplay
+                            amount={item?.amount}
+                            value={item?.value}
+                            type={item?.type}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row mt-3">
+                  <div className="col-6">
+                    <label htmlFor="status" className="formField-label">
+                      Status:
+                    </label>
+                    <Select
+                      id="status"
+                      name="status"
+                      options={statusOptions}
+                      value={values.status}
+                      onChange={(option) => setFieldValue("status", option)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="formField-label">Note:</label>
                   <Field
-                    type="date"
-                    name="date"
-                    className="formField-input"
-                    value={values.date}
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="warehouse" className="formField-label">
-                    Warehouse:
-                  </label>
-                  <Select
-                    id="warehouse"
-                    options={options}
-                    value={values.warehouse}
-                    onChange={(option) => setFieldValue("warehouse", option)}
-                  />
-                </div>
-                <div className="col">
-                  <label htmlFor="supplier" className="formField-label">
-                    Supplier:
-                  </label>
-                  <Select
-                    id="supplier"
-                    options={options}
-                    onChange={(option) => setFieldValue("supplier", option)}
+                    as="textarea"
+                    className="formField-textarea"
+                    rows={4}
+                    id="note"
+                    name="note"
+                    placeholder="Enter notes"
                   />
                 </div>
               </div>
 
-              <div className="mt-3">
-                <label className="formField-label">Product:</label>
-                <Field
-                  type="text"
-                  name="product"
-                  className="formField-input"
-                  placeholder="Search product by code name"
-                />
-                <ErrorMessage
-                  name="product"
-                  component="div"
-                  className="text-danger"
-                />
+              <div className="add-table-create-btn mt-4">
+                <button disabled={isSubmitting}>
+                  {plusIcon("white")}
+                  <span className="ms-2">Save</span>
+                </button>
               </div>
-
-              <div className="mt-4">
-                <label className="formField-label">Order Items:</label>
-                <DynamicTable
-                  columns={baseUnitsColumns}
-                  data={baseUnitsData}
-                  actions={actionsBtn}
-                />
-              </div>
-
-              <div className="row mt-3">
-                <div className="col">
-                  <label className="formField-label">Order Tax:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="orderTax"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">%</span>
-                  </div>
-                </div>
-                <div className="col">
-                  <label className="formField-label">Discount:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="discount"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">$</span>
-                  </div>
-                </div>
-                <div className="col">
-                  <label className="formField-label">Shipping:</label>
-                  <div className="input-percentage">
-                    <Field
-                      type="text"
-                      name="shipping"
-                      className="formField-input-percentage"
-                      placeholder="0.00"
-                    />
-                    <span className="input-symbol-percentage">$</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mt-3">
-                <div className="col-4">
-                  <label htmlFor="warehouse" className="formField-label">
-                    Warehouse:
-                  </label>
-                  <Select
-                    id="warehouse"
-                    options={options}
-                    value={values.warehouse}
-                    onChange={(option) => setFieldValue("warehouse", option)}
-                  />
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <label className="formField-label">Note:</label>
-                <Field
-                  as="textarea"
-                  className="formField-textarea"
-                  rows={4}
-                  id="note"
-                  name="note"
-                  placeholder="Enter notes"
-                />
-                <ErrorMessage
-                  name="note"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-            </div>
-            <div className="add-table-create-btn mt-4">
-              <button disabled={isSubmitting}>
-                {plusIcon("white")}
-                <span className="ms-2">Save</span>
-              </button>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

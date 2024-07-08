@@ -8,11 +8,9 @@ const purchaseSlice = createSlice({
   },
   reducers: {
     setProductTableData: (state, action) => {
-      console.log("🚀 ~ action:", action);
       // state.grandTotal = {};
     },
     setGrandTotal: (state, action) => {
-      console.log("🚀 ~ action:", action);
       // state.grandTotal = {};
     },
   },

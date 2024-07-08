@@ -153,7 +153,7 @@ const AddPurchasesContainer = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("🚀 ~ AddPurchasesContainer ~ values:", values);
+    console.log("🚀 ~ handleSubmit ~ values:", values);
   };
 
   useEffect(() => {
