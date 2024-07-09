@@ -1,7 +1,7 @@
 export const suppliersColumns = [
   {
     label: "Supplier",
-    accessor: "supplier",
+    accessor: "name",
   },
   {
     label: "Email",
@@ -9,11 +9,11 @@ export const suppliersColumns = [
   },
   {
     label: "Phone No",
-    accessor: "phoneNo",
+    accessor: "phoneno",
   },
   {
     label: "Location",
-    accessor: "location",
+    accessor: (row) => `${row?.city}, ${row?.country}`,
   },
 ];
 

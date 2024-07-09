@@ -56,8 +56,10 @@ function App() {
             <Route path="/sales-return" element={<PurchaseReturn />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/suppliers/create" element={<CreateSupplier />} />
+            <Route path="/suppliers/edit/:id" element={<CreateSupplier />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/customers/create" element={<CreateCustomer />} />
+            <Route path="/customers/edit/:id" element={<CreateCustomer />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

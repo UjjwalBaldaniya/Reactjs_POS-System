@@ -2,13 +2,10 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import SuppliersContainer from "../container/supplier/suppliers.container";
-import {
-  suppliersColumns,
-  suppliersData,
-} from "../description/suppliers.description";
+import { suppliersColumns } from "../description/suppliers.description";
 
 const Suppliers = () => {
-  const { handleAdd, actionsBtn } = SuppliersContainer();
+  const { handleAdd, actionsBtn, suppliersData } = SuppliersContainer();
 
   return (
     <div>

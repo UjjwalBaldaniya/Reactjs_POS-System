@@ -10,11 +10,12 @@ import AddPurchasesContainer from "../../container/purchase/addPurchases.contain
 import "../../css/purchase.css";
 import {
   addPurchaseColumns,
-  options,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
+  supplierOptions,
 } from "../../description/purchases.description";
+import { useNavigate } from "react-router-dom";
 
 const AddPurchases = () => {
   const {
@@ -29,6 +30,7 @@ const AddPurchases = () => {
     calculateTotals,
     preventNegative,
     AmountDisplay,
+    supplierNavigate,
   } = AddPurchasesContainer();
 
   return (
@@ -93,8 +95,13 @@ const AddPurchases = () => {
                     </label>
                     <Select
                       id="supplier"
-                      options={options}
+                      options={supplierOptions}
+                      inputValue={values.supplierInputValue}
+                      onInputChange={(newValue) =>
+                        setFieldValue("supplierInputValue", newValue)
+                      }
                       onChange={(option) => setFieldValue("supplier", option)}
+                      onKeyDown={(e) => supplierNavigate(e, values)}
                     />
                   </div>
                 </div>
@@ -149,8 +156,8 @@ const AddPurchases = () => {
                       {PurchaseTableInputs?.map((input, index) => (
                         <InputWithSelect
                           key={index}
-                          fieldName={input.fieldName}
-                          typeName={input.typeName}
+                          fieldName={input?.fieldName}
+                          typeName={input?.typeName}
                           values={values}
                           setFieldValue={setFieldValue}
                           productTableData={productTableData}

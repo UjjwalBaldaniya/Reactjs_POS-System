@@ -24,6 +24,7 @@ const CreateSupplier = () => {
         initialValues={initialValues}
         validationSchema={supplierSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ errors, touched, values, isSubmitting }) => (
           <Form>

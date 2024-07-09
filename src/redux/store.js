@@ -6,6 +6,7 @@ import productSlice from "./slice/product.slice";
 import unitSlice from "./slice/unitSlice";
 import variationSlice from "./slice/variationSlice";
 import purchaseSlice from "./slice/purchaseSlice";
+import supplierSlice from "./slice/supplierSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     category: categorySlice,
     product: productSlice,
     purchase: purchaseSlice,
+    supplier: supplierSlice,
   },
 });
 

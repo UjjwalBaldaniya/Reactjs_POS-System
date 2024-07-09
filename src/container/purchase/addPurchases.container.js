@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteIcon } from "../../assets/icons/tables";
 import { fetchProducts } from "../../redux/slice/product.slice";
+import { supplierOptions } from "../../description/purchases.description";
 
 const AddPurchasesContainer = () => {
   const navigate = useNavigate();
@@ -70,9 +71,9 @@ const AddPurchasesContainer = () => {
               ...item,
               qty: 1,
               subtotal: item?.single_details?.product_price,
-            }))
-        : [];
-      setProductTableData((prevData) => [...prevData, ...filterOptionsData]);
+            }))?.[0]
+        : {};
+      setProductTableData((prevData) => [...prevData, filterOptionsData]);
       setFieldValue("inputValue", "");
     }
   };
@@ -137,6 +138,7 @@ const AddPurchasesContainer = () => {
 
   const initialValues = {
     search: null,
+    supplierInputValue: "",
     inputValue: "",
     options: [],
     date: "",
@@ -153,7 +155,19 @@ const AddPurchasesContainer = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values);
+    // console.log("🚀 ~ handleSubmit ~ values:", values);
+  };
+
+  const supplierNavigate = (e, values) => {
+    if (
+      e.key === "Enter" &&
+      !supplierOptions?.some((option) =>
+        option?.label
+          ?.toLowerCase()
+          .includes(values.supplierInputValue?.toLowerCase())
+      )
+    )
+      navigate("/suppliers/create");
   };
 
   useEffect(() => {
@@ -172,6 +186,7 @@ const AddPurchasesContainer = () => {
     calculateTotals,
     preventNegative,
     AmountDisplay,
+    supplierNavigate,
   };
 };
 

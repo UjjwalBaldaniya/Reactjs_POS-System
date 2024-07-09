@@ -77,10 +77,10 @@ export const productSchema = Yup.object().shape({
     then: (schema) => schema.required("Variations is required"),
   }),
 
-  variationsType: Yup.array()
-    .of(Yup.string().matches(/^[0-9a-fA-F]{24}$/, "Invalid ID format"))
-    .min(1, "At least one option must be selected")
-    .required("Required"),
+  // variationsType: Yup.array()
+  //   .of(Yup.string().matches(/^[0-9a-fA-F]{24}$/, "Invalid ID format"))
+  //   .min(1, "At least one option must be selected")
+  //   .required("Required"),
 
   options: Yup.array().of(
     Yup.object().shape({

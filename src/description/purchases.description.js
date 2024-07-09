@@ -86,6 +86,10 @@ export const options = [
   { value: "all", label: "For all branch" },
   { value: "doha", label: "doha" },
 ];
+export const supplierOptions = [
+  { value: "all", label: "For all branch" },
+  { value: "doha", label: "doha" },
+];
 
 export const statusOptions = [
   { value: "received", label: "Received" },
