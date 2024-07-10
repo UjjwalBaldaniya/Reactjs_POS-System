@@ -2,13 +2,10 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import PurchasesContainer from "../container/purchase/purchases.container";
-import {
-  purchasesColumns,
-  purchasesData,
-} from "../description/purchases.description";
 
 const Purchases = () => {
-  const { actionsBtn, navigateToAddPurchase } = PurchasesContainer();
+  const { actionsBtn, handleAdd, purchaseData, purchasesColumns } =
+    PurchasesContainer();
 
   return (
     <div className="purchases-section">
@@ -17,13 +14,13 @@ const Purchases = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Purchases"
-        openCanvas={navigateToAddPurchase}
+        openCanvas={handleAdd}
       />
 
       <div className="purchases-table">
         <DynamicTable
           columns={purchasesColumns}
-          data={purchasesData}
+          data={purchaseData}
           actions={actionsBtn}
         />
       </div>

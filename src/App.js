@@ -47,6 +47,7 @@ function App() {
             <Route path="/base-units" element={<BaseUnits />} />
             <Route path="/purchases" element={<Purchases />} />
             <Route path="/purchases/create" element={<AddPurchases />} />
+            <Route path="/purchases/edit/:id" element={<AddPurchases />} />
             <Route path="/purchase-return" element={<PurchaseReturn />} />
             <Route
               path="/purchase-return/create"

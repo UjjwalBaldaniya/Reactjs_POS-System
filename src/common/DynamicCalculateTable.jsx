@@ -1,26 +1,35 @@
 import React from "react";
 import "../css/dynamicTable.css";
+import { toast } from "react-toastify";
 
 const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
   const getCellValue = (row, accessor) =>
     typeof accessor === "function" ? accessor(row) : row?.[accessor];
 
-  const handleQtyChange = (row, newQty) => {
-    if (newQty < 1) return;
+  const handleQtyChange = (row, newQty, isEdit) => {
+    if (newQty < 1 || newQty > row?.stock) {
+      toast.info(`Stock must be between 1 and ${row?.stock}.`);
+      return;
+    }
 
-    const updatedData = data?.map((item) => {
-      if (item === row) {
-        const updatedItem = {
-          ...item,
-          qty: newQty,
-          subtotal: newQty * item?.single_details?.product_price,
-        };
-        return updatedItem;
-      }
-      return item;
-    });
+    const updatedData = data?.map((item) =>
+      item === row
+        ? {
+            ...item,
+            qty: newQty,
+            subtotal: newQty * item?.product_price,
+          }
+        : item
+    );
 
-    setData(updatedData);
+    if (isEdit) {
+      setData((prevData) => ({
+        ...prevData,
+        items: updatedData,
+      }));
+    } else {
+      setData(updatedData);
+    }
   };
 
   return (

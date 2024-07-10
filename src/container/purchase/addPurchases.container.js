@@ -1,18 +1,104 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteIcon } from "../../assets/icons/tables";
-import { fetchProducts } from "../../redux/slice/product.slice";
-import { supplierOptions } from "../../description/purchases.description";
+import {
+  statusOptions,
+  supplierOptions,
+} from "../../description/purchases.description";
+import {
+  fetchProductByName,
+  fetchPurchaseById,
+  setEdit,
+} from "../../redux/slice/purchaseSlice";
+import { fetchSuppliers } from "../../redux/slice/supplierSlice";
+import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
+import { addPurchase } from "../../api/services/purchaseService";
+import moment from "moment/moment";
 
 const AddPurchasesContainer = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { productByNameData, supplierDataById, isEdit } = useSelector(
+    (state) => state.purchase
+  );
+  const { suppliersData } = useSelector((state) => state?.supplier);
 
-  const { productsData } = useSelector((state) => state.product);
+  const {
+    bill_id,
+    date,
+    supplier_id,
+    order_tax,
+    order_tax_sign,
+    discount,
+    discount_sign,
+    shipping,
+    shipping_sign,
+    status,
+    notes,
+  } = supplierDataById || {};
 
   const [productTableData, setProductTableData] = useState([]);
+  const [grandTotal, setGrandTotal] = useState("");
+  const supplierOption = getDropdownOptions(suppliersData, "_id", "name");
+
+  useEffect(() => {
+    dispatch(fetchProductByName());
+    dispatch(fetchSuppliers());
+
+    if (id) {
+      dispatch(fetchPurchaseById(id));
+      dispatch(setEdit(true));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (isEdit) setProductTableData(supplierDataById);
+  }, [isEdit, supplierDataById]);
+
+  const addPurchaseColumns = [
+    { label: "Product", accessor: isEdit ? "product_name" : "product_name_en" },
+    { label: "Variation", accessor: "variation_type_name" },
+    { label: "Code", accessor: isEdit ? "product_code" : "code" },
+    { label: "Code", accessor: (row) => console.log("row", row) },
+    {
+      label: "Price",
+      accessor: (row) => `$ ${row?.product_price}`,
+    },
+    { label: "Stock", accessor: "stock" },
+    {
+      label: "QTY",
+      accessor: "qty",
+      render: (row, handleQtyChange) => (
+        <div>
+          <button
+            onClick={() => handleQtyChange(row, row?.qty - 1, isEdit)}
+            className="dynamic-calc-count-btn me-3"
+            type="button"
+          >
+            -
+          </button>
+          <span>{row.qty}</span>
+          <button
+            onClick={() => handleQtyChange(row, row?.qty + 1, isEdit)}
+            className="dynamic-calc-count-btn ms-3"
+            type="button"
+          >
+            +
+          </button>
+        </div>
+      ),
+    },
+    { label: "Subtotal", accessor: (row) => `$ ${row?.subtotal}` },
+  ];
+
+  const getSupplierEditOption = (id) =>
+    supplierOption?.find((data) => data?.value === id?._id);
+
+  const getStatusEditOptions = (value) =>
+    statusOptions?.find((data) => data?.value === value);
 
   const handleBack = () => {
     navigate("/purchases");
@@ -36,13 +122,13 @@ const AddPurchasesContainer = () => {
       return;
     }
 
-    const filteredOptions = productsData
+    const filteredOptions = productByNameData
       ?.filter((item) =>
-        item?.product_name_en?.toLowerCase()?.includes(newValue?.toLowerCase())
+        item?.formatted_name?.toLowerCase()?.includes(newValue?.toLowerCase())
       )
       ?.map((data) => ({
-        value: data?.product_name_en,
-        label: data?.product_name_en,
+        value: data?.formatted_name,
+        label: data?.formatted_name,
       }));
 
     setFieldValue("options", filteredOptions);
@@ -52,7 +138,7 @@ const AddPurchasesContainer = () => {
     const isDataAvailable = option
       ? productTableData?.some(
           (value) =>
-            value?.product_name_en?.toLowerCase() ===
+            value?.formatted_name?.toLowerCase() ===
             option?.value?.toLowerCase()
         )
       : false;
@@ -61,16 +147,16 @@ const AddPurchasesContainer = () => {
       toast.error("This Product Already Added");
     } else {
       const filterOptionsData = option
-        ? productsData
+        ? productByNameData
             ?.filter((item) =>
-              item?.product_name_en
+              item?.formatted_name
                 ?.toLowerCase()
                 ?.includes(option?.label?.toLowerCase())
             )
             ?.map((item) => ({
               ...item,
               qty: 1,
-              subtotal: item?.single_details?.product_price,
+              subtotal: item?.product_price,
             }))?.[0]
         : {};
       setProductTableData((prevData) => [...prevData, filterOptionsData]);
@@ -87,7 +173,11 @@ const AddPurchasesContainer = () => {
     shipping,
     shippingType
   ) => {
-    let grandTotal = productTableData?.reduce(
+    const findProductTableData = isEdit
+      ? productTableData?.items
+      : productTableData;
+
+    let grandTotal = findProductTableData?.reduce(
       (accumulator, item) => accumulator + (parseFloat(item?.subtotal) || 0),
       0
     );
@@ -119,6 +209,12 @@ const AddPurchasesContainer = () => {
     return { grandTotal, taxAmount, discountAmount, shippingAmount };
   };
 
+  const getGrandTotal = (data) => {
+    setTimeout(() => {
+      setGrandTotal(data);
+    }, 100);
+  };
+
   const preventNegative = (event, setFieldValue, name) => {
     const value = event.target.value;
     if (value < 0) {
@@ -138,24 +234,84 @@ const AddPurchasesContainer = () => {
 
   const initialValues = {
     search: null,
+    invoiceNo: bill_id || "",
     supplierInputValue: "",
     inputValue: "",
     options: [],
-    date: "",
-    supplier: "",
+    date: isEdit ? moment(date) : "",
+    supplier: getSupplierEditOption(supplier_id) || "",
     products: [],
-    orderTax: "",
-    orderTaxType: "%",
-    discount: "",
-    discountType: "$",
-    shipping: "",
-    shippingType: "$",
-    status: "",
-    note: "",
+    orderTax: order_tax || "",
+    orderTaxType: order_tax_sign === "per" ? "%" : "$",
+    discount: discount || "",
+    discountType: discount_sign === "per" ? "%" : "$",
+    shipping: shipping || "",
+    shippingType: shipping_sign === "per" ? "%" : "$",
+    grandTotal: 0,
+    status: getStatusEditOptions(status) || "",
+    note: notes || "",
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    // console.log("🚀 ~ handleSubmit ~ values:", values);
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setFieldError, resetForm }
+  ) => {
+    setSubmitting(true);
+    const formData = new FormData();
+
+    formData.append("bill_id", values?.invoiceNo);
+    formData.append("date", values?.date);
+    formData.append("supplier_id", values?.supplier?.value);
+
+    const appendPurchaseDetails = (variations, formData) => {
+      variations?.forEach((data, index) => {
+        const variationDetails = {
+          product_id: data?._id,
+          variation_id: data?.variation_id,
+          variation_type_id: data?.variation_type_id,
+          qty: data?.qty,
+          subtotal: data?.subtotal,
+        };
+        Object.entries(variationDetails)?.forEach(([key, value]) => {
+          formData.append(`items[${index}][${key}]`, value);
+        });
+      });
+    };
+    appendPurchaseDetails(productTableData, formData);
+
+    formData.append(
+      "order_tax_sign",
+      values?.orderTaxType === "%" ? "per" : "doller"
+    );
+    formData.append("order_tax", values?.orderTax);
+    formData.append(
+      "discount_sign",
+      values?.discountType === "%" ? "per" : "doller"
+    );
+    formData.append("discount", values?.discount);
+    formData.append(
+      "shipping_sign",
+      values?.shippingType === "%" ? "per" : "doller"
+    );
+    formData.append("shipping", values?.shipping);
+    formData.append("grand_total", grandTotal);
+    formData.append("status", values?.status?.value);
+    formData.append("notes", values?.note);
+
+    try {
+      const response = await addPurchase(formData);
+
+      if (response) {
+        handleBack();
+        resetForm();
+      }
+    } catch (error) {
+      setFieldError(
+        "general",
+        error.response?.data?.msg || "An error occurred"
+      );
+    }
+    setSubmitting(false);
   };
 
   const supplierNavigate = (e, values) => {
@@ -170,11 +326,8 @@ const AddPurchasesContainer = () => {
       navigate("/suppliers/create");
   };
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
   return {
+    supplierOption,
     handleBack,
     actionsBtn,
     initialValues,
@@ -187,6 +340,9 @@ const AddPurchasesContainer = () => {
     preventNegative,
     AmountDisplay,
     supplierNavigate,
+    getGrandTotal,
+    isEdit,
+    addPurchaseColumns,
   };
 };
 

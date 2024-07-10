@@ -20,6 +20,6 @@ export const getMinMaxPrice = (data) => {
 };
 
 export const getMaxStock = (data) => {
-  const stocks = data.map((item) => item.stock);
+  const stocks = data?.map((item) => item?.stock);
   return Math.max(...stocks);
 };

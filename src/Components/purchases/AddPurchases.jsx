@@ -9,13 +9,10 @@ import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import "../../css/purchase.css";
 import {
-  addPurchaseColumns,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
-  supplierOptions,
 } from "../../description/purchases.description";
-import { useNavigate } from "react-router-dom";
 
 const AddPurchases = () => {
   const {
@@ -31,7 +28,13 @@ const AddPurchases = () => {
     preventNegative,
     AmountDisplay,
     supplierNavigate,
+    supplierOption,
+    getGrandTotal,
+    isEdit,
+    addPurchaseColumns,
   } = AddPurchasesContainer();
+
+  const onEditProductData = isEdit ? productTableData?.items : productTableData;
 
   return (
     <div>
@@ -41,8 +44,14 @@ const AddPurchases = () => {
         handleBackBtn={() => handleBack()}
       />
 
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
         {({ isSubmitting, setFieldValue, values }) => {
+          // console.log("🚀 ~ AddPurchases ~ values:", values);
+
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
               productTableData,
@@ -53,6 +62,8 @@ const AddPurchases = () => {
               values?.shipping,
               values?.shippingType
             );
+
+          getGrandTotal(grandTotal);
 
           const summaryData = [
             {
@@ -82,10 +93,25 @@ const AddPurchases = () => {
                       Date:
                     </label>
                     <DatePicker
+                      name="date"
                       onChange={(_, dateString) =>
                         setFieldValue("date", dateString)
                       }
+                      // value={values.date}
                       className="formField-input"
+                    />
+                  </div>
+
+                  <div className="col">
+                    <label className="formField-label" htmlFor="invoiceNo">
+                      Invoice No
+                    </label>
+                    <Field
+                      type="text"
+                      className="formField-input"
+                      id="invoiceNo"
+                      name="invoiceNo"
+                      placeholder="Enter Invoice No"
                     />
                   </div>
 
@@ -95,7 +121,8 @@ const AddPurchases = () => {
                     </label>
                     <Select
                       id="supplier"
-                      options={supplierOptions}
+                      options={supplierOption}
+                      value={values?.supplier}
                       inputValue={values.supplierInputValue}
                       onInputChange={(newValue) =>
                         setFieldValue("supplierInputValue", newValue)
@@ -137,7 +164,7 @@ const AddPurchases = () => {
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
                     columns={addPurchaseColumns}
-                    data={productTableData}
+                    data={onEditProductData}
                     setData={setProductTableData}
                     actions={actionsBtn}
                   />
