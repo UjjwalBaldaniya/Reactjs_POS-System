@@ -22,14 +22,12 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
         : item
     );
 
-    if (isEdit) {
+    if (isEdit)
       setData((prevData) => ({
         ...prevData,
         items: updatedData,
       }));
-    } else {
-      setData(updatedData);
-    }
+    else setData(updatedData);
   };
 
   return (
@@ -88,6 +86,7 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
                       <button
                         key={actionIndex}
                         className={`dynamic-table-${action?.name}-btn table-data-action-common`}
+                        type="button"
                         onClick={() => action?.handler(row)}
                       >
                         {action?.icon}

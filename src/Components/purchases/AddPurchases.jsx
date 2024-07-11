@@ -1,6 +1,6 @@
 import { DatePicker } from "antd";
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
@@ -13,6 +13,9 @@ import {
   PurchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
+import moment from "moment";
+import dayjs from "dayjs";
+import { formatTimestamp } from "../../utils/functions/dateUtils";
 
 const AddPurchases = () => {
   const {
@@ -32,9 +35,16 @@ const AddPurchases = () => {
     getGrandTotal,
     isEdit,
     addPurchaseColumns,
+    currentProductData,
+    supplierDataById,
+    loading,
   } = AddPurchasesContainer();
 
-  const onEditProductData = isEdit ? productTableData?.items : productTableData;
+  // start
+
+  if (loading !== "succeeded") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -50,7 +60,7 @@ const AddPurchases = () => {
         enableReinitialize
       >
         {({ isSubmitting, setFieldValue, values }) => {
-          // console.log("🚀 ~ AddPurchases ~ values:", values);
+          console.log("🚀 ~ AddPurchases ~ values:", values);
 
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
@@ -84,6 +94,9 @@ const AddPurchases = () => {
             { amount: grandTotal?.toFixed(2), value: null, type: null },
           ];
 
+          const dateFormat = "YYYY/MM/DD";
+          const formattedDate = moment(values.date).format(dateFormat);
+
           return (
             <Form>
               <div>
@@ -93,11 +106,13 @@ const AddPurchases = () => {
                       Date:
                     </label>
                     <DatePicker
-                      name="date"
+                      value={
+                        values.date ? dayjs(formattedDate, dateFormat) : null
+                      }
+                      format={dateFormat}
                       onChange={(_, dateString) =>
                         setFieldValue("date", dateString)
                       }
-                      // value={values.date}
                       className="formField-input"
                     />
                   </div>
@@ -164,7 +179,7 @@ const AddPurchases = () => {
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
                     columns={addPurchaseColumns}
-                    data={onEditProductData}
+                    data={currentProductData}
                     setData={setProductTableData}
                     actions={actionsBtn}
                   />

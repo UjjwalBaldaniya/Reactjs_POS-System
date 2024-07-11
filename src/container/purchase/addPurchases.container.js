@@ -14,16 +14,24 @@ import {
 } from "../../redux/slice/purchaseSlice";
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
-import { addPurchase } from "../../api/services/purchaseService";
+import {
+  addPurchase,
+  deletePurchaseByName,
+  editPurchase,
+} from "../../api/services/purchaseService";
 import moment from "moment/moment";
+import { formatTimestamp } from "../../utils/functions/dateUtils";
 
 const AddPurchasesContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { productByNameData, supplierDataById, isEdit } = useSelector(
-    (state) => state.purchase
-  );
+  const {
+    productByNameData,
+    supplierDataById,
+    isEdit,
+    status: loading,
+  } = useSelector((state) => state.purchase);
   const { suppliersData } = useSelector((state) => state?.supplier);
 
   const {
@@ -41,6 +49,10 @@ const AddPurchasesContainer = () => {
   } = supplierDataById || {};
 
   const [productTableData, setProductTableData] = useState([]);
+  console.log(
+    "🚀 ~ AddPurchasesContainer ~ productTableData:",
+    productTableData
+  );
   const [grandTotal, setGrandTotal] = useState("");
   const supplierOption = getDropdownOptions(suppliersData, "_id", "name");
 
@@ -58,11 +70,21 @@ const AddPurchasesContainer = () => {
     if (isEdit) setProductTableData(supplierDataById);
   }, [isEdit, supplierDataById]);
 
+  const currentProductData = isEdit
+    ? productTableData?.items
+    : productTableData;
+  console.log(
+    "🚀 ~ AddPurchasesContainer ~ currentProductData:",
+    currentProductData
+  );
+
   const addPurchaseColumns = [
-    { label: "Product", accessor: isEdit ? "product_name" : "product_name_en" },
+    {
+      label: "Product",
+      accessor: (row) => `${row?.product_name || row?.product_name_en}`,
+    },
     { label: "Variation", accessor: "variation_type_name" },
-    { label: "Code", accessor: isEdit ? "product_code" : "code" },
-    { label: "Code", accessor: (row) => console.log("row", row) },
+    { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
     {
       label: "Price",
       accessor: (row) => `$ ${row?.product_price}`,
@@ -104,11 +126,28 @@ const AddPurchasesContainer = () => {
     navigate("/purchases");
   };
 
-  const handleDelete = (row) => {
-    const deleteProductTableData = productTableData?.filter(
+  const handleDelete = async (row) => {
+    const itemId = {
+      itemId: row?.item_id,
+    };
+
+    const deleteProductTableData = currentProductData?.filter(
+      (item) => item?.item_id !== row?.item_id
+    );
+
+    const addDeleteProduct = currentProductData?.filter(
       (item) => item?._id !== row?._id
     );
-    setProductTableData(deleteProductTableData);
+
+    if (isEdit) {
+      await deletePurchaseByName(id, itemId);
+      setProductTableData((prevData) => ({
+        ...prevData,
+        items: deleteProductTableData,
+      }));
+    } else {
+      setProductTableData(addDeleteProduct);
+    }
   };
 
   const actionsBtn = [
@@ -136,16 +175,16 @@ const AddPurchasesContainer = () => {
 
   const handleChange = (option, setFieldValue) => {
     const isDataAvailable = option
-      ? productTableData?.some(
+      ? currentProductData?.some(
           (value) =>
             value?.formatted_name?.toLowerCase() ===
             option?.value?.toLowerCase()
         )
       : false;
 
-    if (isDataAvailable) {
-      toast.error("This Product Already Added");
-    } else {
+    console.log("🚀 ~ handleChange ~ isDataAvailable:", isDataAvailable);
+    if (isDataAvailable) toast.error("This Product Already Added");
+    else {
       const filterOptionsData = option
         ? productByNameData
             ?.filter((item) =>
@@ -157,13 +196,21 @@ const AddPurchasesContainer = () => {
               ...item,
               qty: 1,
               subtotal: item?.product_price,
+              product_name: item?.product_name_en,
             }))?.[0]
         : {};
-      setProductTableData((prevData) => [...prevData, filterOptionsData]);
+      if (isEdit) {
+        setProductTableData((prevData) => ({
+          ...prevData,
+          items: [...prevData.items, filterOptionsData],
+        }));
+      } else {
+        setProductTableData((prevData) => [...prevData, filterOptionsData]);
+      }
       setFieldValue("inputValue", "");
     }
   };
-
+  // start
   const calculateTotals = (
     productTableData,
     orderTax,
@@ -173,11 +220,7 @@ const AddPurchasesContainer = () => {
     shipping,
     shippingType
   ) => {
-    const findProductTableData = isEdit
-      ? productTableData?.items
-      : productTableData;
-
-    let grandTotal = findProductTableData?.reduce(
+    let grandTotal = currentProductData?.reduce(
       (accumulator, item) => accumulator + (parseFloat(item?.subtotal) || 0),
       0
     );
@@ -238,7 +281,7 @@ const AddPurchasesContainer = () => {
     supplierInputValue: "",
     inputValue: "",
     options: [],
-    date: isEdit ? moment(date) : "",
+    date: isEdit ? date : "",
     supplier: getSupplierEditOption(supplier_id) || "",
     products: [],
     orderTax: order_tax || "",
@@ -266,7 +309,7 @@ const AddPurchasesContainer = () => {
     const appendPurchaseDetails = (variations, formData) => {
       variations?.forEach((data, index) => {
         const variationDetails = {
-          product_id: data?._id,
+          product_id: data?.product_id || data?._id,
           variation_id: data?.variation_id,
           variation_type_id: data?.variation_type_id,
           qty: data?.qty,
@@ -277,7 +320,8 @@ const AddPurchasesContainer = () => {
         });
       });
     };
-    appendPurchaseDetails(productTableData, formData);
+
+    appendPurchaseDetails(currentProductData, formData);
 
     formData.append(
       "order_tax_sign",
@@ -299,7 +343,9 @@ const AddPurchasesContainer = () => {
     formData.append("notes", values?.note);
 
     try {
-      const response = await addPurchase(formData);
+      const response = isEdit
+        ? await editPurchase(id, formData)
+        : await addPurchase(formData);
 
       if (response) {
         handleBack();
@@ -343,6 +389,9 @@ const AddPurchasesContainer = () => {
     getGrandTotal,
     isEdit,
     addPurchaseColumns,
+    currentProductData,
+    supplierDataById,
+    loading,
   };
 };
 

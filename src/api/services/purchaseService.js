@@ -23,3 +23,7 @@ export const editPurchase = async (id, value) => {
 export const deletePurchase = async (id) => {
   return await apiService.delete(`/purchase/${id}`);
 };
+
+export const deletePurchaseByName = async (id, value) => {
+  return await apiService.delete(`/purchase/productitem/${id}`, value);
+};

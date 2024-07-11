@@ -26,7 +26,7 @@ const apiService = {
   get: (url) => request("get", url),
   post: (url, data) => request("post", url, data),
   patch: (url, data) => request("patch", url, data),
-  delete: (url) => request("delete", url),
+  delete: (url, data) => request("delete", url, data),
 };
 
 export default apiService;

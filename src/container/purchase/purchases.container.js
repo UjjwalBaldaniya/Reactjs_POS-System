@@ -9,6 +9,7 @@ import {
 } from "../../redux/slice/purchaseSlice";
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 import { formatTimestamp } from "../../utils/functions/dateUtils";
+import { deletePurchase } from "../../api/services/purchaseService";
 
 const PurchasesContainer = () => {
   const navigate = useNavigate();
@@ -30,8 +31,8 @@ const PurchasesContainer = () => {
       label: "Status",
       accessor: "status",
       getBgColor: (value) => {
-        if (value === "Pending") return "red";
-        if (value === "Received") return "green";
+        if (value === "pending") return "red";
+        if (value === "received") return "green";
         return "yellow";
       },
     },
@@ -43,10 +44,6 @@ const PurchasesContainer = () => {
       bgColor: "blue",
     },
   ];
-
-  const navigateToAddPurchase = () => {
-    navigate("/purchases/create");
-  };
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
@@ -60,8 +57,8 @@ const PurchasesContainer = () => {
   };
 
   const handleDelete = async (row) => {
-    // await deleteSupplier(row?._id);
-    // dispatch(fetchSuppliers());
+    await deletePurchase(row?._id);
+    dispatch(fetchPurchase());
   };
 
   const actionsBtn = [
