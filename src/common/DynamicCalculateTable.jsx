@@ -1,12 +1,12 @@
 import React from "react";
-import "../css/dynamicTable.css";
 import { toast } from "react-toastify";
+import "../css/dynamicTable.css";
 
 const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
   const getCellValue = (row, accessor) =>
     typeof accessor === "function" ? accessor(row) : row?.[accessor];
 
-  const handleQtyChange = (row, newQty, isEdit) => {
+  const handleQtyChange = (row, newQty) => {
     if (newQty < 1 || newQty > row?.stock) {
       toast.info(`Stock must be between 1 and ${row?.stock}.`);
       return;
@@ -22,12 +22,7 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
         : item
     );
 
-    if (isEdit)
-      setData((prevData) => ({
-        ...prevData,
-        items: updatedData,
-      }));
-    else setData(updatedData);
+    setData(updatedData);
   };
 
   return (

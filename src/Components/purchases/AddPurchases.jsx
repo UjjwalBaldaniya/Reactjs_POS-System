@@ -1,6 +1,7 @@
 import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Select from "react-select";
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
@@ -9,13 +10,12 @@ import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import "../../css/purchase.css";
 import {
+  addPurchaseColumns,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
-import moment from "moment";
-import dayjs from "dayjs";
-import { formatTimestamp } from "../../utils/functions/dateUtils";
+import { YYYY_MM_DD } from "../../utils/constants";
 
 const AddPurchases = () => {
   const {
@@ -24,7 +24,6 @@ const AddPurchases = () => {
     initialValues,
     handleSubmit,
     handleInputChange,
-    setProductTableData,
     handleChange,
     productTableData,
     calculateTotals,
@@ -33,14 +32,11 @@ const AddPurchases = () => {
     supplierNavigate,
     supplierOption,
     getGrandTotal,
-    isEdit,
-    addPurchaseColumns,
     currentProductData,
-    supplierDataById,
     loading,
+    setCountQty,
+    formattedDate,
   } = AddPurchasesContainer();
-
-  // start
 
   if (loading !== "succeeded") {
     return <div>Loading...</div>;
@@ -60,11 +56,9 @@ const AddPurchases = () => {
         enableReinitialize
       >
         {({ isSubmitting, setFieldValue, values }) => {
-          console.log("🚀 ~ AddPurchases ~ values:", values);
-
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
-              productTableData,
+              currentProductData,
               values?.orderTax,
               values?.orderTaxType,
               values?.discount,
@@ -94,9 +88,6 @@ const AddPurchases = () => {
             { amount: grandTotal?.toFixed(2), value: null, type: null },
           ];
 
-          const dateFormat = "YYYY/MM/DD";
-          const formattedDate = moment(values.date).format(dateFormat);
-
           return (
             <Form>
               <div>
@@ -107,9 +98,11 @@ const AddPurchases = () => {
                     </label>
                     <DatePicker
                       value={
-                        values.date ? dayjs(formattedDate, dateFormat) : null
+                        values.date
+                          ? dayjs(formattedDate(values.date), YYYY_MM_DD)
+                          : null
                       }
-                      format={dateFormat}
+                      format={YYYY_MM_DD}
                       onChange={(_, dateString) =>
                         setFieldValue("date", dateString)
                       }
@@ -160,13 +153,12 @@ const AddPurchases = () => {
                           if (
                             actionMeta.action !== "input-blur" &&
                             actionMeta.action !== "menu-close"
-                          ) {
+                          )
                             handleInputChange(newValue, setFieldValue);
-                          }
                         }}
-                        onChange={(option) => {
-                          handleChange(option, setFieldValue);
-                        }}
+                        onChange={(option) =>
+                          handleChange(option, setFieldValue)
+                        }
                         isClearable
                         menuIsOpen={values.inputValue?.length > 0}
                         placeholder="Search Product by Name"
@@ -180,7 +172,7 @@ const AddPurchases = () => {
                   <DynamicCalculateTable
                     columns={addPurchaseColumns}
                     data={currentProductData}
-                    setData={setProductTableData}
+                    setData={setCountQty}
                     actions={actionsBtn}
                   />
                 </div>

@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
+import { DELETE, GET, PATCH, POST } from "../../utils/constants";
 
 const handleSuccess = (response) => {
   toast.success(response?.data?.msg);
@@ -16,17 +17,17 @@ const handleError = (error) => {
 const request = async (method, url, data = null) => {
   try {
     const response = await axiosInstanceAuth({ method, url, data });
-    return method === "get" ? response?.data : handleSuccess(response);
+    return method === GET ? response?.data : handleSuccess(response);
   } catch (error) {
     return handleError(error);
   }
 };
 
 const apiService = {
-  get: (url) => request("get", url),
-  post: (url, data) => request("post", url, data),
-  patch: (url, data) => request("patch", url, data),
-  delete: (url, data) => request("delete", url, data),
+  get: (url) => request(GET, url),
+  post: (url, data) => request(POST, url, data),
+  patch: (url, data) => request(PATCH, url, data),
+  delete: (url, data) => request(DELETE, url, data),
 };
 
 export default apiService;
