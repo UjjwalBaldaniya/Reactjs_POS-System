@@ -14,9 +14,7 @@ const CreateSupplier = () => {
     <div>
       <Navbar
         title="Create Supplier"
-        showExportBtn={false}
-        showNewAddBtn={false}
-        showBackBtn={true}
+        showBackBtn
         handleBackBtn={() => handleBack()}
       />
 

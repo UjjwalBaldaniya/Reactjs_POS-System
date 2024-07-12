@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
 import React from "react";
+import CommonButton from "../../common/CommonButton";
 import FormField from "../../common/FormField";
 import Navbar from "../../common/Navbar";
 import CreateCustomerContainer from "../../container/customer/createCustomer.container";
-import { supplierFormField } from "../../description/suppliers.description";
-import { supplierSchema } from "../../utils/validationSchema/PeoplesSchema";
-import CommonButton from "../../common/CommonButton";
+import { customerFormField } from "../../description/customer.description";
+import { customerSchema } from "../../utils/validationSchema/PeoplesSchema";
 
 const CreateCustomer = () => {
   const { handleBack, initialValues, handleSubmit } = CreateCustomerContainer();
@@ -13,22 +13,21 @@ const CreateCustomer = () => {
   return (
     <div>
       <Navbar
-        title="Create Supplier"
-        showExportBtn={false}
-        showNewAddBtn={false}
-        showBackBtn={true}
+        title="Create Customer"
+        showBackBtn
         handleBackBtn={() => handleBack()}
       />
 
       <Formik
         initialValues={initialValues}
-        validationSchema={supplierSchema}
+        validationSchema={customerSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ errors, touched, values, isSubmitting }) => (
           <Form>
             <div className="row">
-              {supplierFormField?.map((field, index) => (
+              {customerFormField?.map((field, index) => (
                 <FormField
                   key={index}
                   field={field}

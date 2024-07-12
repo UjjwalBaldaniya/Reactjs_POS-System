@@ -1,29 +1,26 @@
 import React from "react";
+import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import CustomersContainer from "../container/customer/customers.container";
-import {
-  suppliersColumns,
-  suppliersData,
-} from "../description/suppliers.description";
-import DynamicTable from "../common/DynamicTable";
+import { customerColumns } from "../description/customer.description";
 
 const Customers = () => {
-  const { handleAdd, actionsBtn } = CustomersContainer();
+  const { handleAdd, actionsBtn, customersData } = CustomersContainer();
 
   return (
     <div>
       <Navbar
         title="Customers"
-        showExportBtn={true}
-        showNewAddBtn={true}
+        showExportBtn
+        showNewAddBtn
         newAddBtnText="Create Customer"
         openCanvas={handleAdd}
       />
 
-      <div className="product-table">
+      <div className="customer-table">
         <DynamicTable
-          columns={suppliersColumns}
-          data={suppliersData}
+          columns={customerColumns}
+          data={customersData}
           actions={actionsBtn}
         />
       </div>

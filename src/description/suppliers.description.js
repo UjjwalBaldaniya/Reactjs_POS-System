@@ -17,39 +17,6 @@ export const suppliersColumns = [
   },
 ];
 
-export const suppliersData = [
-  {
-    supplier: "Abc",
-    email: "abc@gmail.com",
-    phoneNo: "9999988888",
-    location: "Surat, India",
-  },
-  {
-    supplier: "Abc",
-    email: "abc@gmail.com",
-    phoneNo: "9999988888",
-    location: "Surat, India",
-  },
-  {
-    supplier: "Abc",
-    email: "abc@gmail.com",
-    phoneNo: "9999988888",
-    location: "Surat, India",
-  },
-  {
-    supplier: "Abc",
-    email: "abc@gmail.com",
-    phoneNo: "9999988888",
-    location: "Surat, India",
-  },
-  {
-    supplier: "Abc",
-    email: "abc@gmail.com",
-    phoneNo: "9999988888",
-    location: "Surat, India",
-  },
-];
-
 export const supplierFormField = [
   {
     label: "Name",
