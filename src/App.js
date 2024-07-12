@@ -22,6 +22,7 @@ import Suppliers from "./pages/Suppliers.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
+import AddSales from "./components/sales/AddSales.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -54,6 +55,8 @@ function App() {
               element={<AddPurchaseReturn />}
             />
             <Route path="/sales" element={<Sales />} />
+            <Route path="/sales/create" element={<AddSales />} />
+            <Route path="/sales/edit/:id" element={<AddSales />} />
             <Route path="/sales-return" element={<PurchaseReturn />} />
             <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/suppliers/create" element={<CreateSupplier />} />

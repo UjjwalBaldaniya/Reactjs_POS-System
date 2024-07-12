@@ -3,58 +3,51 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  addPurchase,
-  deletePurchaseByName,
-  editPurchase,
-} from "../../api/services/purchaseService";
+  addSale,
+  deleteSaleByName,
+  editSale,
+} from "../../api/services/saleService";
 import { deleteIcon } from "../../assets/icons/tables";
-import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
 import { statusOptions } from "../../description/purchases.description";
-import {
-  fetchProductByName,
-  fetchPurchaseById,
-  setEdit,
-} from "../../redux/slice/purchaseSlice";
-import { fetchSuppliers } from "../../redux/slice/supplierSlice";
+import { fetchCustomers } from "../../redux/slice/customerSlice";
+import { fetchProductByName } from "../../redux/slice/purchaseSlice";
+import { fetchSaleById, setEdit } from "../../redux/slice/saleSlice";
 import { formattedDate } from "../../utils/functions/dateUtils";
+import { getDropdownOption } from "../../utils/functions/dropdownUtils";
 import {
   getValueSign,
   getValueSignName,
 } from "../../utils/functions/salesAndPurchasesUtils";
 
-const AddPurchasesContainer = () => {
+const AddSalesContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    productByNameData,
-    supplierDataById,
-    isEdit,
-    status: loading,
-  } = useSelector((state) => state.purchase);
-  const { suppliersData } = useSelector((state) => state?.supplier);
+  const { customersData } = useSelector((state) => state?.customer);
+  const { saleDataById, isEdit } = useSelector((state) => state.sale);
+  const { productByNameData } = useSelector((state) => state.purchase);
 
   const [productTableData, setProductTableData] = useState([]);
   const [grandTotal, setGrandTotal] = useState("");
 
   useEffect(() => {
     dispatch(fetchProductByName());
-    dispatch(fetchSuppliers());
+    dispatch(fetchCustomers());
 
     if (id) {
-      dispatch(fetchPurchaseById(id));
+      dispatch(fetchSaleById(id));
       dispatch(setEdit(true));
     }
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (isEdit) setProductTableData(supplierDataById);
-  }, [isEdit, supplierDataById]);
+    if (isEdit) setProductTableData(saleDataById);
+  }, [isEdit, saleDataById]);
 
   const {
-    bill_id,
+    order_id,
     date,
-    supplier_id,
+    customer_id,
     order_tax,
     order_tax_sign,
     discount,
@@ -63,13 +56,29 @@ const AddPurchasesContainer = () => {
     shipping_sign,
     status,
     notes,
-  } = supplierDataById || {};
-
-  const supplierOption = getDropdownOptions(suppliersData, "_id", "name");
+  } = saleDataById || {};
 
   const currentProductData = isEdit
     ? productTableData?.items
     : productTableData;
+
+  const customerOption = getDropdownOption(customersData, "_id", "name");
+
+  const handleBack = () => {
+    navigate("/sales");
+  };
+
+  const getGrandTotal = (data) => {
+    setTimeout(() => {
+      setGrandTotal(data);
+    }, 100);
+  };
+
+  const getSupplierEditOption = (id) =>
+    customerOption?.find((data) => data?.value === id?._id);
+
+  const getStatusEditOptions = (value) =>
+    statusOptions?.find((data) => data?.value === value);
 
   const setCountQty = (updatedData) => {
     if (isEdit)
@@ -80,14 +89,16 @@ const AddPurchasesContainer = () => {
     else setProductTableData(updatedData);
   };
 
-  const getSupplierEditOption = (id) =>
-    supplierOption?.find((data) => data?.value === id?._id);
-
-  const getStatusEditOptions = (value) =>
-    statusOptions?.find((data) => data?.value === value);
-
-  const handleBack = () => {
-    navigate("/purchases");
+  const supplierNavigate = (e, values) => {
+    if (
+      e.key === "Enter" &&
+      !customerOption?.some((option) =>
+        option?.label
+          ?.toLowerCase()
+          .includes(values.supplierInputValue?.toLowerCase())
+      )
+    )
+      navigate("/customers/create");
   };
 
   const filterDataByKey = (data, key, value) =>
@@ -109,7 +120,7 @@ const AddPurchasesContainer = () => {
     const isKeyPresent = isItemIdKeyPresent(row);
 
     if (isEdit) {
-      if (isKeyPresent) await deletePurchaseByName(id, { itemId });
+      if (isKeyPresent) await deleteSaleByName(id, { itemId });
       setProductTableData((prevData) => ({
         ...prevData,
         items: addDeleteProduct,
@@ -176,20 +187,14 @@ const AddPurchasesContainer = () => {
     }
   };
 
-  const getGrandTotal = (data) => {
-    setTimeout(() => {
-      setGrandTotal(data);
-    }, 100);
-  };
-
   const initialValues = {
     search: null,
-    invoiceNo: bill_id || "",
-    supplierInputValue: "",
+    invoiceNo: order_id || "",
+    customerInputValue: "",
     inputValue: "",
     options: [],
     date: isEdit ? date : "",
-    supplier: getSupplierEditOption(supplier_id) || "",
+    customer: getSupplierEditOption(customer_id) || "",
     products: [],
     orderTax: order_tax || "",
     orderTaxType: getValueSign(order_tax_sign),
@@ -209,9 +214,9 @@ const AddPurchasesContainer = () => {
     setSubmitting(true);
     const formData = new FormData();
 
-    formData.append("bill_id", values?.invoiceNo);
+    formData.append("order_id", values?.invoiceNo);
     formData.append("date", formattedDate(values?.date));
-    formData.append("supplier_id", values?.supplier?.value);
+    formData.append("customer_id", values?.customer?.value);
 
     const appendPurchaseDetails = (variations, formData) => {
       variations?.forEach((data, index) => {
@@ -242,8 +247,8 @@ const AddPurchasesContainer = () => {
 
     try {
       const response = isEdit
-        ? await editPurchase(id, formData)
-        : await addPurchase(formData);
+        ? await editSale(id, formData)
+        : await addSale(formData);
 
       if (response) {
         handleBack();
@@ -258,33 +263,20 @@ const AddPurchasesContainer = () => {
     setSubmitting(false);
   };
 
-  const supplierNavigate = (e, values) => {
-    if (
-      e.key === "Enter" &&
-      !supplierOption?.some((option) =>
-        option?.label
-          ?.toLowerCase()
-          .includes(values.supplierInputValue?.toLowerCase())
-      )
-    )
-      navigate("/suppliers/create");
-  };
-
   return {
-    handleBack,
-    actionsBtn,
     initialValues,
+    customerOption,
+    actionsBtn,
+    currentProductData,
+    productTableData,
+    getGrandTotal,
+    handleBack,
+    setCountQty,
+    supplierNavigate,
     handleSubmit,
     handleInputChange,
     handleChange,
-    productTableData,
-    supplierNavigate,
-    supplierOption,
-    getGrandTotal,
-    currentProductData,
-    loading,
-    setCountQty,
   };
 };
 
-export default AddPurchasesContainer;
+export default AddSalesContainer;

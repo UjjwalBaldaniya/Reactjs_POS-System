@@ -30,7 +30,7 @@ export const fetchPurchaseById = createAsyncThunk(
 );
 
 const purchaseSlice = createSlice({
-  name: "products",
+  name: "purchase",
   initialState: {
     productByNameData: [],
     purchaseData: [],

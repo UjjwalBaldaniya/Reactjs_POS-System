@@ -1,3 +1,6 @@
+import moment from "moment";
+import { YYYY_MM_DD } from "../constants";
+
 export const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
 
@@ -7,3 +10,5 @@ export const formatTimestamp = (timestamp) => {
 
   return `${year}/${month}/${day}`;
 };
+
+export const formattedDate = (value) => moment(value).format(YYYY_MM_DD);

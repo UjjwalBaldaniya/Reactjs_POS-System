@@ -2,13 +2,9 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import SalesContainer from "../container/sales/sales.container";
-import {
-  salesColumns,
-  salesData,
-} from "../description/sales/sales.description";
 
 const Sales = () => {
-  const { actionsBtn, navigateToAddPurchase } = SalesContainer();
+  const { actionsBtn, handleAdd, salesData, salesColumns } = SalesContainer();
 
   return (
     <div className="sales-section">
@@ -17,7 +13,7 @@ const Sales = () => {
         showExportBtn
         showNewAddBtn
         newAddBtnText="Add Sales"
-        openCanvas={navigateToAddPurchase}
+        openCanvas={handleAdd}
       />
 
       <div className="sales-table">

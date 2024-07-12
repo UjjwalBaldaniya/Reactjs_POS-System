@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
+  <Provider store={store} stabilityCheck="never">
     <BrowserRouter>
       <App />
     </BrowserRouter>

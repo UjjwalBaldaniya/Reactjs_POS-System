@@ -7,14 +7,13 @@ import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
 import Navbar from "../../common/Navbar";
-import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
-import "../../css/purchase.css";
+import AddSalesContainer from "../../container/sales/addSales.container";
 import {
-  addPurchaseColumns,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
+import { addSalesColumns } from "../../description/sales/sales.description";
 import { YYYY_MM_DD } from "../../utils/constants";
 import { formattedDate } from "../../utils/functions/dateUtils";
 import {
@@ -22,31 +21,26 @@ import {
   preventNegative,
 } from "../../utils/functions/salesAndPurchasesUtils";
 
-const AddPurchases = () => {
+const AddSales = () => {
   const {
-    handleBack,
-    actionsBtn,
     initialValues,
+    customerOption,
+    actionsBtn,
+    currentProductData,
+    productTableData,
+    getGrandTotal,
+    handleBack,
+    setCountQty,
+    supplierNavigate,
     handleSubmit,
     handleInputChange,
     handleChange,
-    productTableData,
-    supplierNavigate,
-    supplierOption,
-    getGrandTotal,
-    currentProductData,
-    loading,
-    setCountQty,
-  } = AddPurchasesContainer();
-
-  if (loading !== "succeeded") {
-    return <div>Loading...</div>;
-  }
+  } = AddSalesContainer();
 
   return (
     <div>
       <Navbar
-        title="Add Purchases"
+        title="Add Sales"
         showBackBtn={true}
         handleBackBtn={() => handleBack()}
       />
@@ -57,6 +51,7 @@ const AddPurchases = () => {
         enableReinitialize
       >
         {({ isSubmitting, setFieldValue, values }) => {
+          console.log("🚀 ~ AddSales ~ values:", values);
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
               currentProductData,
@@ -125,18 +120,18 @@ const AddPurchases = () => {
                   </div>
 
                   <div className="col">
-                    <label htmlFor="supplier" className="formField-label">
-                      Supplier:
+                    <label htmlFor="customer" className="formField-label">
+                      Customer:
                     </label>
                     <Select
-                      id="supplier"
-                      options={supplierOption}
-                      value={values?.supplier}
-                      inputValue={values.supplierInputValue}
+                      id="customer"
+                      options={customerOption}
+                      value={values?.customer}
+                      inputValue={values.customerInputValue}
                       onInputChange={(newValue) =>
-                        setFieldValue("supplierInputValue", newValue)
+                        setFieldValue("customerInputValue", newValue)
                       }
-                      onChange={(option) => setFieldValue("supplier", option)}
+                      onChange={(option) => setFieldValue("customer", option)}
                       onKeyDown={(e) => supplierNavigate(e, values)}
                     />
                   </div>
@@ -171,7 +166,7 @@ const AddPurchases = () => {
                 <div className="mt-4">
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
-                    columns={addPurchaseColumns}
+                    columns={addSalesColumns}
                     data={currentProductData}
                     setData={setCountQty}
                     actions={actionsBtn}
@@ -205,7 +200,7 @@ const AddPurchases = () => {
                         <div key={index}>
                           <p>
                             {`$ ${item?.amount}`}{" "}
-                            {item?.type === "%" && `(${item?.value || 0}% )`}
+                            {item?.value === "%" && `(${item?.type || 0}% )`}
                           </p>
                         </div>
                       ))}
@@ -242,10 +237,7 @@ const AddPurchases = () => {
               </div>
 
               <div className="my-5">
-                <CommonButton
-                  isSubmitting={isSubmitting}
-                  text="Create Purchase"
-                />
+                <CommonButton isSubmitting={isSubmitting} text="Create Sales" />
               </div>
             </Form>
           );
@@ -255,4 +247,4 @@ const AddPurchases = () => {
   );
 };
 
-export default AddPurchases;
+export default AddSales;
