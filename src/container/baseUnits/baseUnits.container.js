@@ -12,8 +12,8 @@ import {
 
 const BaseUnitsContainer = () => {
   const dispatch = useDispatch();
-  const { baseUnitsData, isModalOpen } = useSelector(
-    (state) => state?.baseUnit
+  const { baseUnitsData = [], isModalOpen } = useSelector(
+    (state) => state?.baseUnit || {}
   );
 
   const handleAdd = () => {

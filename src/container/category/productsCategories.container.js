@@ -13,7 +13,9 @@ import {
 const ProductsCategoriesContainer = () => {
   const dispatch = useDispatch();
 
-  const { categoryData, isModalOpen } = useSelector((state) => state?.category);
+  const { categoryData = [], isModalOpen } = useSelector(
+    (state) => state?.category || {}
+  );
 
   const handleAdd = () => {
     dispatch(resetInitialValues());

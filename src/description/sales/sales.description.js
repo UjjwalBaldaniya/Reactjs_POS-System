@@ -9,7 +9,7 @@ export const addSalesColumns = [
     label: "Price",
     accessor: (row) => `$ ${row?.product_price}`,
   },
-  { label: "Stock", accessor: "stock" },
+  // { label: "Stock", accessor: "stock" },
   {
     label: "QTY",
     accessor: "qty",

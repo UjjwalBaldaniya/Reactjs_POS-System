@@ -13,7 +13,7 @@ const SuppliersContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { suppliersData } = useSelector((state) => state?.supplier);
+  const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
 
   const handleAdd = () => {
     dispatch(resetInitialValues());

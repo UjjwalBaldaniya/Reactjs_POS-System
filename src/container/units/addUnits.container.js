@@ -5,10 +5,12 @@ import { fetchUnits, setModalOpen } from "../../redux/slice/unitSlice";
 const AddUnitsContainer = () => {
   const dispatch = useDispatch();
 
-  const { baseUnitsData, isModalOpen } = useSelector(
-    (state) => state?.baseUnit
+  const { baseUnitsData = [], isModalOpen } = useSelector(
+    (state) => state?.baseUnit || {}
   );
-  const { isEdit, unitDataById } = useSelector((state) => state?.unit);
+  const { isEdit, unitDataById = {} } = useSelector(
+    (state) => state?.unit || {}
+  );
 
   const transformedBaseUnitsData = baseUnitsData?.map((unit) => ({
     value: unit._id,

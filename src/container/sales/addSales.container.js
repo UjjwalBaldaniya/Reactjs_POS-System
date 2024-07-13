@@ -23,13 +23,15 @@ const AddSalesContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { customersData } = useSelector((state) => state?.customer);
+  const { customersData = [] } = useSelector((state) => state?.customer || {});
   const {
-    saleDataById,
+    saleDataById = {},
     isEdit,
     status: loading,
-  } = useSelector((state) => state.sale);
-  const { productByNameData } = useSelector((state) => state.purchase);
+  } = useSelector((state) => state.sale || {});
+  const { productByNameData = [] } = useSelector(
+    (state) => state.purchase || {}
+  );
 
   const [productTableData, setProductTableData] = useState([]);
   const [grandTotal, setGrandTotal] = useState("");

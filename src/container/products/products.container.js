@@ -13,7 +13,7 @@ const ProductsContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { productsData } = useSelector((state) => state.product);
+  const { productsData = [] } = useSelector((state) => state.product || {});
 
   const handleAdd = async () => {
     await dispatch(setEdit(false));

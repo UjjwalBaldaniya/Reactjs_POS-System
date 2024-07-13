@@ -7,8 +7,8 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
     typeof accessor === "function" ? accessor(row) : row?.[accessor];
 
   const handleQtyChange = (row, newQty) => {
-    if (newQty < 1 || newQty > row?.stock) {
-      toast.info(`Stock must be between 1 and ${row?.stock}.`);
+    if (newQty < 1) {
+      toast.info(`Stock must be greater than 1`);
       return;
     }
 

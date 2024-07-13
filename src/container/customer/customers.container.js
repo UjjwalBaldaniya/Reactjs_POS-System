@@ -13,7 +13,7 @@ const CustomersContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { customersData } = useSelector((state) => state?.customer);
+  const { customersData = [] } = useSelector((state) => state?.customer || {});
 
   const handleAdd = () => {
     dispatch(resetInitialValues());

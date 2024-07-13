@@ -4,7 +4,9 @@ import { fetchCategory, setModalOpen } from "../../redux/slice/categorySlice";
 
 const AddCategoryContainer = () => {
   const dispatch = useDispatch();
-  const { categoryDataById, isEdit } = useSelector((state) => state?.category);
+  const { categoryDataById = {}, isEdit } = useSelector(
+    (state) => state?.category || {}
+  );
 
   const onModalClose = () => {
     dispatch(setModalOpen(false));

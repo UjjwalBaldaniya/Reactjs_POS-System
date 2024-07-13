@@ -14,8 +14,10 @@ import { deletePurchase } from "../../api/services/purchaseService";
 const PurchasesContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { purchaseData, status } = useSelector((state) => state.purchase);
-  const { suppliersData } = useSelector((state) => state?.supplier);
+  const { purchaseData = [], status } = useSelector(
+    (state) => state.purchase || {}
+  );
+  const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
 
   const getSupplierName = (purchaseData) => {
     const getName = suppliersData?.filter(

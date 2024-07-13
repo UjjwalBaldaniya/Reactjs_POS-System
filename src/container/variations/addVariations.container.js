@@ -10,8 +10,8 @@ import {
 
 const AddVariationsContainer = () => {
   const dispatch = useDispatch();
-  const { variationDataById, isEdit } = useSelector(
-    (state) => state?.variation
+  const { variationDataById = {}, isEdit } = useSelector(
+    (state) => state?.variation || {}
   );
 
   const onModalClose = () => {

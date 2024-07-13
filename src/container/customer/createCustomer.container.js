@@ -9,7 +9,9 @@ const CreateCustomerContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { customerDataById, isEdit } = useSelector((state) => state?.customer);
+  const { customerDataById = {}, isEdit } = useSelector(
+    (state) => state?.customer || {}
+  );
   const { name, email, phoneno, address, city, country } =
     customerDataById || {};
 

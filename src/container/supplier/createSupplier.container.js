@@ -9,7 +9,9 @@ const CreateSupplierContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { supplierDataById, isEdit } = useSelector((state) => state?.supplier);
+  const { supplierDataById = {}, isEdit } = useSelector(
+    (state) => state?.supplier || {}
+  );
   const { name, email, phoneno, address, city, country } =
     supplierDataById || {};
 

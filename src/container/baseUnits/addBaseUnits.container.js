@@ -4,7 +4,9 @@ import { fetchBaseUnits, setModalOpen } from "../../redux/slice/baseUnitSlice";
 
 const AddBaseUnitsContainer = () => {
   const dispatch = useDispatch();
-  const { baseUnitDataById, isEdit } = useSelector((state) => state?.baseUnit);
+  const { baseUnitDataById = {}, isEdit } = useSelector(
+    (state) => state?.baseUnit || {}
+  );
 
   const initialValues = { name: baseUnitDataById?.base_unit_name || "" };
 

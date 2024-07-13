@@ -22,11 +22,13 @@ const AddProductsContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { categoryData } = useSelector((state) => state?.category);
-  const { baseUnitsData } = useSelector((state) => state?.baseUnit);
-  const { unitsData } = useSelector((state) => state?.unit);
-  const { variationData } = useSelector((state) => state?.variation);
-  const { isEdit, productDataById } = useSelector((state) => state?.product);
+  const { categoryData = [] } = useSelector((state) => state?.category || {});
+  const { baseUnitsData = [] } = useSelector((state) => state?.baseUnit || {});
+  const { unitsData = [] } = useSelector((state) => state?.unit || {});
+  const { variationData = [] } = useSelector((state) => state?.variation || {});
+  const { isEdit, productDataById = {} } = useSelector(
+    (state) => state?.product || {}
+  );
 
   const {
     category_id = {},

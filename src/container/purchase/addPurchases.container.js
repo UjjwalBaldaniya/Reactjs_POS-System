@@ -27,12 +27,12 @@ const AddPurchasesContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
-    productByNameData,
-    supplierDataById,
+    productByNameData = [],
+    supplierDataById = {},
     isEdit,
     status: loading,
-  } = useSelector((state) => state.purchase);
-  const { suppliersData } = useSelector((state) => state?.supplier);
+  } = useSelector((state) => state.purchase || {});
+  const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
 
   const [productTableData, setProductTableData] = useState([]);
   const [grandTotal, setGrandTotal] = useState("");
@@ -86,9 +86,7 @@ const AddPurchasesContainer = () => {
   const getStatusEditOptions = (value) =>
     statusOptions?.find((data) => data?.value === value);
 
-  const handleBack = () => {
-    navigate("/purchases");
-  };
+  const handleBack = () => navigate("/purchases");
 
   const filterDataByKey = (data, key, value) =>
     data?.filter((item) => item[key] !== value);
@@ -176,11 +174,7 @@ const AddPurchasesContainer = () => {
     }
   };
 
-  const getGrandTotal = (data) => {
-    setTimeout(() => {
-      setGrandTotal(data);
-    }, 100);
-  };
+  const getGrandTotal = (data) => setTimeout(() => setGrandTotal(data), 100);
 
   const initialValues = {
     search: null,

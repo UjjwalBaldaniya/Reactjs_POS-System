@@ -12,8 +12,8 @@ import {
 
 const VariationsContainer = () => {
   const dispatch = useDispatch();
-  const { variationData, isModalOpen } = useSelector(
-    (state) => state?.variation
+  const { variationData = [], isModalOpen } = useSelector(
+    (state) => state?.variation || {}
   );
 
   const handleAdd = () => {

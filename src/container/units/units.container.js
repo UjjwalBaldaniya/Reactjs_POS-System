@@ -13,7 +13,9 @@ import {
 
 const UnitsContainer = () => {
   const dispatch = useDispatch();
-  const { unitsData, isModalOpen } = useSelector((state) => state?.unit);
+  const { unitsData = [], isModalOpen } = useSelector(
+    (state) => state?.unit || {}
+  );
 
   const handleAdd = () => {
     dispatch(setEdit(false));
