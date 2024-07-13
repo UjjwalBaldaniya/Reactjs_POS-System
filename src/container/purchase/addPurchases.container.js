@@ -234,7 +234,7 @@ const AddPurchasesContainer = () => {
     formData.append("order_tax", values?.orderTax);
     formData.append("discount_sign", getValueSignName(values.discountType));
     formData.append("discount", values?.discount);
-    formData.append("shipping_sign", getValueSignName(values.shippingTypes));
+    formData.append("shipping_sign", getValueSignName(values.shippingType));
     formData.append("shipping", values?.shipping);
     formData.append("grand_total", grandTotal);
     formData.append("status", values?.status?.value);
@@ -284,6 +284,7 @@ const AddPurchasesContainer = () => {
     currentProductData,
     loading,
     setCountQty,
+    isEdit,
   };
 };
 

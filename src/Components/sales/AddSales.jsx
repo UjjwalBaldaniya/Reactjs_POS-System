@@ -20,6 +20,7 @@ import {
   calculateTotals,
   preventNegative,
 } from "../../utils/functions/salesAndPurchasesUtils";
+import Loader from "../../common/Loader";
 
 const AddSales = () => {
   const {
@@ -28,6 +29,8 @@ const AddSales = () => {
     actionsBtn,
     currentProductData,
     productTableData,
+    loading,
+    isEdit,
     getGrandTotal,
     handleBack,
     setCountQty,
@@ -36,6 +39,10 @@ const AddSales = () => {
     handleInputChange,
     handleChange,
   } = AddSalesContainer();
+
+  if (loading !== "succeeded" && isEdit) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -51,7 +58,6 @@ const AddSales = () => {
         enableReinitialize
       >
         {({ isSubmitting, setFieldValue, values }) => {
-          console.log("🚀 ~ AddSales ~ values:", values);
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
               currentProductData,

@@ -24,7 +24,11 @@ const AddSalesContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { customersData } = useSelector((state) => state?.customer);
-  const { saleDataById, isEdit } = useSelector((state) => state.sale);
+  const {
+    saleDataById,
+    isEdit,
+    status: loading,
+  } = useSelector((state) => state.sale);
   const { productByNameData } = useSelector((state) => state.purchase);
 
   const [productTableData, setProductTableData] = useState([]);
@@ -239,7 +243,7 @@ const AddSalesContainer = () => {
     formData.append("order_tax", values?.orderTax);
     formData.append("discount_sign", getValueSignName(values.discountType));
     formData.append("discount", values?.discount);
-    formData.append("shipping_sign", getValueSignName(values.shippingTypes));
+    formData.append("shipping_sign", getValueSignName(values.shippingType));
     formData.append("shipping", values?.shipping);
     formData.append("grand_total", grandTotal);
     formData.append("status", values?.status?.value);
@@ -269,6 +273,8 @@ const AddSalesContainer = () => {
     actionsBtn,
     currentProductData,
     productTableData,
+    loading,
+    isEdit,
     getGrandTotal,
     handleBack,
     setCountQty,

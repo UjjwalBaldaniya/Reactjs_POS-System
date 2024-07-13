@@ -14,7 +14,7 @@ import { formatTimestamp } from "../../utils/functions/dateUtils";
 const SalesContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { salesData = [] } = useSelector((state) => state?.sale || {});
+  const { salesData = [], status } = useSelector((state) => state?.sale || {});
 
   const { customersData = [] } = useSelector((state) => state?.customer || {});
 
@@ -72,7 +72,7 @@ const SalesContainer = () => {
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
 
-  return { actionsBtn, handleAdd, salesData, salesColumns };
+  return { actionsBtn, handleAdd, salesData, salesColumns, status };
 };
 
 export default SalesContainer;

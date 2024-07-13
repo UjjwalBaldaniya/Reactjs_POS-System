@@ -2,10 +2,15 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import PurchasesContainer from "../container/purchase/purchases.container";
+import Loader from "../common/Loader";
 
 const Purchases = () => {
-  const { actionsBtn, handleAdd, purchaseData, purchasesColumns } =
+  const { actionsBtn, handleAdd, purchaseData, purchasesColumns, status } =
     PurchasesContainer();
+
+  if (status !== "succeeded") {
+    return <Loader />;
+  }
 
   return (
     <div className="purchases-section">

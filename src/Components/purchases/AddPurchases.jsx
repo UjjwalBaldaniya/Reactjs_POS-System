@@ -7,6 +7,7 @@ import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
 import Navbar from "../../common/Navbar";
+import Loader from "../../common/Loader";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import "../../css/purchase.css";
 import {
@@ -37,10 +38,11 @@ const AddPurchases = () => {
     currentProductData,
     loading,
     setCountQty,
+    isEdit,
   } = AddPurchasesContainer();
 
-  if (loading !== "succeeded") {
-    return <div>Loading...</div>;
+  if (loading !== "succeeded" && isEdit) {
+    return <Loader />;
   }
 
   return (

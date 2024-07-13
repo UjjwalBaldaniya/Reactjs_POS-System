@@ -2,9 +2,15 @@ import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import SalesContainer from "../container/sales/sales.container";
+import Loader from "../common/Loader";
 
 const Sales = () => {
-  const { actionsBtn, handleAdd, salesData, salesColumns } = SalesContainer();
+  const { actionsBtn, handleAdd, salesData, salesColumns, status } =
+    SalesContainer();
+
+  if (status !== "succeeded") {
+    return <Loader />;
+  }
 
   return (
     <div className="sales-section">

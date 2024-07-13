@@ -14,7 +14,7 @@ import { deletePurchase } from "../../api/services/purchaseService";
 const PurchasesContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { purchaseData } = useSelector((state) => state.purchase);
+  const { purchaseData, status } = useSelector((state) => state.purchase);
   const { suppliersData } = useSelector((state) => state?.supplier);
 
   const getSupplierName = (purchaseData) => {
@@ -71,7 +71,7 @@ const PurchasesContainer = () => {
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
-  return { actionsBtn, handleAdd, purchaseData, purchasesColumns };
+  return { actionsBtn, handleAdd, purchaseData, purchasesColumns, status };
 };
 
 export default PurchasesContainer;
