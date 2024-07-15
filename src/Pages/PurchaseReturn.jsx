@@ -14,7 +14,6 @@ const PurchaseReturn = () => {
     <div className="purchases-section">
       <Navbar
         title="Purchase Return"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Add Purchase Return"
         openCanvas={navigateToPurchaseReturn}

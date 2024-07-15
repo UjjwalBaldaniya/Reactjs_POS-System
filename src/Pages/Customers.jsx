@@ -14,7 +14,6 @@ const Customers = () => {
     <div>
       <Navbar
         title="Customers"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Create Customer"
         openCanvas={handleAdd}

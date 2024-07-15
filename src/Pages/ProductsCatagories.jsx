@@ -17,7 +17,6 @@ const ProductsCatagories = () => {
     <div className="products-catagories-section">
       <Navbar
         title="Catagories"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Add Catagories"
         openCanvas={handleAdd}

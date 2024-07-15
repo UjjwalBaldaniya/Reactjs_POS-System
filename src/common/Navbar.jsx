@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { navbarMobileIcon } from "../assets/icons/dashboard";
-import i18n from "../utils/i18next";
-import { bellIcon } from "../assets/icons/navbar";
-import MobileMenu from "../components/sidebar/MobileSidebar";
-import { exportIcon } from "../assets/icons/tables";
-import "../css/navbar.css";
-import { t } from "i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { setLanguage } from "../redux/slice/languageSlice";
+import { navbarMobileIcon } from "../assets/icons/dashboard";
+import { bellIcon, posIcon } from "../assets/icons/navbar";
 import { backIcon } from "../assets/icons/product";
+import MobileMenu from "../components/sidebar/MobileSidebar";
+import "../css/navbar.css";
+import { setLanguage } from "../redux/slice/languageSlice";
+import i18n from "../utils/i18next";
 
 const Navbar = ({
   title,
-  showExportBtn = false,
   showNewAddBtn = false,
   newAddBtnText,
   openCanvas,
@@ -63,17 +60,16 @@ const Navbar = ({
           </div>
 
           <div className="d-flex align-items-center justify-content-center">
-            {showExportBtn && (
-              <button className="export-all">
-                <div
-                  className="d-flex align-items-center"
-                  style={{ color: "blue" }}
-                >
-                  <div className="export-icon me-1"> {exportIcon(28)}</div>
-                  <span className="ms-2 me-2">{t("navbar.exportAll")}</span>
-                </div>
-              </button>
-            )}
+            <button className="export-all">
+              <div
+                className="d-flex align-items-center"
+                style={{ color: "blue" }}
+              >
+                <div className="export-icon me-1"> {posIcon}</div>
+                <span className="ms-2 me-2">POS</span>
+              </div>
+            </button>
+
             {showNewAddBtn && (
               <button className="navbar-add-products" onClick={openCanvas}>
                 <div className="d-flex align-items-center">

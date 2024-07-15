@@ -14,8 +14,7 @@ const Products = () => {
     <div>
       <Navbar
         title="Products"
-        showExportBtn={true}
-        showNewAddBtn={true}
+        showNewAddBtn
         newAddBtnText="New Product"
         openCanvas={handleAdd}
       />

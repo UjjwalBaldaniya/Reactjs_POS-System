@@ -16,7 +16,6 @@ const Units = () => {
     <div className="products-catagories-section">
       <Navbar
         title="Units"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Add Units"
         openCanvas={handleAdd}

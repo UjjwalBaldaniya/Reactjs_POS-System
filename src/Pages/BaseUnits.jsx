@@ -16,7 +16,6 @@ const BaseUnits = () => {
     <div className="base-units-section">
       <Navbar
         title="Base Units"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Add Base Units"
         openCanvas={handleAdd}

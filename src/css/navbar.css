@@ -128,8 +128,6 @@
   border-radius: 16px;
   white-space: nowrap;
   border-radius: 1rem;
-  /* background: rgb(231, 230, 236);
-  text-align: center; */
   background-color: rgb(238, 235, 254);
   color: rgb(41, 0, 238);
   display: flex;
@@ -140,7 +138,7 @@
 }
 
 .export-all:hover {
-  background: #e6e3e3;
+  background-color: rgb(224, 218, 252);
 }
 
 .export-icon {

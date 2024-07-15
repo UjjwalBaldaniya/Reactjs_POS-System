@@ -16,7 +16,6 @@ const Variations = () => {
     <div className="variations-section">
       <Navbar
         title="Variations"
-        showExportBtn
         showNewAddBtn
         newAddBtnText="Add Variations"
         openCanvas={handleAdd}

@@ -23,6 +23,7 @@ import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
 import AddSales from "./components/sales/AddSales.jsx";
+import Pos from "./pages/Pos.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/pos" element={<Pos />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/table" element={<Table />} />
             <Route path="/products" element={<Products />} />

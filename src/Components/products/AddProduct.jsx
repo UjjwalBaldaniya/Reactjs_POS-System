@@ -43,9 +43,8 @@ const AddProduct = () => {
     <div>
       <Navbar
         title="Add New Product"
-        showExportBtn={false}
         showNewAddBtn={false}
-        showBackBtn={true}
+        showBackBtn
         handleBackBtn={() => handleBack()}
       />
 

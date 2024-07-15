@@ -19,8 +19,7 @@ const Table = () => {
     <div className="table-section">
       <Navbar
         title={t("table.tables")}
-        showExportBtn={true}
-        showNewAddBtn={true}
+        showNewAddBtn
         newAddBtnText={t("table.newTable")}
         openCanvas={() => setDrawerOpen(true)}
       />
