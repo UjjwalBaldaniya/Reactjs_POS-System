@@ -12,9 +12,11 @@ import {
 
 const VariationsContainer = () => {
   const dispatch = useDispatch();
-  const { variationData = [], isModalOpen } = useSelector(
-    (state) => state?.variation || {}
-  );
+  const {
+    variationData = [],
+    isModalOpen,
+    status,
+  } = useSelector((state) => state?.variation || {});
 
   const handleAdd = () => {
     dispatch(setEdit(false));
@@ -42,7 +44,7 @@ const VariationsContainer = () => {
     dispatch(fetchVariations());
   }, [dispatch]);
 
-  return { actionsBtn, variationData, handleAdd, isModalOpen };
+  return { actionsBtn, variationData, handleAdd, isModalOpen, status };
 };
 
 export default VariationsContainer;

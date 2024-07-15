@@ -40,9 +40,7 @@ const AddSales = () => {
     handleChange,
   } = AddSalesContainer();
 
-  if (loading !== "succeeded" && isEdit) {
-    return <Loader />;
-  }
+  if (loading !== "succeeded" && isEdit) return <Loader />;
 
   return (
     <div>

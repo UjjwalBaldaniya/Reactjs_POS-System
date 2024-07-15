@@ -13,9 +13,11 @@ import {
 const ProductsCategoriesContainer = () => {
   const dispatch = useDispatch();
 
-  const { categoryData = [], isModalOpen } = useSelector(
-    (state) => state?.category || {}
-  );
+  const {
+    categoryData = [],
+    isModalOpen,
+    status,
+  } = useSelector((state) => state?.category || {});
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
@@ -43,7 +45,7 @@ const ProductsCategoriesContainer = () => {
     dispatch(fetchCategory());
   }, [dispatch]);
 
-  return { isModalOpen, actionsBtn, categoryData, handleAdd };
+  return { isModalOpen, actionsBtn, categoryData, handleAdd, status };
 };
 
 export default ProductsCategoriesContainer;

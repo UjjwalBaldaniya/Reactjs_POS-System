@@ -13,7 +13,9 @@ const SuppliersContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
+  const { suppliersData = [], status } = useSelector(
+    (state) => state?.supplier || {}
+  );
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
@@ -40,7 +42,7 @@ const SuppliersContainer = () => {
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
-  return { handleAdd, actionsBtn, suppliersData };
+  return { handleAdd, actionsBtn, suppliersData, status };
 };
 
 export default SuppliersContainer;

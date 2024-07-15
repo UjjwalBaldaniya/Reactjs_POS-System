@@ -8,9 +8,7 @@ const Purchases = () => {
   const { actionsBtn, handleAdd, purchaseData, purchasesColumns, status } =
     PurchasesContainer();
 
-  if (status !== "succeeded") {
-    return <Loader />;
-  }
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div className="purchases-section">

@@ -8,9 +8,7 @@ const Sales = () => {
   const { actionsBtn, handleAdd, salesData, salesColumns, status } =
     SalesContainer();
 
-  if (status !== "succeeded") {
-    return <Loader />;
-  }
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div className="sales-section">

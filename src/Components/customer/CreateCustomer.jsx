@@ -6,10 +6,13 @@ import Navbar from "../../common/Navbar";
 import CreateCustomerContainer from "../../container/customer/createCustomer.container";
 import { customerFormField } from "../../description/customer.description";
 import { customerSchema } from "../../utils/validationSchema/peoplesSchema";
-// import { customerSchema } from "../../utils/validationSchema/peoplesSchema";
+import Loader from "../../common/Loader";
 
 const CreateCustomer = () => {
-  const { handleBack, initialValues, handleSubmit } = CreateCustomerContainer();
+  const { handleBack, initialValues, handleSubmit, isEdit, status } =
+    CreateCustomerContainer();
+
+  if (status !== "succeeded" && isEdit) return <Loader />;
 
   return (
     <div>

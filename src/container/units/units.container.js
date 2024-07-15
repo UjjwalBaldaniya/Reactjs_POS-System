@@ -13,9 +13,11 @@ import {
 
 const UnitsContainer = () => {
   const dispatch = useDispatch();
-  const { unitsData = [], isModalOpen } = useSelector(
-    (state) => state?.unit || {}
-  );
+  const {
+    unitsData = [],
+    isModalOpen,
+    status,
+  } = useSelector((state) => state?.unit || {});
 
   const handleAdd = () => {
     dispatch(setEdit(false));
@@ -49,6 +51,7 @@ const UnitsContainer = () => {
     handleAdd,
     unitsData,
     isModalOpen,
+    status,
   };
 };
 

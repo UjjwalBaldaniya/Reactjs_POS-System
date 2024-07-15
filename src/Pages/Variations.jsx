@@ -4,10 +4,13 @@ import Navbar from "../common/Navbar";
 import AddVariations from "../components/variations/AddVariations";
 import VariationsContainer from "../container/variations/variations.container";
 import { variationColumns } from "../description/variations.description";
+import Loader from "../common/Loader";
 
 const Variations = () => {
-  const { actionsBtn, variationData, handleAdd, isModalOpen } =
+  const { actionsBtn, variationData, handleAdd, isModalOpen, status } =
     VariationsContainer();
+
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div className="variations-section">

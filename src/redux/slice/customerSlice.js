@@ -31,7 +31,7 @@ const customerSlice = createSlice({
   },
   reducers: {
     resetInitialValues: (state, action) => {
-      state.supplierDataById = {};
+      state.customerDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;

@@ -19,6 +19,7 @@ import {
   productTypeOption,
 } from "../../description/products/products.description";
 import { productSchema } from "../../utils/validationSchema/productsSchema";
+import Loader from "../../common/Loader";
 
 const AddProduct = () => {
   const {
@@ -32,7 +33,11 @@ const AddProduct = () => {
     onSubmit,
     handleFileUpload,
     handleDeleteImage,
+    isEdit,
+    status,
   } = AddProductsContainer();
+
+  if (status !== "succeeded" && isEdit) return <Loader />;
 
   return (
     <div>

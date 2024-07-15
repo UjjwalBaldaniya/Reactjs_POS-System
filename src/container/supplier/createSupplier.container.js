@@ -9,11 +9,20 @@ const CreateSupplierContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { supplierDataById = {}, isEdit } = useSelector(
-    (state) => state?.supplier || {}
-  );
-  const { name, email, phoneno, address, city, country } =
-    supplierDataById || {};
+  const {
+    supplierDataById = {},
+    isEdit,
+    status,
+  } = useSelector((state) => state?.supplier || {});
+
+  const {
+    name = "",
+    email = "",
+    phoneno = "",
+    address = "",
+    city = "",
+    country = "",
+  } = supplierDataById || {};
 
   const handleBack = () => {
     navigate("/suppliers");
@@ -68,7 +77,7 @@ const CreateSupplierContainer = () => {
     }
   }, [dispatch, id]);
 
-  return { handleBack, initialValues, handleSubmit };
+  return { handleBack, initialValues, handleSubmit, isEdit, status };
 };
 
 export default CreateSupplierContainer;

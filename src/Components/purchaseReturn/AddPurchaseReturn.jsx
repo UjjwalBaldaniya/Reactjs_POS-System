@@ -75,6 +75,16 @@ const AddPurchaseReturn = () => {
               <div>
                 <div className="row">
                   <div className="col">
+                    <label htmlFor="supplier" className="formField-label">
+                      Supplier:
+                    </label>
+                    <Select
+                      id="supplier"
+                      options={options}
+                      onChange={(option) => setFieldValue("supplier", option)}
+                    />
+                  </div>
+                  <div className="col">
                     <label htmlFor="date" className="formField-label">
                       Date:
                     </label>
@@ -83,16 +93,6 @@ const AddPurchaseReturn = () => {
                         setFieldValue("date", dateString)
                       }
                       className="formField-input"
-                    />
-                  </div>
-                  <div className="col">
-                    <label htmlFor="supplier" className="formField-label">
-                      Supplier:
-                    </label>
-                    <Select
-                      id="supplier"
-                      options={options}
-                      onChange={(option) => setFieldValue("supplier", option)}
                     />
                   </div>
                 </div>

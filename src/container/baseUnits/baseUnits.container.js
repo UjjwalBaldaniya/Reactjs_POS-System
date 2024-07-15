@@ -12,9 +12,11 @@ import {
 
 const BaseUnitsContainer = () => {
   const dispatch = useDispatch();
-  const { baseUnitsData = [], isModalOpen } = useSelector(
-    (state) => state?.baseUnit || {}
-  );
+  const {
+    baseUnitsData = [],
+    isModalOpen,
+    status,
+  } = useSelector((state) => state?.baseUnit || {});
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
@@ -47,6 +49,7 @@ const BaseUnitsContainer = () => {
     actionsBtn,
     baseUnitsData,
     isModalOpen,
+    status,
   };
 };
 

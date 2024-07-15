@@ -6,9 +6,13 @@ import CreateSupplierContainer from "../../container/supplier/createSupplier.con
 import { supplierFormField } from "../../description/suppliers.description";
 import { supplierSchema } from "../../utils/validationSchema/peoplesSchema";
 import CommonButton from "../../common/CommonButton";
+import Loader from "../../common/Loader";
 
 const CreateSupplier = () => {
-  const { handleBack, initialValues, handleSubmit } = CreateSupplierContainer();
+  const { handleBack, initialValues, handleSubmit, isEdit, status } =
+    CreateSupplierContainer();
+
+  if (status !== "succeeded" && isEdit) return <Loader />;
 
   return (
     <div>

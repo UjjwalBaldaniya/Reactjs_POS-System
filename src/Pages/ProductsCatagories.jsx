@@ -5,10 +5,13 @@ import AddProductsCategories from "../components/productsCategories/AddProductsC
 import ProductsCategoriesContainer from "../container/category/productsCategories.container";
 import "../css/productsCatagories.css";
 import { columns } from "../description/productsCategories.description";
+import Loader from "../common/Loader";
 
 const ProductsCatagories = () => {
-  const { isModalOpen, actionsBtn, categoryData, handleAdd } =
+  const { isModalOpen, actionsBtn, categoryData, handleAdd, status } =
     ProductsCategoriesContainer();
+
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div className="products-catagories-section">

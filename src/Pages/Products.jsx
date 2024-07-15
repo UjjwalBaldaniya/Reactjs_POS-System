@@ -3,9 +3,12 @@ import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import ProductsContainer from "../container/products/products.container";
 import { productsColumns } from "../description/products/products.description";
+import Loader from "../common/Loader";
 
 const Products = () => {
-  const { actionsBtn, productsData, handleAdd } = ProductsContainer();
+  const { actionsBtn, productsData, handleAdd, status } = ProductsContainer();
+
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div>

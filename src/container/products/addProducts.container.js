@@ -26,9 +26,11 @@ const AddProductsContainer = () => {
   const { baseUnitsData = [] } = useSelector((state) => state?.baseUnit || {});
   const { unitsData = [] } = useSelector((state) => state?.unit || {});
   const { variationData = [] } = useSelector((state) => state?.variation || {});
-  const { isEdit, productDataById = {} } = useSelector(
-    (state) => state?.product || {}
-  );
+  const {
+    productDataById = {},
+    isEdit,
+    status,
+  } = useSelector((state) => state?.product || {});
 
   const {
     category_id = {},
@@ -274,6 +276,8 @@ const AddProductsContainer = () => {
     onSubmit,
     handleFileUpload,
     handleDeleteImage,
+    isEdit,
+    status,
   };
 };
 

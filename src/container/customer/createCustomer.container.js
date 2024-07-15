@@ -9,11 +9,19 @@ const CreateCustomerContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { customerDataById = {}, isEdit } = useSelector(
-    (state) => state?.customer || {}
-  );
-  const { name, email, phoneno, address, city, country } =
-    customerDataById || {};
+  const {
+    customerDataById = {},
+    isEdit,
+    status,
+  } = useSelector((state) => state?.customer || {});
+  const {
+    name = "",
+    email = "",
+    phoneno = "",
+    address = "",
+    city = "",
+    country = "",
+  } = customerDataById || {};
 
   useEffect(() => {
     if (id) {
@@ -68,7 +76,7 @@ const CreateCustomerContainer = () => {
     setSubmitting(false);
   };
 
-  return { handleBack, initialValues, handleSubmit };
+  return { handleBack, initialValues, handleSubmit, isEdit, status };
 };
 
 export default CreateCustomerContainer;

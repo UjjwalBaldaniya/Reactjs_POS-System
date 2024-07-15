@@ -4,10 +4,13 @@ import Navbar from "../common/Navbar";
 import AddBaseUnits from "../components/baseUnits/AddBaseUnits";
 import BaseUnitsContainer from "../container/baseUnits/baseUnits.container";
 import { baseUnitsColumns } from "../description/baseUnits.description";
+import Loader from "../common/Loader";
 
 const BaseUnits = () => {
-  const { handleAdd, actionsBtn, baseUnitsData, isModalOpen } =
+  const { handleAdd, actionsBtn, baseUnitsData, isModalOpen, status } =
     BaseUnitsContainer();
+
+  if (status !== "succeeded") return <Loader />;
 
   return (
     <div className="base-units-section">

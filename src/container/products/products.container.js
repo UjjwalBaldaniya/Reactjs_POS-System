@@ -13,7 +13,9 @@ const ProductsContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { productsData = [] } = useSelector((state) => state.product || {});
+  const { productsData = [], status } = useSelector(
+    (state) => state.product || {}
+  );
 
   const handleAdd = async () => {
     await dispatch(setEdit(false));
@@ -40,7 +42,7 @@ const ProductsContainer = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  return { actionsBtn, productsData, handleAdd };
+  return { actionsBtn, productsData, handleAdd, status };
 };
 
 export default ProductsContainer;

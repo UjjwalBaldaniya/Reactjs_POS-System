@@ -13,7 +13,9 @@ const CustomersContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { customersData = [] } = useSelector((state) => state?.customer || {});
+  const { customersData = [], status } = useSelector(
+    (state) => state?.customer || {}
+  );
 
   const handleAdd = () => {
     dispatch(resetInitialValues());
@@ -40,7 +42,7 @@ const CustomersContainer = () => {
     dispatch(fetchCustomers());
   }, [dispatch]);
 
-  return { handleAdd, actionsBtn, customersData };
+  return { handleAdd, actionsBtn, customersData, status };
 };
 
 export default CustomersContainer;
