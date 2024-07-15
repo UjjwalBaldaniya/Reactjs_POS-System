@@ -1,50 +1,21 @@
-import { toast } from "react-toastify";
-import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
+import apiService from "./apiService";
 
 export const addBaseUnit = async (value) => {
-  try {
-    const response = await axiosInstanceAuth.post("/baseunit/add", value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post("/baseunit/add", value);
 };
 
 export const getBaseUnits = async () => {
-  try {
-    const response = await axiosInstanceAuth.get("/baseunit");
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get("/baseunit");
 };
 
 export const getByIdBaseUnits = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.get(`/baseunit/${id}`);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get(`/baseunit/${id}`);
 };
 
 export const editBaseUnit = async (id, value) => {
-  try {
-    const response = await axiosInstanceAuth.post(`/baseunit/${id}`, value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post(`/baseunit/${id}`, value);
 };
 
 export const deleteBaseUnit = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.delete(`/baseunit/${id}`);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.delete(`/baseunit/${id}`);
 };

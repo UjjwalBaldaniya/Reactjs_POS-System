@@ -30,8 +30,8 @@ const BaseUnitsContainer = () => {
     dispatch(setModalOpen(true));
   };
 
-  const handleDelete = (row) => {
-    deleteBaseUnit(row?._id);
+  const handleDelete = async (row) => {
+    await deleteBaseUnit(row?._id);
     dispatch(fetchBaseUnits());
   };
 

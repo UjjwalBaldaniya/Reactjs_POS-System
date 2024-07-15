@@ -1,50 +1,21 @@
-import { toast } from "react-toastify";
-import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
+import apiService from "./apiService";
 
 export const addVariation = async (value) => {
-  try {
-    const response = await axiosInstanceAuth.post("/variation/add", value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post("/variation/add", value);
 };
 
 export const getVariations = async () => {
-  try {
-    const response = await axiosInstanceAuth.get("/variation");
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get("/variation");
 };
 
 export const getByIdVariation = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.get(`/variation/${id}`);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get(`/variation/${id}`);
 };
 
 export const editVariation = async (id, value) => {
-  try {
-    const response = await axiosInstanceAuth.post(`/variation/${id}`, value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post(`/variation/${id}`, value);
 };
 
 export const deleteVariation = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.delete(`/variation/${id}`);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.delete(`/variation/${id}`);
 };

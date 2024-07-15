@@ -30,8 +30,8 @@ const VariationsContainer = () => {
     dispatch(fetchVariationById(row?._id));
   };
 
-  const handleDelete = (row) => {
-    deleteVariation(row?._id);
+  const handleDelete = async (row) => {
+    await deleteVariation(row?._id);
     dispatch(fetchVariations());
   };
 

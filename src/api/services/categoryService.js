@@ -1,50 +1,21 @@
-import { toast } from "react-toastify";
-import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
+import apiService from "./apiService";
 
 export const addCategory = async (value) => {
-  try {
-    const response = await axiosInstanceAuth.post("/category/add", value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post("/category/add", value);
 };
 
 export const getCategory = async () => {
-  try {
-    const response = await axiosInstanceAuth.get("/category");
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get("/category");
 };
 
 export const getByIdCategory = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.get(`/category/${id}`);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.get(`/category/${id}`);
 };
 
 export const editCategory = async (id, value) => {
-  try {
-    const response = await axiosInstanceAuth.post(`/category/${id}`, value);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.post(`/category/${id}`, value);
 };
 
 export const deleteCategory = async (id) => {
-  try {
-    const response = await axiosInstanceAuth.delete(`/category/${id}`);
-    toast.success(response?.data?.msg);
-    return response?.data;
-  } catch (error) {
-    return null;
-  }
+  return await apiService.delete(`/category/${id}`);
 };

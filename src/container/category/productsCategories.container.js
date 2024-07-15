@@ -31,8 +31,8 @@ const ProductsCategoriesContainer = () => {
     dispatch(fetchCategoryById(row?._id));
   };
 
-  const handleDelete = (row) => {
-    deleteCategory(row?._id);
+  const handleDelete = async (row) => {
+    await deleteCategory(row?._id);
     dispatch(fetchCategory());
   };
 
