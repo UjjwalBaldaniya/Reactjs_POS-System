@@ -4,7 +4,7 @@ import FormField from "../../common/FormField";
 import Navbar from "../../common/Navbar";
 import CreateSupplierContainer from "../../container/supplier/createSupplier.container";
 import { supplierFormField } from "../../description/suppliers.description";
-import { supplierSchema } from "../../utils/validationSchema/PeoplesSchema";
+import { supplierSchema } from "../../utils/validationSchema/peoplesSchema";
 import CommonButton from "../../common/CommonButton";
 
 const CreateSupplier = () => {

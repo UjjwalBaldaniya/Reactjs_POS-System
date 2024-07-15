@@ -7,7 +7,7 @@ import DynamicFormField from "../common/DynamicFormField";
 import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
 import SignInContainer from "../container/signIn.container";
 import { formFields } from "../description/signIn.description";
-import Abc from "../utils/validationSchema/Abc";
+import SignInSchema from "../utils/validationSchema/signInSchema";
 
 const SignIn = () => {
   const { language, navigateToSignUp, navigateToDashboard } = SignInContainer();
@@ -46,7 +46,7 @@ const SignIn = () => {
                 usernameOrEmail: "",
                 password: "",
               }}
-              validationSchema={Abc}
+              validationSchema={SignInSchema}
               onSubmit={async (values, { setSubmitting, setFieldError }) => {
                 setSubmitting(true);
                 const newValue = {
