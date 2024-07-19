@@ -204,7 +204,7 @@ const AddSales = () => {
                         <div key={index}>
                           <p>
                             {`$ ${item?.amount}`}{" "}
-                            {item?.value === "%" && `(${item?.type || 0}% )`}
+                            {item?.type === "%" && `( ${item?.value || 0}% )`}
                           </p>
                         </div>
                       ))}

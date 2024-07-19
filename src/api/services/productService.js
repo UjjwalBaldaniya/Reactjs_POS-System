@@ -21,7 +21,5 @@ export const deleteProduct = async (id) => {
 };
 
 export const deleteProductImage = async (id, imageId) => {
-  return await apiService.delete(`/product/image/${id}`, {
-    data: imageId,
-  });
+  return await apiService.delete(`/product/image/${id}`, imageId);
 };

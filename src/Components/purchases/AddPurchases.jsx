@@ -205,7 +205,7 @@ const AddPurchases = () => {
                         <div key={index}>
                           <p>
                             {`$ ${item?.amount}`}{" "}
-                            {item?.type === "%" && `(${item?.value || 0}% )`}
+                            {item?.type === "%" && `( ${item?.value || 0}% )`}
                           </p>
                         </div>
                       ))}

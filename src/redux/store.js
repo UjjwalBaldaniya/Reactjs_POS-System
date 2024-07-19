@@ -9,6 +9,7 @@ import purchaseSlice from "./slice/purchaseSlice";
 import supplierSlice from "./slice/supplierSlice";
 import customerSlice from "./slice/customerSlice";
 import saleSlice from "./slice/saleSlice";
+import posSlice from "./slice/posSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     supplier: supplierSlice,
     customer: customerSlice,
     sale: saleSlice,
+    pos: posSlice,
   },
 });
 

@@ -8,6 +8,7 @@ import MobileMenu from "../components/sidebar/MobileSidebar";
 import "../css/navbar.css";
 import { setLanguage } from "../redux/slice/languageSlice";
 import i18n from "../utils/i18next";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({
   title,
@@ -18,6 +19,7 @@ const Navbar = ({
   handleBackBtn,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const language = useSelector((state) => state?.language?.language);
   const [show, setShow] = useState(false);
 
@@ -36,9 +38,9 @@ const Navbar = ({
     }
   }, [dispatch]);
 
-  const handelLogout = () => {
-    localStorage.removeItem("auth_token");
-  };
+  const handelLogout = () => localStorage.removeItem("auth_token");
+
+  const handleNavigate = () => navigate("/pos");
 
   return (
     <>
@@ -60,7 +62,7 @@ const Navbar = ({
           </div>
 
           <div className="d-flex align-items-center justify-content-center">
-            <button className="export-all">
+            <button className="export-all" onClick={() => handleNavigate()}>
               <div
                 className="d-flex align-items-center"
                 style={{ color: "blue" }}

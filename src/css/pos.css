@@ -1,0 +1,82 @@
+.pos-scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.pos-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.pos-scroll::-webkit-scrollbar-thumb {
+  background-color: rgb(206, 206, 206);
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.pos-scroll::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
+.pos-product-section {
+  height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pos-product {
+  background-color: white;
+  border-radius: 15px;
+  width: 227px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 23px 0 23px 0;
+}
+
+.pos-product-card-border {
+  border: 1px solid #2900ee;
+}
+
+.pos-product img {
+  width: 180px;
+  height: 120px;
+  border-radius: 10px;
+}
+
+.pos-product p {
+  margin-bottom: 0;
+}
+
+.pos-product-title {
+  font-weight: bold;
+  margin-top: 15px;
+}
+.pos-product-price {
+  color: rgb(150, 145, 172);
+  font-weight: bolder;
+}
+
+.pos-product-desc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pos-product-section::-webkit-scrollbar {
+  width: 12px;
+}
+
+.pos-product-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.pos-product-section::-webkit-scrollbar-thumb {
+  background-color: rgb(206, 206, 206);
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.pos-product-section::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
