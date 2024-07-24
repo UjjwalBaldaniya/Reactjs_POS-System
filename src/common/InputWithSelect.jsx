@@ -27,7 +27,7 @@ const InputWithSelect = ({
         )}
       </Field>
       <select
-        className="input-symbol-per-table "
+        className="input-symbol-per-table px-1 px-xl-2"
         name={typeName}
         value={values[typeName]}
         onChange={(e) => setFieldValue(typeName, e?.target?.value)}
