@@ -6,6 +6,7 @@ import { TbPlaceholder } from "react-icons/tb";
 import Select from "react-select";
 import { burgerIcon } from "../../assets/icons/pos";
 import cakeImage from "../../assets/images/dashboard/cake.jpg";
+import { useNavigate } from "react-router-dom";
 
 const PosPurchaseItem = ({
   handleSearchInputChange,
@@ -17,6 +18,11 @@ const PosPurchaseItem = ({
   productTableData,
   handleProductCardClick,
 }) => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="py-4">
       <div className="d-flex">
@@ -50,19 +56,13 @@ const PosPurchaseItem = ({
             <div>{burgerIcon}</div>
           </button>
           <button className="pos-menu-btn">
-            <div>
-              <RiShoppingBagLine size={22} />
-            </div>
+            <RiShoppingBagLine size={22} />
           </button>
           <button className="pos-menu-btn">
-            <div>
-              <BsCalculator size={22} />
-            </div>
+            <BsCalculator size={22} />
           </button>
-          <button className="pos-menu-btn">
-            <div>
-              <TbPlaceholder size={22} />
-            </div>
+          <button className="pos-menu-btn" onClick={handleBack}>
+            <TbPlaceholder size={22} />
           </button>
         </div>
       </div>

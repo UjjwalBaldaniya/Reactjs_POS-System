@@ -124,7 +124,7 @@ const AddPurchaseReturn = () => {
                   </Field>
                 </div>
 
-                {/* <div className="mt-4">
+                <div className="mt-4">
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
                     columns={addPurchaseColumns}
@@ -132,7 +132,7 @@ const AddPurchaseReturn = () => {
                     setData={setProductTableData}
                     actions={actionsBtn}
                   />
-                </div> */}
+                </div>
 
                 <div className="purchase-table-container">
                   <div className="purchase-table mt-4">
