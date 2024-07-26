@@ -9,7 +9,6 @@ import {
   fetchFilteredProductList,
   setFilteredProductList,
 } from "../../redux/slice/posSlice";
-import { fetchProductByName } from "../../redux/slice/purchaseSlice";
 import { getDropdownOption } from "../../utils/functions/dropdownUtils";
 
 const PosContainer = () => {
@@ -17,22 +16,32 @@ const PosContainer = () => {
   const dispatch = useDispatch();
   const { customersData = [] } = useSelector((state) => state?.customer || {});
   const { categoryData = [] } = useSelector((state) => state?.category || {});
-  const { productByNameData = [] } = useSelector(
-    (state) => state.purchase || {}
-  );
-  const { filteredProductList = [], status } = useSelector(
-    (state) => state.pos || {}
-  );
+  const {
+    filteredProductList = [],
+    searchByProductName = [],
+    status,
+  } = useSelector((state) => state.pos || {});
 
   const [productTableData, setProductTableData] = useState([]);
   const [categoryTabData, setCategoryTabData] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCustomers());
-    dispatch(fetchProductByName());
     dispatch(fetchCategory());
     dispatch(fetchFilteredProductList());
   }, [dispatch]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const customerOption = getDropdownOption(customersData, "_id", "name");
   const categoryNames = [
@@ -46,7 +55,7 @@ const PosContainer = () => {
       !customerOption?.some((option) =>
         option?.label
           ?.toLowerCase()
-          .includes(values.supplierInputValue?.toLowerCase())
+          ?.includes(values.supplierInputValue?.toLowerCase())
       )
     )
       navigate("/customers/create");
@@ -79,7 +88,7 @@ const PosContainer = () => {
       return;
     }
 
-    const filteredOptions = productByNameData
+    const filteredOptions = searchByProductName
       ?.filter((item) =>
         item?.formatted_name?.toLowerCase()?.includes(newValue?.toLowerCase())
       )
@@ -102,7 +111,7 @@ const PosContainer = () => {
 
       if (isDataAvailable) toast.error("This Product Already Added");
       else {
-        const filterOptionsData = productByNameData
+        const filterOptionsData = searchByProductName
           ?.filter((item) =>
             item?.formatted_name
               ?.toLowerCase()
@@ -130,7 +139,7 @@ const PosContainer = () => {
 
       if (isDataAvailable) toast.error("This Product Already Added");
       else {
-        const filterOptionsData = productByNameData
+        const filterOptionsData = searchByProductName
           ?.filter(
             (data) =>
               data?.formatted_name?.toLowerCase() ===
@@ -146,6 +155,42 @@ const PosContainer = () => {
         setProductTableData((prevData) => [...prevData, filterOptionsData]);
       }
     }
+  };
+
+  const toggleFullscreen = () => {
+    const doc = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (doc.requestFullscreen) {
+        doc.requestFullscreen();
+      } else if (doc.mozRequestFullScreen) {
+        // Firefox
+        doc.mozRequestFullScreen();
+      } else if (doc.webkitRequestFullscreen) {
+        // Chrome, Safari and Opera
+        doc.webkitRequestFullscreen();
+      } else if (doc.msRequestFullscreen) {
+        // IE/Edge
+        doc.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        // Firefox
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        // Chrome, Safari and Opera
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        // IE/Edge
+        document.msExitFullscreen();
+      }
+    }
+  };
+
+  const handleToggleFullscreen = () => {
+    toggleFullscreen();
+    setIsFullscreen(!isFullscreen);
   };
 
   const initialValues = {
@@ -174,9 +219,10 @@ const PosContainer = () => {
     productTableData,
     categoryNames,
     categoryTabData,
-    productByNameData,
+    searchByProductName,
     filteredProductList,
     status,
+    isFullscreen,
     handleSubmit,
     navigateToCustomer,
     setCountQty,
@@ -185,6 +231,7 @@ const PosContainer = () => {
     handleSearchChange,
     handleCategoryTabClick,
     handleProductCardClick,
+    handleToggleFullscreen,
   };
 };
 

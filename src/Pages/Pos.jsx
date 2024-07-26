@@ -17,6 +17,7 @@ const Pos = () => {
     categoryTabData,
     filteredProductList,
     status,
+    isFullscreen,
     handleSubmit,
     navigateToCustomer,
     setCountQty,
@@ -24,6 +25,7 @@ const Pos = () => {
     handleSearchInputChange,
     handleSearchChange,
     handleProductCardClick,
+    handleToggleFullscreen,
   } = PosContainer();
 
   if (status !== "succeeded") return <Loader />;
@@ -91,7 +93,9 @@ const Pos = () => {
                       categoryTabData={categoryTabData}
                       productTableData={productTableData}
                       filteredProductList={filteredProductList}
+                      isFullscreen={isFullscreen}
                       handleTabClick={handleTabClick}
+                      handleToggleFullscreen={handleToggleFullscreen}
                       handleSearchChange={handleSearchChange}
                       handleProductCardClick={handleProductCardClick}
                       handleSearchInputChange={handleSearchInputChange}

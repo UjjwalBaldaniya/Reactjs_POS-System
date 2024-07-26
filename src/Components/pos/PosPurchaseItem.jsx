@@ -1,14 +1,18 @@
 import { Field } from "formik";
 import React from "react";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsCalculator } from "react-icons/bs";
-import { RiShoppingBagLine } from "react-icons/ri";
+import { RiFullscreenExitLine, RiShoppingBagLine } from "react-icons/ri";
+import { SlSizeFullscreen } from "react-icons/sl";
 import { TbPlaceholder } from "react-icons/tb";
+import { TfiMenuAlt } from "react-icons/tfi";
 import Select from "react-select";
-import { burgerIcon } from "../../assets/icons/pos";
 import cakeImage from "../../assets/images/dashboard/cake.jpg";
-import { useNavigate } from "react-router-dom";
+import useNavigation from "../../hooks/useNavigation";
+import Calculator from "./Calculator";
 
 const PosPurchaseItem = ({
+  isFullscreen,
   handleSearchInputChange,
   handleSearchChange,
   categoryNames,
@@ -17,12 +21,16 @@ const PosPurchaseItem = ({
   filteredProductList,
   productTableData,
   handleProductCardClick,
+  handleToggleFullscreen,
 }) => {
-  const navigate = useNavigate();
+  const { handleBack } = useNavigation();
 
-  const handleBack = () => {
-    navigate(-1);
-  };
+  const popoverBottom = (
+    <Popover id="popover-positioned-bottom" title="Popover bottom">
+      <Calculator />
+    </Popover>
+  );
+
   return (
     <div className="py-4">
       <div className="d-flex">
@@ -37,9 +45,8 @@ const PosPurchaseItem = ({
                   if (
                     actionMeta.action !== "input-blur" &&
                     actionMeta.action !== "menu-close"
-                  ) {
+                  )
                     handleSearchInputChange(newValue, form.setFieldValue);
-                  }
                 }}
                 onChange={(option) =>
                   handleSearchChange(option, form.setFieldValue)
@@ -53,14 +60,30 @@ const PosPurchaseItem = ({
         </div>
         <div className="d-flex  gap-3">
           <button className="pos-menu-btn">
-            <div>{burgerIcon}</div>
+            <TfiMenuAlt size={22} />
           </button>
           <button className="pos-menu-btn">
             <RiShoppingBagLine size={22} />
           </button>
-          <button className="pos-menu-btn">
-            <BsCalculator size={22} />
+          <button
+            className="pos-menu-btn"
+            onClick={() => handleToggleFullscreen()}
+          >
+            {isFullscreen ? (
+              <RiFullscreenExitLine size={20} />
+            ) : (
+              <SlSizeFullscreen size={17} />
+            )}
           </button>
+          <OverlayTrigger
+            trigger="click"
+            placement="bottom"
+            overlay={popoverBottom}
+          >
+            <button className="pos-menu-btn">
+              <BsCalculator size={22} />
+            </button>
+          </OverlayTrigger>
           <button className="pos-menu-btn" onClick={handleBack}>
             <TbPlaceholder size={22} />
           </button>

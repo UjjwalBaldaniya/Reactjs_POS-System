@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { getProductByName } from "../../api/services/purchaseService";
 
 export const fetchFilteredProductList = createAsyncThunk(
-  "pos/fetchProductByName",
+  "pos/fetchFilteredProductList",
   async () => {
     const response = await getProductByName();
     return response?.data;
@@ -12,6 +12,7 @@ export const fetchFilteredProductList = createAsyncThunk(
 const posSlice = createSlice({
   name: "pos",
   initialState: {
+    searchByProductName: [],
     filteredProductList: [],
     isEdit: false,
     status: "idle",
@@ -39,6 +40,7 @@ const posSlice = createSlice({
       })
       .addCase(fetchFilteredProductList.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.searchByProductName = action?.payload;
         state.filteredProductList = action?.payload;
       })
       .addCase(fetchFilteredProductList.rejected, (state, action) => {
