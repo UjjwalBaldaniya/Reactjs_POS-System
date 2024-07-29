@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 const CustomAccordion = ({ title, children }) => {

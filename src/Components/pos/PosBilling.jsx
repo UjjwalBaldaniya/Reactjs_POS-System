@@ -1,6 +1,6 @@
-import React from "react";
 import { Button } from "react-bootstrap";
 import Select from "react-select";
+
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
 import { posColumns } from "../../description/pos.description";

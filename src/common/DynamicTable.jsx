@@ -1,4 +1,3 @@
-import React from "react";
 import "../css/dynamicTable.css";
 
 const DynamicTable = ({ columns, data, actions }) => {
@@ -39,8 +38,8 @@ const DynamicTable = ({ columns, data, actions }) => {
                         getCellValue(row, col?.accessor)
                       )}`
                     : col?.bgColor
-                    ? `dynamic-bg-${col?.bgColor}`
-                    : "";
+                      ? `dynamic-bg-${col?.bgColor}`
+                      : "";
 
                   return (
                     <td

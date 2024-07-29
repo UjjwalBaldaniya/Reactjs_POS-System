@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { deleteCategory } from "../../api/services/categoryService";
 import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import {

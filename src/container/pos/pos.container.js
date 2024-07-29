@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import { deleteIcon } from "../../assets/icons/tables";
 import { fetchCategory } from "../../redux/slice/categorySlice";
 import { fetchCustomers } from "../../redux/slice/customerSlice";
@@ -46,7 +47,7 @@ const PosContainer = () => {
   const customerOption = getDropdownOption(customersData, "_id", "name");
   const categoryNames = [
     "All categories",
-    ...categoryData?.map((category) => category?.category_name),
+    ...categoryData.map((category) => category?.category_name),
   ];
 
   const navigateToCustomer = (e, values, customerOption) => {
@@ -133,7 +134,7 @@ const PosContainer = () => {
 
   const handleCategoryTabClick = (index) => setCategoryTabData(index);
 
-  const handleProductCardClick = (item, index) => {
+  const handleProductCardClick = (item) => {
     if (item) {
       const isDataAvailable = isProductPresent(item?.formatted_name);
 
@@ -207,10 +208,7 @@ const PosContainer = () => {
     shippingType: "$",
   };
 
-  const handleSubmit = async (
-    values,
-    { setSubmitting, setFieldError, resetForm }
-  ) => {};
+  const handleSubmit = async () => {};
 
   return {
     initialValues,

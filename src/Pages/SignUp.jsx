@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { t } from "i18next";
-import React from "react";
 import { FaUser } from "react-icons/fa";
 import Select from "react-select";
+
 import { signUp } from "../api/services/authService";
 import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";
 import SignUpContainer from "../container/signUp.container";

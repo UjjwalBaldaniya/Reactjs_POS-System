@@ -1,5 +1,5 @@
-import React from "react";
 import { Offcanvas } from "react-bootstrap";
+
 import CanvasHeader from "./CanvasHeader";
 
 const OffcanvasDrawer = ({ isDrawerOpen, setDrawerOpen, children, title }) => {

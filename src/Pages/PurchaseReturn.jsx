@@ -1,4 +1,3 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Navbar from "../common/Navbar";
 import PurchaseReturnContainer from "../container/purchase/purchaseReturn.container";

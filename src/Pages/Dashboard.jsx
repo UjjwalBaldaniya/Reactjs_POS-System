@@ -1,6 +1,9 @@
+import "../css/dashboard.css";
+
 import { t } from "i18next";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   locationIcon,
   rightSideArrowIcon,
@@ -17,7 +20,6 @@ import pizza from "../assets/images/dashboard/pizza.jpg";
 import star from "../assets/images/dashboard/star.webp";
 import waterBottle from "../assets/images/dashboard/water-bottle.jpg";
 import Navbar from "../common/Navbar";
-import "../css/dashboard.css";
 
 const Dashboard = () => {
   const [selectedBtn, setSelectedBtn] = useState(0);

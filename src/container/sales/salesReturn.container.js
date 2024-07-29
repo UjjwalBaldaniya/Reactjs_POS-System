@@ -1,5 +1,3 @@
-import React from "react";
-
 const SalesReturnContainer = () => {
   return <div>salesReturn.container</div>;
 };

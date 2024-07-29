@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import "../css/navbar.css";
+
+import { useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { navbarMobileIcon } from "../assets/icons/dashboard";
 import { bellIcon, posIcon } from "../assets/icons/navbar";
 import { backIcon } from "../assets/icons/product";
 import MobileMenu from "../components/sidebar/MobileSidebar";
-import "../css/navbar.css";
 import { setLanguage } from "../redux/slice/languageSlice";
 import i18n from "../utils/i18next";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = ({
   title,

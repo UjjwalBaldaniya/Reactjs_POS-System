@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
-import React from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
+
 import AddVariationsContainer from "../../container/variations/addVariations.container";
 import { variationSchema } from "../../utils/validationSchema/productsSchema";
 
@@ -45,12 +45,12 @@ const AddVariations = ({ isModalOpen }) => {
                 <div className="mt-3">
                   <label className="formField-label">Variation Types</label>
                   <FieldArray name="variationTypes">
-                    {({ insert, remove, push }) => (
+                    {({ remove, push }) => (
                       <div>
                         {values.variationTypes?.length > 0 &&
-                          values.variationTypes?.map((variationType, index) => (
-                            <div className="row mt-3">
-                              <div key={index} className="col-10">
+                          values.variationTypes?.map((_, index) => (
+                            <div className="row mt-3" key={index}>
+                              <div className="col-10">
                                 <Field
                                   name={`variationTypes.${index}`}
                                   placeholder="Enter Variation Type"

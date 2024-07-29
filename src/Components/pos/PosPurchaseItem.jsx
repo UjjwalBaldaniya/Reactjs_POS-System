@@ -1,5 +1,4 @@
 import { Field } from "formik";
-import React from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import { BsCalculator } from "react-icons/bs";
 import { RiFullscreenExitLine, RiShoppingBagLine } from "react-icons/ri";
@@ -7,6 +6,7 @@ import { SlSizeFullscreen } from "react-icons/sl";
 import { TbPlaceholder } from "react-icons/tb";
 import { TfiMenuAlt } from "react-icons/tfi";
 import Select from "react-select";
+
 import cakeImage from "../../assets/images/dashboard/cake.jpg";
 import useNavigation from "../../hooks/useNavigation";
 import Calculator from "./Calculator";

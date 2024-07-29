@@ -1,10 +1,9 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
+import Loader from "../common/Loader";
 import Navbar from "../common/Navbar";
 import AddBaseUnits from "../components/baseUnits/AddBaseUnits";
 import BaseUnitsContainer from "../container/baseUnits/baseUnits.container";
 import { baseUnitsColumns } from "../description/baseUnits.description";
-import Loader from "../common/Loader";
 
 const BaseUnits = () => {
   const { handleAdd, actionsBtn, baseUnitsData, isModalOpen, status } =

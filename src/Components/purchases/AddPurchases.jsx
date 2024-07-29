@@ -1,15 +1,16 @@
+import "../../css/purchase.css";
+
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { Field, Form, Formik } from "formik";
-import React from "react";
 import Select from "react-select";
+
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
-import Navbar from "../../common/Navbar";
 import Loader from "../../common/Loader";
+import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
-import "../../css/purchase.css";
 import {
   addPurchaseColumns,
   purchaseTableColumns,

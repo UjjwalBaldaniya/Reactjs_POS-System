@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import {
   getByIdPurchase,
   getProductByName,
@@ -40,7 +41,7 @@ const purchaseSlice = createSlice({
     error: null,
   },
   reducers: {
-    resetInitialValues: (state, action) => {
+    resetInitialValues: (state) => {
       state.supplierDataById = {};
     },
     setEdit: (state, action) => {
@@ -49,7 +50,7 @@ const purchaseSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchProductByName.pending, (state, action) => {
+      .addCase(fetchProductByName.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchProductByName.fulfilled, (state, action) => {
@@ -60,7 +61,7 @@ const purchaseSlice = createSlice({
         state.status = "failed";
         state.error = action?.error?.message;
       })
-      .addCase(fetchPurchase.pending, (state, action) => {
+      .addCase(fetchPurchase.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchPurchase.fulfilled, (state, action) => {
@@ -71,7 +72,7 @@ const purchaseSlice = createSlice({
         state.status = "failed";
         state.error = action?.error?.message;
       })
-      .addCase(fetchPurchaseById.pending, (state, action) => {
+      .addCase(fetchPurchaseById.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchPurchaseById.fulfilled, (state, action) => {

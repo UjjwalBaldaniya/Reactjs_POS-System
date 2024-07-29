@@ -1,8 +1,10 @@
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
-import React from "react";
 import Select from "react-select";
+
 import { cancelIcon, fileUploadIcon } from "../../assets/icons/product";
 import CommonButton from "../../common/CommonButton";
+import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
+import Loader from "../../common/Loader";
 import Navbar from "../../common/Navbar";
 import {
   ProductPercentageField,
@@ -10,7 +12,6 @@ import {
   ProductTextAreaField,
   ProductTextField,
 } from "../../common/ProductFromField";
-import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
 import AddProductsContainer from "../../container/products/addProducts.container";
 import {
   availabilityOption,
@@ -19,7 +20,6 @@ import {
   productTypeOption,
 } from "../../description/products/products.description";
 import { productSchema } from "../../utils/validationSchema/productsSchema";
-import Loader from "../../common/Loader";
 
 const AddProduct = () => {
   const {

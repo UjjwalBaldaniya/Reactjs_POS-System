@@ -1,13 +1,13 @@
+import "../../css/addNewTable.css";
+
 import { t } from "i18next";
-import React, { useState } from "react";
 import Select from "react-select";
+
 import { plusIcon } from "../../assets/icons/tables";
 import OffcanvasDrawer from "../../common/OffcanvasDrawer";
-import "../../css/addNewTable.css";
 
 const AddNewTable = ({ isDrawerOpen, setDrawerOpen }) => {
   const options = [{ value: "doha", label: "doha" }];
-  const [selectedOption2, setSelectedOption2] = useState(options[0]);
 
   return (
     <OffcanvasDrawer
@@ -22,7 +22,6 @@ const AddNewTable = ({ isDrawerOpen, setDrawerOpen }) => {
             <Select
               options={options}
               // value={selectedOption2}
-              onChange={setSelectedOption2}
               placeholder={t("table.selectBranch")}
             />
           </div>

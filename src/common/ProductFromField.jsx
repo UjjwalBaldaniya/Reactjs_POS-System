@@ -1,6 +1,5 @@
 import { ErrorMessage, Field, useField } from "formik";
 import Select from "react-select";
-import React from "react";
 
 const ProductTextField = ({ label, name, placeholder, touched, errors }) => {
   return (
@@ -84,14 +83,7 @@ const ProductTextAreaField = ({
   );
 };
 
-const ProductPercentageField = ({
-  label,
-  name,
-  placeholder,
-  touched,
-  errors,
-  symbol,
-}) => {
+const ProductPercentageField = ({ label, name, placeholder, symbol }) => {
   const [field, meta] = useField(name);
   return (
     <div className="col-12 col-md">
@@ -117,8 +109,8 @@ const ProductPercentageField = ({
 };
 
 export {
-  ProductTextField,
+  ProductPercentageField,
   ProductSelectField,
   ProductTextAreaField,
-  ProductPercentageField,
+  ProductTextField,
 };

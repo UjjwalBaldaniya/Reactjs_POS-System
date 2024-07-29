@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { getByIdUnit, getUnits } from "../../api/services/unitService";
 
 export const fetchUnits = createAsyncThunk("products/fetchUnits", async () => {
@@ -37,7 +38,7 @@ const unitSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchUnits.pending, (state, action) => {
+      .addCase(fetchUnits.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchUnits.fulfilled, (state, action) => {
@@ -48,7 +49,7 @@ const unitSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchUnitById.pending, (state, action) => {
+      .addCase(fetchUnitById.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchUnitById.fulfilled, (state, action) => {

@@ -1,12 +1,12 @@
 import { Form, Formik } from "formik";
-import React from "react";
+
 import CommonButton from "../../common/CommonButton";
 import FormField from "../../common/FormField";
+import Loader from "../../common/Loader";
 import Navbar from "../../common/Navbar";
 import CreateCustomerContainer from "../../container/customer/createCustomer.container";
 import { customerFormField } from "../../description/customer.description";
 import { customerSchema } from "../../utils/validationSchema/peoplesSchema";
-import Loader from "../../common/Loader";
 
 const CreateCustomer = () => {
   const { handleBack, initialValues, handleSubmit, isEdit, status } =

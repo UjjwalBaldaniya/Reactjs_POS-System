@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { deleteSupplier } from "../../api/services/supplierService";
 import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import {
   fetchSuppliers,
   resetInitialValues,
   setEdit,
 } from "../../redux/slice/supplierSlice";
-import { deleteSupplier } from "../../api/services/supplierService";
 
 const SuppliersContainer = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,9 @@
-import React from "react";
+import "../../css/mobile-sidebar.css";
+
 import { NavLink, Offcanvas } from "react-bootstrap";
 import { RxDotFilled } from "react-icons/rx";
 import { Link } from "react-router-dom";
+
 import { leftSideArrow } from "../../assets/icons/dashboard";
 import {
   applicationsIcon,
@@ -17,7 +19,6 @@ import {
   settingsIcon,
   tablesIcon,
 } from "../../assets/icons/sidebar";
-import "../../css/mobile-sidebar.css";
 
 const MobileSidebar = (props) => {
   const { show, onHide } = props;

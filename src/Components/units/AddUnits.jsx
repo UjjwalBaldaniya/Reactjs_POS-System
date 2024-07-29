@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
-import React from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
+
 import FormField from "../../common/FormField";
 import AddUnitsContainer from "../../container/units/addUnits.container";
 import { unitSchema } from "../../utils/validationSchema/productsSchema";

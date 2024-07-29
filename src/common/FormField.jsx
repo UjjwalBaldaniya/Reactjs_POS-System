@@ -1,5 +1,6 @@
-import { ErrorMessage, Field } from "formik";
 import "../css/formField.css";
+
+import { ErrorMessage, Field } from "formik";
 import Select from "react-select";
 
 const FormField = ({ field, setFieldValue, values, errors, touched }) => {

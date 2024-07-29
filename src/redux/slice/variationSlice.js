@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import {
   getByIdVariation,
   getVariations,
@@ -31,7 +32,7 @@ const variationSlice = createSlice({
     isModalOpen: false,
   },
   reducers: {
-    resetInitialValues: (state, action) => {
+    resetInitialValues: (state) => {
       state.variationDataById = {};
     },
     setEdit: (state, action) => {
@@ -43,7 +44,7 @@ const variationSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchVariations.pending, (state, action) => {
+      .addCase(fetchVariations.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchVariations.fulfilled, (state, action) => {
@@ -54,7 +55,7 @@ const variationSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchVariationById.pending, (state, action) => {
+      .addCase(fetchVariationById.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchVariationById.fulfilled, (state, action) => {

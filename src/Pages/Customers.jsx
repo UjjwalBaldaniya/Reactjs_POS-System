@@ -1,4 +1,3 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
 import Loader from "../common/Loader";
 import Navbar from "../common/Navbar";
