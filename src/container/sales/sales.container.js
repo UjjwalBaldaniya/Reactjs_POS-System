@@ -1,14 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { deleteIcon, editIcon } from "../../assets/icons/tables";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { deleteSale } from "../../api/services/saleService";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
+import { fetchCustomers } from "../../redux/slice/customerSlice";
 import {
   fetchSales,
   resetInitialValues,
   setEdit,
 } from "../../redux/slice/saleSlice";
-import { deleteSale } from "../../api/services/saleService";
-import { useEffect } from "react";
-import { fetchCustomers } from "../../redux/slice/customerSlice";
 import { formatTimestamp } from "../../utils/functions/dateUtils";
 
 const SalesContainer = () => {

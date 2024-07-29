@@ -1,10 +1,9 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
+import Loader from "../common/Loader";
 import Navbar from "../common/Navbar";
 import AddVariations from "../components/variations/AddVariations";
 import VariationsContainer from "../container/variations/variations.container";
 import { variationColumns } from "../description/variations.description";
-import Loader from "../common/Loader";
 
 const Variations = () => {
   const { actionsBtn, variationData, handleAdd, isModalOpen, status } =

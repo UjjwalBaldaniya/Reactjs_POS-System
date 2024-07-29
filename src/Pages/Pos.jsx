@@ -1,10 +1,11 @@
+import "../css/pos.css";
+
 import { Form, Formik } from "formik";
-import React from "react";
+
 import Loader from "../common/Loader";
 import PosBilling from "../components/pos/PosBilling";
 import PosPurchaseItem from "../components/pos/PosPurchaseItem";
 import PosContainer from "../container/pos/pos.container";
-import "../css/pos.css";
 import { calculateTotals } from "../utils/functions/salesAndPurchasesUtils";
 
 const Pos = () => {
@@ -38,7 +39,7 @@ const Pos = () => {
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ isSubmitting, setFieldValue, values }) => {
+          {({ setFieldValue, values }) => {
             // console.log("🚀 ~ Pos ~ values:", values);
             const { grandTotal, taxAmount, discountAmount, shippingAmount } =
               calculateTotals(

@@ -1,10 +1,12 @@
+import "../../css/sidebar.css";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { RxDotFilled } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+
 import CustomAccordion from "../../common/CustomAccordion";
-import "../../css/sidebar.css";
 import { menuItems } from "../../description/sidebar.description";
 
 const Sidebar = () => {

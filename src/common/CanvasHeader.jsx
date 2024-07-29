@@ -1,6 +1,6 @@
-import React from "react";
-import { canvasCloseIcon, roundPlusIcon } from "../assets/icons/tables";
 import "../css/canvasHeader.css";
+
+import { canvasCloseIcon, roundPlusIcon } from "../assets/icons/tables";
 
 const CanvasHeader = ({ setDrawerOpen, title }) => {
   return (

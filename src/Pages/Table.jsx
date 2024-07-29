@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import Navbar from "../common/Navbar";
 import "../css/table.css";
+
+import { t } from "i18next";
+import { useState } from "react";
+
+import { wrightIcon } from "../assets/icons/dashboard";
 import {
   deleteIcon,
   editIcon,
@@ -8,9 +11,8 @@ import {
   iIcon,
   searchIcon,
 } from "../assets/icons/tables";
-import { wrightIcon } from "../assets/icons/dashboard";
+import Navbar from "../common/Navbar";
 import AddNewTable from "../components/table/AddNewTable";
-import { t } from "i18next";
 
 const Table = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);

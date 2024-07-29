@@ -1,11 +1,12 @@
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { Field, Form, Formik } from "formik";
-import React from "react";
 import Select from "react-select";
+
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
+import Loader from "../../common/Loader";
 import Navbar from "../../common/Navbar";
 import AddSalesContainer from "../../container/sales/addSales.container";
 import {
@@ -20,7 +21,6 @@ import {
   calculateTotals,
   preventNegative,
 } from "../../utils/functions/salesAndPurchasesUtils";
-import Loader from "../../common/Loader";
 
 const AddSales = () => {
   const {

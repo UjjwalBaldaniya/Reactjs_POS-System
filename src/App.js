@@ -1,16 +1,20 @@
+import "./App.css";
+
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "./App.css";
+
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import CreateCustomer from "./components/customer/CreateCustomer.jsx";
 import AddProduct from "./components/products/AddProduct.jsx";
 import AddPurchaseReturn from "./components/purchaseReturn/AddPurchaseReturn.jsx";
 import AddPurchases from "./components/purchases/AddPurchases.jsx";
+import AddSales from "./components/sales/AddSales.jsx";
 import CreateSupplier from "./components/supplier/CreateSupplier.jsx";
 import BaseUnits from "./pages/BaseUnits.jsx";
 import Customers from "./pages/Customers.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Pos from "./pages/Pos.jsx";
 import Products from "./pages/Products.jsx";
 import ProductsCatagories from "./pages/ProductsCatagories.jsx";
 import PurchaseReturn from "./pages/PurchaseReturn.jsx";
@@ -22,8 +26,6 @@ import Suppliers from "./pages/Suppliers.jsx";
 import Table from "./pages/Table.jsx";
 import Units from "./pages/Units.jsx";
 import Variations from "./pages/Variations.jsx";
-import AddSales from "./components/sales/AddSales.jsx";
-import Pos from "./pages/Pos.jsx";
 
 function App() {
   const language = useSelector((state) => state?.language?.language);

@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { t } from "i18next";
-import React from "react";
 import { FaUser } from "react-icons/fa";
+
 import { signIn } from "../api/services/authService";
 import DynamicFormField from "../common/DynamicFormField";
 import SignInLoginSideImage from "../components/signIn/SignInLoginSideImage";

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+
 import {
   addProduct,
   deleteProductImage,
@@ -78,7 +79,7 @@ const AddProductsContainer = () => {
   );
   const findVariationNameById = (variations, id) => {
     for (const variation of variations) {
-      for (const type of variation?.variations_types) {
+      for (const type of variation.variations_types) {
         if (type?._id === id) {
           return type?.name;
         }

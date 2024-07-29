@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { getByIdProduct, getProducts } from "../../api/services/productService";
 
 export const fetchProducts = createAsyncThunk(
@@ -36,7 +37,7 @@ const productSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchProducts.pending, (state, action) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
@@ -47,7 +48,7 @@ const productSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchProductById.pending, (state, action) => {
+      .addCase(fetchProductById.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchProductById.fulfilled, (state, action) => {

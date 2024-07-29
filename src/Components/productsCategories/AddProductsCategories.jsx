@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
 import { Button, Modal, Spinner } from "react-bootstrap";
+
 import AddCategoryContainer from "../../container/category/addCategory.container";
 import { categorySchema } from "../../utils/validationSchema/productsSchema";
 

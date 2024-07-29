@@ -1,12 +1,12 @@
 import { Form, Formik } from "formik";
-import React from "react";
+
+import CommonButton from "../../common/CommonButton";
 import FormField from "../../common/FormField";
+import Loader from "../../common/Loader";
 import Navbar from "../../common/Navbar";
 import CreateSupplierContainer from "../../container/supplier/createSupplier.container";
 import { supplierFormField } from "../../description/suppliers.description";
 import { supplierSchema } from "../../utils/validationSchema/peoplesSchema";
-import CommonButton from "../../common/CommonButton";
-import Loader from "../../common/Loader";
 
 const CreateSupplier = () => {
   const { handleBack, initialValues, handleSubmit, isEdit, status } =

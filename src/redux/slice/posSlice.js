@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import { getProductByName } from "../../api/services/purchaseService";
 
 export const fetchFilteredProductList = createAsyncThunk(
@@ -19,23 +20,22 @@ const posSlice = createSlice({
     error: null,
   },
   reducers: {
-    resetInitialValues: (state, action) => {
+    resetInitialValues: (state) => {
       state.supplierDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
     },
-    setFilteredProductList: (state, action) => {
+    setFilteredProductList: () => {
       // Need Image and category
-      const { filteredProductList = [] } = current(state);
+      // const { filteredProductList = [] } = current(state);
       // const newData = newFilteredProductList?.filter((data) => data?.)
-      console.log("🚀 ~ clone:", filteredProductList);
       //   state.filteredProductList = action?.payload;
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchFilteredProductList.pending, (state, action) => {
+      .addCase(fetchFilteredProductList.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchFilteredProductList.fulfilled, (state, action) => {

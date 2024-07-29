@@ -1,15 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import baseUnitSlice from "./slice/baseUnitSlice";
 import categorySlice from "./slice/categorySlice";
+import customerSlice from "./slice/customerSlice";
 import languageSlice from "./slice/languageSlice";
+import posSlice from "./slice/posSlice";
 import productSlice from "./slice/product.slice";
+import purchaseSlice from "./slice/purchaseSlice";
+import saleSlice from "./slice/saleSlice";
+import supplierSlice from "./slice/supplierSlice";
 import unitSlice from "./slice/unitSlice";
 import variationSlice from "./slice/variationSlice";
-import purchaseSlice from "./slice/purchaseSlice";
-import supplierSlice from "./slice/supplierSlice";
-import customerSlice from "./slice/customerSlice";
-import saleSlice from "./slice/saleSlice";
-import posSlice from "./slice/posSlice";
 
 const store = configureStore({
   reducer: {

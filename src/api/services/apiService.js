@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
-import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
+
 import { DELETE, GET, PATCH, POST } from "../../utils/constants";
+import axiosInstanceAuth from "../interceptors/axiosInstanceAuth";
 
 const handleSuccess = (response) => {
   toast.success(response?.data?.msg);

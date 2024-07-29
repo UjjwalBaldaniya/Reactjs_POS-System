@@ -1,9 +1,8 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
+import Loader from "../common/Loader";
 import Navbar from "../common/Navbar";
 import SuppliersContainer from "../container/supplier/suppliers.container";
 import { suppliersColumns } from "../description/suppliers.description";
-import Loader from "../common/Loader";
 
 const Suppliers = () => {
   const { handleAdd, actionsBtn, suppliersData, status } = SuppliersContainer();

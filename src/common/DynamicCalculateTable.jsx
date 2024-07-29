@@ -1,6 +1,6 @@
-import React from "react";
-import { toast } from "react-toastify";
 import "../css/dynamicTable.css";
+
+import { toast } from "react-toastify";
 
 const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
   const getCellValue = (row, accessor) =>
@@ -59,8 +59,8 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
                         getCellValue(row, col?.accessor)
                       )}`
                     : col?.bgColor
-                    ? `dynamic-bg-${col?.bgColor}`
-                    : "";
+                      ? `dynamic-bg-${col?.bgColor}`
+                      : "";
 
                   return (
                     <td

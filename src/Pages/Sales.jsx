@@ -1,8 +1,7 @@
-import React from "react";
 import DynamicTable from "../common/DynamicTable";
+import Loader from "../common/Loader";
 import Navbar from "../common/Navbar";
 import SalesContainer from "../container/sales/sales.container";
-import Loader from "../common/Loader";
 
 const Sales = () => {
   const { actionsBtn, handleAdd, salesData, salesColumns, status } =
