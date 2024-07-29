@@ -1,7 +1,7 @@
 import { DatePicker } from "antd";
 import { Field, Form, Formik } from "formik";
-import React from "react";
 import Select from "react-select";
+
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
 import InputWithSelect from "../../common/InputWithSelect";
@@ -9,7 +9,6 @@ import Navbar from "../../common/Navbar";
 import AddPurchaseReturnContainer from "../../container/purchase/addPurchaseReturn.container";
 import {
   addPurchaseColumns,
-  options,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
@@ -18,16 +17,17 @@ import {
 const AddPurchaseReturn = () => {
   const {
     productTableData,
+    actionsBtn,
+    initialValues,
+    billNoSupplierOption,
     handleBack,
     setProductTableData,
-    actionsBtn,
-    handleInputChange,
     handleChange,
-    initialValues,
     handleSubmit,
     calculateTotals,
     preventNegative,
     AmountDisplay,
+    purchaseReturnItems,
   } = AddPurchaseReturnContainer();
 
   return (
@@ -50,6 +50,8 @@ const AddPurchaseReturn = () => {
               values?.shipping,
               values?.shippingType
             );
+
+          const returnItemsOption = purchaseReturnItems(values);
 
           const summaryData = [
             {
@@ -80,7 +82,7 @@ const AddPurchaseReturn = () => {
                     </label>
                     <Select
                       id="supplier"
-                      options={options}
+                      options={billNoSupplierOption}
                       onChange={(option) => setFieldValue("supplier", option)}
                     />
                   </div>
@@ -99,29 +101,13 @@ const AddPurchaseReturn = () => {
 
                 <div className="mt-3">
                   <label className="formField-label">Product:</label>
-                  <Field name="search">
-                    {({ field }) => (
-                      <Select
-                        {...field}
-                        options={values.options}
-                        inputValue={values.inputValue}
-                        onInputChange={(newValue, actionMeta) => {
-                          if (
-                            actionMeta.action !== "input-blur" &&
-                            actionMeta.action !== "menu-close"
-                          ) {
-                            handleInputChange(newValue, setFieldValue);
-                          }
-                        }}
-                        onChange={(option) => {
-                          handleChange(option, setFieldValue);
-                        }}
-                        isClearable
-                        menuIsOpen={values.inputValue?.length > 0}
-                        placeholder="Search Product by Name"
-                      />
-                    )}
-                  </Field>
+                  <Select
+                    id="products"
+                    options={returnItemsOption}
+                    onChange={(option) => {
+                      handleChange(option, setFieldValue);
+                    }}
+                  />
                 </div>
 
                 <div className="mt-4">
@@ -147,8 +133,8 @@ const AddPurchaseReturn = () => {
                       {PurchaseTableInputs?.map((input, index) => (
                         <InputWithSelect
                           key={index}
-                          fieldName={input.fieldName}
-                          typeName={input.typeName}
+                          fieldName={input?.fieldName}
+                          typeName={input?.typeName}
                           values={values}
                           setFieldValue={setFieldValue}
                           productTableData={productTableData}

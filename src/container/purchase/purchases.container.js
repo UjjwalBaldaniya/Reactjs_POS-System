@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { deletePurchase } from "../../api/services/purchaseService";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import {
   fetchPurchase,
   resetInitialValues,
@@ -9,7 +11,6 @@ import {
 } from "../../redux/slice/purchaseSlice";
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 import { formatTimestamp } from "../../utils/functions/dateUtils";
-import { deletePurchase } from "../../api/services/purchaseService";
 
 const PurchasesContainer = () => {
   const navigate = useNavigate();
@@ -18,6 +19,11 @@ const PurchasesContainer = () => {
     (state) => state.purchase || {}
   );
   const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
+
+  useEffect(() => {
+    dispatch(fetchPurchase());
+    dispatch(fetchSuppliers());
+  }, [dispatch]);
 
   const getSupplierName = (purchaseData) => {
     const getName = suppliersData?.filter(
@@ -67,11 +73,6 @@ const PurchasesContainer = () => {
     { name: "edit", icon: editIcon, handler: handleEdit },
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
-
-  useEffect(() => {
-    dispatch(fetchPurchase());
-    dispatch(fetchSuppliers());
-  }, [dispatch]);
 
   return { actionsBtn, handleAdd, purchaseData, purchasesColumns, status };
 };

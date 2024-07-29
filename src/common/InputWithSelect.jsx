@@ -1,6 +1,6 @@
-import { Field } from "formik";
-import React from "react";
 import "../css/inputWithSelect.css";
+
+import { Field } from "formik";
 
 const InputWithSelect = ({
   fieldName,
@@ -27,7 +27,7 @@ const InputWithSelect = ({
         )}
       </Field>
       <select
-        className="input-symbol-per-table px-1 px-xl-2"
+        className="input-symbol-per-table px-1 px-xl-3"
         name={typeName}
         value={values[typeName]}
         onChange={(e) => setFieldValue(typeName, e?.target?.value)}

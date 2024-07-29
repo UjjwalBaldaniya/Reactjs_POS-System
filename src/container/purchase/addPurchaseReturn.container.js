@@ -1,20 +1,74 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fetchProducts } from "../../redux/slice/product.slice";
+
 import { deleteIcon } from "../../assets/icons/tables";
+import { fetchProducts } from "../../redux/slice/product.slice";
+import { fetchPurchase } from "../../redux/slice/purchaseSlice";
+import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 
 const AddPurchaseReturnContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { productsData = [] } = useSelector((state) => state.product || {});
+  const { purchaseData = [] } = useSelector((state) => state.purchase || {});
+  const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
 
   const [productTableData, setProductTableData] = useState([]);
 
+  useEffect(() => {
+    dispatch(fetchPurchase());
+    dispatch(fetchProducts());
+    dispatch(fetchSuppliers());
+  }, [dispatch]);
+
   const handleBack = () => {
     navigate("/purchases");
+  };
+
+  const getSupplierName = (purchaseData, suppliersData) => {
+    const results = [];
+
+    suppliersData?.forEach((suppliers) => {
+      purchaseData?.forEach((purchase) => {
+        if (suppliers?._id === purchase?.supplier_id?._id) {
+          results.push({
+            label: `${purchase?.bill_id}(${suppliers?.name})`,
+            value: `${purchase?.bill_id}(${suppliers?.name})`,
+          });
+        }
+      });
+    });
+
+    return results;
+  };
+  const billNoSupplierOption = getSupplierName(purchaseData, suppliersData);
+
+  const purchaseReturnItems = (value) => {
+    if (!value?.supplier?.value) return [];
+
+    const [invoiceNo, supplierName] = value.supplier.value.split("(");
+    const cleanSupplierName = supplierName?.slice(0, -1);
+
+    const findSupplierId = suppliersData?.find(
+      (data) => data?.name === cleanSupplierName
+    )?._id;
+
+    if (!findSupplierId) return [];
+
+    const findSupplierName = purchaseData
+      ?.find(
+        (data) =>
+          data?.bill_id === invoiceNo &&
+          data?.supplier_id?._id === findSupplierId
+      )
+      ?.items?.map((item) => ({
+        value: item?.subtotal,
+        label: item?.subtotal,
+      }));
+
+    return findSupplierName || [];
   };
 
   const handleDelete = (row) => {
@@ -27,25 +81,6 @@ const AddPurchaseReturnContainer = () => {
   const actionsBtn = [
     { name: "delete", icon: deleteIcon, handler: handleDelete },
   ];
-
-  const handleInputChange = (newValue, setFieldValue) => {
-    setFieldValue("inputValue", newValue);
-    if (!newValue) {
-      setFieldValue("options", []);
-      return;
-    }
-
-    const filteredOptions = productsData
-      ?.filter((item) =>
-        item?.product_name_en?.toLowerCase()?.includes(newValue?.toLowerCase())
-      )
-      ?.map((data) => ({
-        value: data?.product_name_en,
-        label: data?.product_name_en,
-      }));
-
-    setFieldValue("options", filteredOptions);
-  };
 
   const handleChange = (option, setFieldValue) => {
     const isDataAvailable = option
@@ -152,24 +187,21 @@ const AddPurchaseReturnContainer = () => {
     note: "",
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {};
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  const handleSubmit = async () => {};
 
   return {
     productTableData,
+    actionsBtn,
+    initialValues,
+    billNoSupplierOption,
     handleBack,
     setProductTableData,
-    actionsBtn,
-    handleInputChange,
     handleChange,
-    initialValues,
     handleSubmit,
     calculateTotals,
     preventNegative,
     AmountDisplay,
+    purchaseReturnItems,
   };
 };
 
