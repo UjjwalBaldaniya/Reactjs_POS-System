@@ -3,23 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { addPurchaseReturn } from "../../api/services/purchaseReturnService";
 import { deleteIcon } from "../../assets/icons/tables";
-import { fetchProducts } from "../../redux/slice/product.slice";
 import { fetchPurchase } from "../../redux/slice/purchaseSlice";
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
+import { formattedDate } from "../../utils/functions/dateUtils";
 
 const AddPurchaseReturnContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { productsData = [] } = useSelector((state) => state.product || {});
   const { purchaseData = [] } = useSelector((state) => state.purchase || {});
   const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
 
   const [productTableData, setProductTableData] = useState([]);
+  const [getSelectSupplierObject, setGetSelectSupplierObject] = useState({});
+  const [grandTotal, setGrandTotal] = useState("");
 
   useEffect(() => {
     dispatch(fetchPurchase());
-    dispatch(fetchProducts());
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
@@ -43,6 +44,7 @@ const AddPurchaseReturnContainer = () => {
 
     return results;
   };
+
   const billNoSupplierOption = getSupplierName(purchaseData, suppliersData);
 
   const purchaseReturnItems = (value) => {
@@ -57,16 +59,17 @@ const AddPurchaseReturnContainer = () => {
 
     if (!findSupplierId) return [];
 
-    const findSupplierName = purchaseData
-      ?.find(
-        (data) =>
-          data?.bill_id === invoiceNo &&
-          data?.supplier_id?._id === findSupplierId
-      )
-      ?.items?.map((item) => ({
-        value: item?.subtotal,
-        label: item?.subtotal,
-      }));
+    const findSupplierObject = purchaseData?.find(
+      (data) =>
+        data?.bill_id === invoiceNo && data?.supplier_id?._id === findSupplierId
+    );
+
+    setGetSelectSupplierObject(findSupplierObject);
+
+    const findSupplierName = findSupplierObject?.items?.map((item) => ({
+      value: item?.formatted_name,
+      label: item?.formatted_name,
+    }));
 
     return findSupplierName || [];
   };
@@ -86,7 +89,7 @@ const AddPurchaseReturnContainer = () => {
     const isDataAvailable = option
       ? productTableData?.some(
           (value) =>
-            value?.product_name_en?.toLowerCase() ===
+            value?.formatted_name?.toLowerCase() ===
             option?.value?.toLowerCase()
         )
       : false;
@@ -95,16 +98,16 @@ const AddPurchaseReturnContainer = () => {
       toast.error("This Product Already Added");
     } else {
       const filterOptionsData = option
-        ? productsData
+        ? getSelectSupplierObject?.items
             ?.filter((item) =>
-              item?.product_name_en
+              item?.formatted_name
                 ?.toLowerCase()
-                ?.includes(option?.label?.toLowerCase())
+                ?.includes(option?.value?.toLowerCase())
             )
             ?.map((item) => ({
               ...item,
               qty: 1,
-              subtotal: item?.single_details?.product_price,
+              purchase_limit: item?.qty,
             }))
         : [];
       setProductTableData((prevData) => [...prevData, ...filterOptionsData]);
@@ -112,63 +115,16 @@ const AddPurchaseReturnContainer = () => {
     }
   };
 
-  const calculateTotals = (
-    productTableData,
-    orderTax,
-    orderTaxType,
-    discount,
-    discountType,
-    shipping,
-    shippingType
-  ) => {
-    let grandTotal = productTableData?.reduce(
+  const calculateTotals = (productTableData) => {
+    const grandTotal = productTableData?.reduce(
       (accumulator, item) => accumulator + (parseFloat(item?.subtotal) || 0),
       0
     );
 
-    let taxAmount = 0;
-    if (orderTaxType === "%") {
-      taxAmount = (grandTotal * (parseFloat(orderTax) || 0)) / 100;
-    } else {
-      taxAmount = parseFloat(orderTax) || 0;
-    }
-    grandTotal += taxAmount;
-
-    let discountAmount = 0;
-    if (discountType === "%") {
-      discountAmount = (grandTotal * (parseFloat(discount) || 0)) / 100;
-    } else {
-      discountAmount = parseFloat(discount) || 0;
-    }
-    grandTotal -= discountAmount;
-
-    let shippingAmount = 0;
-    if (shippingType === "%") {
-      shippingAmount = (grandTotal * (parseFloat(shipping) || 0)) / 100;
-    } else {
-      shippingAmount = parseFloat(shipping) || 0;
-    }
-    grandTotal += shippingAmount;
-
-    return { grandTotal, taxAmount, discountAmount, shippingAmount };
+    return grandTotal;
   };
 
-  const preventNegative = (event, setFieldValue, name) => {
-    const value = event?.target?.value;
-    if (value < 0) {
-      setFieldValue(name, 1);
-    } else {
-      setFieldValue(name, value);
-    }
-  };
-
-  const AmountDisplay = ({ amount, value, type }) => {
-    return (
-      <p>
-        {`$ ${amount}`} {type === "%" && `(${value || 0}% )`}
-      </p>
-    );
-  };
+  const getGrandTotal = (data) => setTimeout(() => setGrandTotal(data), 100);
 
   const initialValues = {
     search: null,
@@ -187,7 +143,59 @@ const AddPurchaseReturnContainer = () => {
     note: "",
   };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setFieldError, resetForm }
+  ) => {
+    setSubmitting(true);
+
+    const getBillId = values?.supplier?.value?.split("(")?.[0];
+    const formData = new FormData();
+
+    formData.append("bill_id", getBillId);
+    formData.append("return_date", formattedDate(values?.date));
+    // formData.append("supplier_id", values?.supplier?.value);
+
+    const appendPurchaseDetails = (variations, formData) => {
+      variations?.forEach((data, index) => {
+        const variationDetails = {
+          product_id: data?.product_id || data?._id,
+          variation_id: data?.variation_id,
+          variation_type_id: data?.variation_type_id,
+          qty: data?.qty,
+          subtotal: data?.subtotal,
+        };
+        Object.entries(variationDetails)?.forEach(([key, value]) => {
+          if (value) formData.append(`returns[${index}][${key}]`, value || "");
+        });
+      });
+    };
+
+    appendPurchaseDetails(productTableData, formData);
+
+    formData.append("return_grand_total", grandTotal);
+    formData.append("return_status", values?.status?.value);
+    formData.append("return_notes", values?.note);
+
+    try {
+      // const response = isEdit
+      //   ? await editPurchase(id, formData)
+      //   : await addPurchase(formData);
+
+      const response = await addPurchaseReturn(formData);
+
+      if (response) {
+        handleBack();
+        resetForm();
+      }
+    } catch (error) {
+      setFieldError(
+        "general",
+        error.response?.data?.msg || "An error occurred"
+      );
+    }
+    setSubmitting(false);
+  };
 
   return {
     productTableData,
@@ -199,9 +207,8 @@ const AddPurchaseReturnContainer = () => {
     handleChange,
     handleSubmit,
     calculateTotals,
-    preventNegative,
-    AmountDisplay,
     purchaseReturnItems,
+    getGrandTotal,
   };
 };
 

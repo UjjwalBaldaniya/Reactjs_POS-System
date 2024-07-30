@@ -59,15 +59,16 @@ const PosPurchaseItem = ({
           </Field>
         </div>
         <div className="d-flex  gap-3">
-          <button className="pos-menu-btn">
+          <button className="pos-menu-btn" type="button">
             <TfiMenuAlt size={22} />
           </button>
-          <button className="pos-menu-btn">
+          <button className="pos-menu-btn" type="button">
             <RiShoppingBagLine size={22} />
           </button>
           <button
             className="pos-menu-btn"
             onClick={() => handleToggleFullscreen()}
+            type="button"
           >
             {isFullscreen ? (
               <RiFullscreenExitLine size={20} />
@@ -80,11 +81,11 @@ const PosPurchaseItem = ({
             placement="bottom"
             overlay={popoverBottom}
           >
-            <button className="pos-menu-btn">
+            <button className="pos-menu-btn" type="button">
               <BsCalculator size={22} />
             </button>
           </OverlayTrigger>
-          <button className="pos-menu-btn" onClick={handleBack}>
+          <button className="pos-menu-btn" onClick={handleBack} type="button">
             <TbPlaceholder size={22} />
           </button>
         </div>

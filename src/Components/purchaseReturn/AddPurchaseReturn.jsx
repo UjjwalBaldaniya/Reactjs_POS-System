@@ -4,15 +4,10 @@ import Select from "react-select";
 
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
-import InputWithSelect from "../../common/InputWithSelect";
 import Navbar from "../../common/Navbar";
 import AddPurchaseReturnContainer from "../../container/purchase/addPurchaseReturn.container";
-import {
-  addPurchaseColumns,
-  purchaseTableColumns,
-  PurchaseTableInputs,
-  statusOptions,
-} from "../../description/purchases.description";
+import { addPurchaseReturnColumns } from "../../description/purchaseReturn.description";
+import { statusOptions } from "../../description/purchases.description";
 
 const AddPurchaseReturn = () => {
   const {
@@ -25,9 +20,8 @@ const AddPurchaseReturn = () => {
     handleChange,
     handleSubmit,
     calculateTotals,
-    preventNegative,
-    AmountDisplay,
     purchaseReturnItems,
+    getGrandTotal,
   } = AddPurchaseReturnContainer();
 
   return (
@@ -40,37 +34,9 @@ const AddPurchaseReturn = () => {
 
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ isSubmitting, setFieldValue, values }) => {
-          const { grandTotal, taxAmount, discountAmount, shippingAmount } =
-            calculateTotals(
-              productTableData,
-              values?.orderTax,
-              values?.orderTaxType,
-              values?.discount,
-              values?.discountType,
-              values?.shipping,
-              values?.shippingType
-            );
-
+          const grandTotal = calculateTotals(productTableData);
+          getGrandTotal(grandTotal);
           const returnItemsOption = purchaseReturnItems(values);
-
-          const summaryData = [
-            {
-              amount: taxAmount,
-              value: values.orderTax,
-              type: values.orderTaxType,
-            },
-            {
-              amount: discountAmount,
-              value: values.discount,
-              type: values.discountType,
-            },
-            {
-              amount: shippingAmount,
-              value: values.shipping,
-              type: values.shippingType,
-            },
-            { amount: grandTotal?.toFixed(2), value: null, type: null },
-          ];
 
           return (
             <Form>
@@ -113,7 +79,7 @@ const AddPurchaseReturn = () => {
                 <div className="mt-4">
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
-                    columns={addPurchaseColumns}
+                    columns={addPurchaseReturnColumns}
                     data={productTableData}
                     setData={setProductTableData}
                     actions={actionsBtn}
@@ -123,35 +89,14 @@ const AddPurchaseReturn = () => {
                 <div className="purchase-table-container">
                   <div className="purchase-table mt-4">
                     <div className="purchase-table-key col">
-                      {purchaseTableColumns?.map((data, index) => (
-                        <div key={index}>
-                          <p>{data}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="purchase-table-key col">
-                      {PurchaseTableInputs?.map((input, index) => (
-                        <InputWithSelect
-                          key={index}
-                          fieldName={input?.fieldName}
-                          typeName={input?.typeName}
-                          values={values}
-                          setFieldValue={setFieldValue}
-                          productTableData={productTableData}
-                          preventNegative={preventNegative}
-                        />
-                      ))}
+                      <div>
+                        <p>Grand Total</p>
+                      </div>
                     </div>
                     <div className="col purchase-table-key purchase-table-end">
-                      {summaryData?.map((item, index) => (
-                        <div key={index}>
-                          <AmountDisplay
-                            amount={item?.amount}
-                            value={item?.value}
-                            type={item?.type}
-                          />
-                        </div>
-                      ))}
+                      <div>
+                        <p>{grandTotal}</p>
+                      </div>
                     </div>
                   </div>
                 </div>

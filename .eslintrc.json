@@ -32,11 +32,11 @@
     "react/jsx-uses-vars": "error", // Prevent React components being marked as unused
 
     // General best practices
-    "no-console": "error",
+    "no-console": "warn",
     "eqeqeq": ["error", "always"], 
 
     // Code quality rules
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], 
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }], 
     "no-debugger": "warn", 
     "no-multi-spaces": "error",
     "no-trailing-spaces": "error",

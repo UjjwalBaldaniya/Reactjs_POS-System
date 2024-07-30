@@ -6,10 +6,18 @@ const DynamicCalculateTable = ({ columns, data, setData, actions }) => {
   const getCellValue = (row, accessor) =>
     typeof accessor === "function" ? accessor(row) : row?.[accessor];
 
-  const handleQtyChange = (row, newQty) => {
-    if (newQty < 1) {
-      toast.info(`Stock must be greater than 1`);
+  const handleQtyChange = (row, newQty, limit = null) => {
+    const showToast = (message) => {
+      toast.info(message);
       return;
+    };
+
+    if (newQty < 1) {
+      return showToast("Stock must be greater than 1");
+    }
+
+    if (limit && newQty > limit) {
+      return showToast("Stock must be greater than purchase item");
     }
 
     const updatedData = data?.map((item) =>

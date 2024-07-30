@@ -1,3 +1,44 @@
+export const addPurchaseReturnColumns = [
+  {
+    label: "Product",
+    accessor: (row) => `${row?.product_name || row?.product_name_en}`,
+  },
+  { label: "Variation", accessor: "variation_type_name" },
+  { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
+  {
+    label: "Price",
+    accessor: (row) => `$ ${row?.product_price}`,
+  },
+  {
+    label: "QTY",
+    accessor: "qty",
+    render: (row, handleQtyChange) => (
+      <div>
+        <button
+          onClick={() =>
+            handleQtyChange(row, row?.qty - 1, row?.purchase_limit)
+          }
+          className="dynamic-calc-count-btn me-3"
+          type="button"
+        >
+          -
+        </button>
+        <span>{row?.qty}</span>
+        <button
+          onClick={() =>
+            handleQtyChange(row, row?.qty + 1, row?.purchase_limit)
+          }
+          className="dynamic-calc-count-btn ms-3"
+          type="button"
+        >
+          +
+        </button>
+      </div>
+    ),
+  },
+  { label: "Subtotal", accessor: (row) => `$ ${row?.subtotal}` },
+];
+
 export const purchaseReturnColumns = [
   { label: "Reference", accessor: "reference" },
   { label: "Supplier", accessor: "supplier" },
@@ -95,26 +136,5 @@ export const purchaseReturnData = [
     due: "$500000.00",
     paymentType: "Cash",
     createdOn: "12:11 PM 2022-07-27",
-  },
-];
-
-export const purchaseReturnFields = [
-  {
-    label: "Name",
-    name: "name",
-    type: "text",
-    placeholder: "name",
-  },
-  {
-    label: "Short Name",
-    name: "shortName",
-    type: "text",
-    placeholder: "short name",
-  },
-  {
-    label: "Base Unit",
-    name: "baseUnit",
-    type: "text",
-    placeholder: "base unit",
   },
 ];

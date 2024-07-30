@@ -50,7 +50,11 @@ const Navbar = ({
         <div className="w-100 d-flex justify-content-between align-items-center">
           <div className="navbar-title d-none d-lg-flex align-items-center ">
             {showBackBtn && (
-              <button className="navbar-back-btn" onClick={handleBackBtn}>
+              <button
+                className="navbar-back-btn"
+                onClick={handleBackBtn}
+                type="button"
+              >
                 {backIcon}
               </button>
             )}
@@ -64,7 +68,11 @@ const Navbar = ({
           </div>
 
           <div className="d-flex align-items-center justify-content-center">
-            <button className="export-all" onClick={() => handleNavigate()}>
+            <button
+              className="export-all"
+              onClick={() => handleNavigate()}
+              type="button"
+            >
               <div
                 className="d-flex align-items-center"
                 style={{ color: "blue" }}
@@ -75,7 +83,11 @@ const Navbar = ({
             </button>
 
             {showNewAddBtn && (
-              <button className="navbar-add-products" onClick={openCanvas}>
+              <button
+                className="navbar-add-products"
+                onClick={openCanvas}
+                type="button"
+              >
                 <div className="d-flex align-items-center">
                   <div className="plus-icon">+</div>
                   <span>{newAddBtnText}</span>

@@ -1,4 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { getPurchaseReturn } from "../../api/services/purchaseReturnService";
+
+export const fetchPurchaseReturn = createAsyncThunk(
+  "purchaseReturn/fetchPurchaseReturn",
+  async () => {
+    const response = await getPurchaseReturn();
+    return response?.data;
+  }
+);
 
 const purchaseReturnSlice = createSlice({
   name: "purchase-return",
@@ -16,6 +26,20 @@ const purchaseReturnSlice = createSlice({
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchPurchaseReturn.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchPurchaseReturn.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.purchaseReturnData = action?.payload;
+      })
+      .addCase(fetchPurchaseReturn.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action?.error?.message;
+      });
   },
 });
 
