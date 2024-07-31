@@ -1,3 +1,5 @@
+import { statusOptions } from "../../description/purchases.description";
+
 export const getValueSignName = (value) => (value === "%" ? "per" : "doller");
 export const getValueSign = (value) => (value === "per" ? "%" : "$");
 
@@ -6,6 +8,9 @@ export const preventNegative = (event, setFieldValue, name) => {
   if (value < 0) setFieldValue(name, 1);
   else setFieldValue(name, value);
 };
+
+export const getStatusEditOptions = (value) =>
+  statusOptions?.find((data) => data?.value === value);
 
 export const calculateTotals = (
   currentProductData,

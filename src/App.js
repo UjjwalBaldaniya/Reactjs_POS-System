@@ -58,6 +58,10 @@ function App() {
               path="/purchase-return/create"
               element={<AddPurchaseReturn />}
             />
+            <Route
+              path="/purchase-return/edit/:id"
+              element={<AddPurchaseReturn />}
+            />
             <Route path="/sales" element={<Sales />} />
             <Route path="/sales/create" element={<AddSales />} />
             <Route path="/sales/edit/:id" element={<AddSales />} />

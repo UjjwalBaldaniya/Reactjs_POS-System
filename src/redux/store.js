@@ -6,6 +6,7 @@ import customerSlice from "./slice/customerSlice";
 import languageSlice from "./slice/languageSlice";
 import posSlice from "./slice/posSlice";
 import productSlice from "./slice/product.slice";
+import purchaseReturnSlice from "./slice/purchaseReturnSlice";
 import purchaseSlice from "./slice/purchaseSlice";
 import saleSlice from "./slice/saleSlice";
 import supplierSlice from "./slice/supplierSlice";
@@ -21,6 +22,7 @@ const store = configureStore({
     category: categorySlice,
     product: productSlice,
     purchase: purchaseSlice,
+    purchaseReturn: purchaseReturnSlice,
     supplier: supplierSlice,
     customer: customerSlice,
     sale: saleSlice,

@@ -35,14 +35,14 @@ const purchaseSlice = createSlice({
   initialState: {
     productByNameData: [],
     purchaseData: [],
-    supplierDataById: {},
+    purchaseDataById: {},
     isEdit: false,
     status: "idle",
     error: null,
   },
   reducers: {
     resetInitialValues: (state) => {
-      state.supplierDataById = {};
+      state.purchaseDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
@@ -77,7 +77,7 @@ const purchaseSlice = createSlice({
       })
       .addCase(fetchPurchaseById.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.supplierDataById = action?.payload;
+        state.purchaseDataById = action?.payload;
       })
       .addCase(fetchPurchaseById.rejected, (state, action) => {
         state.status = "failed";

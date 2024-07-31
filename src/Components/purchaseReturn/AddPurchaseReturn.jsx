@@ -1,4 +1,5 @@
 import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { Field, Form, Formik } from "formik";
 import Select from "react-select";
 
@@ -8,13 +9,15 @@ import Navbar from "../../common/Navbar";
 import AddPurchaseReturnContainer from "../../container/purchase/addPurchaseReturn.container";
 import { addPurchaseReturnColumns } from "../../description/purchaseReturn.description";
 import { statusOptions } from "../../description/purchases.description";
+import { YYYY_MM_DD } from "../../utils/constants";
+import { formattedDate } from "../../utils/functions/dateUtils";
 
 const AddPurchaseReturn = () => {
   const {
-    productTableData,
     actionsBtn,
     initialValues,
     billNoSupplierOption,
+    currentProductData,
     handleBack,
     setProductTableData,
     handleChange,
@@ -22,6 +25,7 @@ const AddPurchaseReturn = () => {
     calculateTotals,
     purchaseReturnItems,
     getGrandTotal,
+    setCountQty,
   } = AddPurchaseReturnContainer();
 
   return (
@@ -32,9 +36,13 @@ const AddPurchaseReturn = () => {
         handleBackBtn={() => handleBack()}
       />
 
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
         {({ isSubmitting, setFieldValue, values }) => {
-          const grandTotal = calculateTotals(productTableData);
+          const grandTotal = calculateTotals(currentProductData);
           getGrandTotal(grandTotal);
           const returnItemsOption = purchaseReturnItems(values);
 
@@ -49,7 +57,11 @@ const AddPurchaseReturn = () => {
                     <Select
                       id="supplier"
                       options={billNoSupplierOption}
-                      onChange={(option) => setFieldValue("supplier", option)}
+                      value={values?.supplier}
+                      onChange={(option) => {
+                        setFieldValue("supplier", option);
+                        setProductTableData([]);
+                      }}
                     />
                   </div>
                   <div className="col">
@@ -57,6 +69,12 @@ const AddPurchaseReturn = () => {
                       Date:
                     </label>
                     <DatePicker
+                      value={
+                        values.date
+                          ? dayjs(formattedDate(values.date), YYYY_MM_DD)
+                          : null
+                      }
+                      format={YYYY_MM_DD}
                       onChange={(_, dateString) =>
                         setFieldValue("date", dateString)
                       }
@@ -70,9 +88,7 @@ const AddPurchaseReturn = () => {
                   <Select
                     id="products"
                     options={returnItemsOption}
-                    onChange={(option) => {
-                      handleChange(option, setFieldValue);
-                    }}
+                    onChange={(option) => handleChange(option, setFieldValue)}
                   />
                 </div>
 
@@ -80,8 +96,8 @@ const AddPurchaseReturn = () => {
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
                     columns={addPurchaseReturnColumns}
-                    data={productTableData}
-                    setData={setProductTableData}
+                    data={currentProductData}
+                    setData={setCountQty}
                     actions={actionsBtn}
                   />
                 </div>
@@ -95,7 +111,7 @@ const AddPurchaseReturn = () => {
                     </div>
                     <div className="col purchase-table-key purchase-table-end">
                       <div>
-                        <p>{grandTotal}</p>
+                        <p>$ {grandTotal}</p>
                       </div>
                     </div>
                   </div>

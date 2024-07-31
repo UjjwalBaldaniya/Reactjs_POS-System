@@ -1,3 +1,26 @@
+import { formatTimestamp } from "../utils/functions/dateUtils";
+
+export const purchaseReturnColumns = [
+  { label: "Invoice No", accessor: "bill_id" },
+  { label: "Supplier", accessor: (row) => row?.supplier?.name },
+  {
+    label: "Status",
+    accessor: "status",
+    getBgColor: (value) => {
+      if (value === "pending") return "red";
+      if (value === "received") return "green";
+      return "yellow";
+    },
+  },
+  { label: "Grand Total", accessor: (row) => `$ ${row?.return_grand_total}` },
+  { label: "Items", accessor: (row) => row?.returns?.length },
+  {
+    label: "Created On",
+    accessor: (row) => formatTimestamp(row?.return_date),
+    bgColor: "blue",
+  },
+];
+
 export const addPurchaseReturnColumns = [
   {
     label: "Product",
@@ -37,104 +60,4 @@ export const addPurchaseReturnColumns = [
     ),
   },
   { label: "Subtotal", accessor: (row) => `$ ${row?.subtotal}` },
-];
-
-export const purchaseReturnColumns = [
-  { label: "Reference", accessor: "reference" },
-  { label: "Supplier", accessor: "supplier" },
-  { label: "WareHouse", accessor: "warehouse" },
-  {
-    label: "Status",
-    accessor: "status",
-    getBgColor: (value) => {
-      if (value === "Pending") return "red";
-      if (value === "Received") return "green";
-      return "yellow";
-    },
-  },
-  { label: "Grand Total", accessor: "grandTotal" },
-  { label: "Paid", accessor: "paid" },
-  { label: "Due", accessor: "due" },
-  { label: "Payment Type", accessor: "paymentType", bgColor: "blue" },
-  { label: "Created On", accessor: "createdOn" },
-];
-
-export const purchaseReturnData = [
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Received",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Pending",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Ordered",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Ordered",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Received",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Pending",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
-  {
-    reference: "PR_11110",
-    supplier: "fournisseur_1",
-    warehouse: "warehouse",
-    status: "Pending",
-    grandTotal: "$1500000.00",
-    paid: "$1000000.00",
-    due: "$500000.00",
-    paymentType: "Cash",
-    createdOn: "12:11 PM 2022-07-27",
-  },
 ];

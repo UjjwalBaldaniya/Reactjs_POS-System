@@ -10,7 +10,6 @@ import {
 } from "../../api/services/purchaseService";
 import { deleteIcon } from "../../assets/icons/tables";
 import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
-import { statusOptions } from "../../description/purchases.description";
 import {
   fetchProductByName,
   fetchPurchaseById,
@@ -19,6 +18,7 @@ import {
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 import { formattedDate } from "../../utils/functions/dateUtils";
 import {
+  getStatusEditOptions,
   getValueSign,
   getValueSignName,
 } from "../../utils/functions/salesAndPurchasesUtils";
@@ -29,7 +29,7 @@ const AddPurchasesContainer = () => {
   const dispatch = useDispatch();
   const {
     productByNameData = [],
-    supplierDataById = {},
+    purchaseDataById = {},
     isEdit,
     status: loading,
   } = useSelector((state) => state.purchase || {});
@@ -49,8 +49,8 @@ const AddPurchasesContainer = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (isEdit) setProductTableData(supplierDataById);
-  }, [isEdit, supplierDataById]);
+    if (isEdit) setProductTableData(purchaseDataById);
+  }, [isEdit, purchaseDataById]);
 
   const {
     bill_id,
@@ -64,7 +64,7 @@ const AddPurchasesContainer = () => {
     shipping_sign,
     status,
     notes,
-  } = supplierDataById || {};
+  } = purchaseDataById || {};
 
   const supplierOption = getDropdownOptions(suppliersData, "_id", "name");
 
@@ -83,9 +83,6 @@ const AddPurchasesContainer = () => {
 
   const getSupplierEditOption = (id) =>
     supplierOption?.find((data) => data?.value === id?._id);
-
-  const getStatusEditOptions = (value) =>
-    statusOptions?.find((data) => data?.value === value);
 
   const handleBack = () => navigate("/purchases");
 

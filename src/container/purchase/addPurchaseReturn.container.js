@@ -1,19 +1,33 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { addPurchaseReturn } from "../../api/services/purchaseReturnService";
+import {
+  addPurchaseReturn,
+  deletePurchaseReturnByName,
+  editPurchaseReturn,
+} from "../../api/services/purchaseReturnService";
 import { deleteIcon } from "../../assets/icons/tables";
-import { fetchPurchase } from "../../redux/slice/purchaseSlice";
+import { setEdit } from "../../redux/slice/purchaseReturnSlice";
+import {
+  fetchPurchase,
+  fetchPurchaseById,
+} from "../../redux/slice/purchaseSlice";
 import { fetchSuppliers } from "../../redux/slice/supplierSlice";
 import { formattedDate } from "../../utils/functions/dateUtils";
+import { getStatusEditOptions } from "../../utils/functions/salesAndPurchasesUtils";
 
 const AddPurchaseReturnContainer = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { purchaseData = [] } = useSelector((state) => state.purchase || {});
   const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
+  const { purchaseDataById = {} } = useSelector(
+    (state) => state.purchase || {}
+  );
+  const { isEdit } = useSelector((state) => state?.purchaseReturn || {});
 
   const [productTableData, setProductTableData] = useState([]);
   const [getSelectSupplierObject, setGetSelectSupplierObject] = useState({});
@@ -22,11 +36,24 @@ const AddPurchaseReturnContainer = () => {
   useEffect(() => {
     dispatch(fetchPurchase());
     dispatch(fetchSuppliers());
-  }, [dispatch]);
 
-  const handleBack = () => {
-    navigate("/purchases");
-  };
+    if (id) {
+      dispatch(fetchPurchaseById(id));
+      dispatch(setEdit(true));
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (isEdit) setProductTableData(purchaseDataById);
+  }, [isEdit, purchaseDataById]);
+
+  const { return_date, status, notes } = purchaseDataById || {};
+
+  const currentProductData = isEdit
+    ? productTableData?.returns
+    : productTableData;
+
+  const handleBack = () => navigate("/purchase-return");
 
   const getSupplierName = (purchaseData, suppliersData) => {
     const results = [];
@@ -45,7 +72,23 @@ const AddPurchaseReturnContainer = () => {
     return results;
   };
 
+  const editSupplierName = (purchaseDataById, suppliersData) => {
+    const findSupplierName = suppliersData?.find(
+      (item) => item?._id === purchaseDataById?.supplier_id?._id
+    )?.name;
+
+    const modifyObj = {
+      label: `${purchaseDataById?.bill_id}(${findSupplierName})`,
+      value: `${purchaseDataById?.bill_id}(${findSupplierName})`,
+    };
+    return modifyObj;
+  };
+
   const billNoSupplierOption = getSupplierName(purchaseData, suppliersData);
+  const supplierOptionForEdit = editSupplierName(
+    purchaseDataById,
+    suppliersData
+  );
 
   const purchaseReturnItems = (value) => {
     if (!value?.supplier?.value) return [];
@@ -74,11 +117,31 @@ const AddPurchaseReturnContainer = () => {
     return findSupplierName || [];
   };
 
-  const handleDelete = (row) => {
-    const deleteProductTableData = productTableData?.filter(
-      (item) => item?._id !== row?._id
+  const filterDataByKey = (data, key, value) =>
+    data?.filter((item) => item[key] !== value);
+
+  const handleDelete = async (row) => {
+    const itemId = row?.item_id;
+    const rowId = row?.formatted_name;
+
+    const addDeleteProduct = filterDataByKey(
+      currentProductData,
+      "formatted_name",
+      rowId
     );
-    setProductTableData(deleteProductTableData);
+
+    const isItemIdKeyPresent = (row) => {
+      return "item_id" in row;
+    };
+    const isKeyPresent = isItemIdKeyPresent(row);
+
+    if (isEdit) {
+      if (isKeyPresent) await deletePurchaseReturnByName(id, { itemId });
+      setProductTableData((prevData) => ({
+        ...prevData,
+        items: addDeleteProduct,
+      }));
+    } else setProductTableData(addDeleteProduct);
   };
 
   const actionsBtn = [
@@ -87,16 +150,15 @@ const AddPurchaseReturnContainer = () => {
 
   const handleChange = (option, setFieldValue) => {
     const isDataAvailable = option
-      ? productTableData?.some(
+      ? currentProductData?.some(
           (value) =>
             value?.formatted_name?.toLowerCase() ===
             option?.value?.toLowerCase()
         )
       : false;
 
-    if (isDataAvailable) {
-      toast.error("This Product Already Added");
-    } else {
+    if (isDataAvailable) toast.error("This Product Already Added");
+    else {
       const filterOptionsData = option
         ? getSelectSupplierObject?.items
             ?.filter((item) =>
@@ -108,15 +170,32 @@ const AddPurchaseReturnContainer = () => {
               ...item,
               qty: 1,
               purchase_limit: item?.qty,
+              subtotal: item?.product_price,
             }))
         : [];
-      setProductTableData((prevData) => [...prevData, ...filterOptionsData]);
+
+      if (isEdit)
+        setProductTableData((prevData) => ({
+          ...prevData,
+          returns: [...prevData.returns, ...filterOptionsData],
+        }));
+      else
+        setProductTableData((prevData) => [...prevData, ...filterOptionsData]);
       setFieldValue("inputValue", "");
     }
   };
 
-  const calculateTotals = (productTableData) => {
-    const grandTotal = productTableData?.reduce(
+  const setCountQty = (updatedData) => {
+    if (isEdit)
+      setProductTableData((prevData) => ({
+        ...prevData,
+        returns: updatedData,
+      }));
+    else setProductTableData(updatedData);
+  };
+
+  const calculateTotals = (currentProductData) => {
+    const grandTotal = currentProductData?.reduce(
       (accumulator, item) => accumulator + (parseFloat(item?.subtotal) || 0),
       0
     );
@@ -130,17 +209,11 @@ const AddPurchaseReturnContainer = () => {
     search: null,
     inputValue: "",
     options: [],
-    date: "",
-    supplier: "",
+    date: isEdit ? return_date : "",
+    supplier: isEdit ? supplierOptionForEdit : "",
     products: [],
-    orderTax: "",
-    orderTaxType: "%",
-    discount: "",
-    discountType: "$",
-    shipping: "",
-    shippingType: "$",
-    status: "",
-    note: "",
+    status: getStatusEditOptions(status) || "",
+    note: notes || "",
   };
 
   const handleSubmit = async (
@@ -154,7 +227,6 @@ const AddPurchaseReturnContainer = () => {
 
     formData.append("bill_id", getBillId);
     formData.append("return_date", formattedDate(values?.date));
-    // formData.append("supplier_id", values?.supplier?.value);
 
     const appendPurchaseDetails = (variations, formData) => {
       variations?.forEach((data, index) => {
@@ -171,18 +243,16 @@ const AddPurchaseReturnContainer = () => {
       });
     };
 
-    appendPurchaseDetails(productTableData, formData);
+    appendPurchaseDetails(currentProductData, formData);
 
     formData.append("return_grand_total", grandTotal);
     formData.append("return_status", values?.status?.value);
     formData.append("return_notes", values?.note);
 
     try {
-      // const response = isEdit
-      //   ? await editPurchase(id, formData)
-      //   : await addPurchase(formData);
-
-      const response = await addPurchaseReturn(formData);
+      const response = isEdit
+        ? await editPurchaseReturn(id, formData)
+        : await addPurchaseReturn(formData);
 
       if (response) {
         handleBack();
@@ -198,10 +268,10 @@ const AddPurchaseReturnContainer = () => {
   };
 
   return {
-    productTableData,
     actionsBtn,
     initialValues,
     billNoSupplierOption,
+    currentProductData,
     handleBack,
     setProductTableData,
     handleChange,
@@ -209,6 +279,7 @@ const AddPurchaseReturnContainer = () => {
     calculateTotals,
     purchaseReturnItems,
     getGrandTotal,
+    setCountQty,
   };
 };
 

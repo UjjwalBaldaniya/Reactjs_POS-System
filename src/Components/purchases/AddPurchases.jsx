@@ -48,7 +48,7 @@ const AddPurchases = () => {
     <div>
       <Navbar
         title="Add Purchases"
-        showBackBtn={true}
+        showBackBtn
         handleBackBtn={() => handleBack()}
       />
 

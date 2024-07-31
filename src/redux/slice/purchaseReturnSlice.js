@@ -21,7 +21,7 @@ const purchaseReturnSlice = createSlice({
   },
   reducers: {
     resetInitialValues: (state) => {
-      state.productDataById = {};
+      state.purchaseReturnDataById = {};
     },
     setEdit: (state, action) => {
       state.isEdit = action?.payload;
