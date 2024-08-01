@@ -6,7 +6,7 @@ import InputWithSelect from "../../common/InputWithSelect";
 import { posColumns } from "../../description/pos.description";
 import {
   purchaseTableColumns,
-  PurchaseTableInputs,
+  purchaseTableInputs,
 } from "../../description/purchases.description";
 import { preventNegative } from "../../utils/functions/salesAndPurchasesUtils";
 
@@ -56,7 +56,7 @@ const PosBilling = ({
       </div>
       <div className="">
         <div className="purchase-table-container">
-          <div className="purchase-table mt-4" style={{ width: "450px" }}>
+          <div className="purchase-table mt-4">
             <div className="purchase-table-key col">
               {purchaseTableColumns?.map((data, index) => (
                 <div key={index}>
@@ -65,7 +65,7 @@ const PosBilling = ({
               ))}
             </div>
             <div className="purchase-table-key col">
-              {PurchaseTableInputs?.map((input, index) => (
+              {purchaseTableInputs?.map((input, index) => (
                 <InputWithSelect
                   key={index}
                   fieldName={input?.fieldName}

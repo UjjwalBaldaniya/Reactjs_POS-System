@@ -37,13 +37,63 @@ export const addPurchaseColumns = [
   },
   { label: "Subtotal", accessor: (row) => `$ ${row?.subtotal}` },
 ];
+export const hasReturnColumn = [
+  {
+    label: "Product",
+    accessor: (row) => `${row?.product_name || row?.product_name_en}`,
+  },
+  {
+    label: "Variation",
+    accessor: (row) => `${row?.variation_type_name || "-"}`,
+  },
+  { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
+  {
+    label: "Price",
+    accessor: (row) => `$ ${row?.product_price}`,
+  },
+  {
+    label: "QTY",
+    accessor: "qty",
+    render: (row, handleQtyChange) => (
+      <div>
+        <button
+          onClick={() => handleQtyChange(row, row?.qty - 1)}
+          className="dynamic-calc-count-btn me-3"
+          type="button"
+        >
+          -
+        </button>
+        <span>{row.qty}</span>
+        <button
+          onClick={() => handleQtyChange(row, row?.qty + 1)}
+          className="dynamic-calc-count-btn ms-3"
+          type="button"
+        >
+          +
+        </button>
+      </div>
+    ),
+  },
+  {
+    label: "Return Qty",
+    accessor: "return_qty",
+  },
+  {
+    label: "Subtotal",
+    accessor: (row) =>
+      `$ ${row?.return_subtotal ? row?.subtotal - row?.return_subtotal : row?.subtotal}`,
+  },
+];
 
 export const purchaseReturnDetailsColumn = [
   {
     label: "Product",
     accessor: (row) => `${row?.product_name || row?.product_name_en}`,
   },
-  { label: "Variation", accessor: "variation_type_name" },
+  {
+    label: "Variation",
+    accessor: (row) => `${row?.variation_type_name || "-"}`,
+  },
   { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
   {
     label: "Price",
@@ -82,7 +132,7 @@ export const optionalAmountType = [
   { value: "%", label: "%" },
 ];
 
-export const PurchaseTableInputs = [
+export const purchaseTableInputs = [
   { fieldName: "orderTax", typeName: "orderTaxType" },
   { fieldName: "discount", typeName: "discountType" },
   { fieldName: "shipping", typeName: "shippingType" },

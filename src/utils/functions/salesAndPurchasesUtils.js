@@ -13,6 +13,7 @@ export const getStatusEditOptions = (value) =>
   statusOptions?.find((data) => data?.value === value);
 
 export const calculateTotals = (
+  isReturnProduct,
   currentProductData,
   orderTax,
   orderTaxType,
@@ -21,10 +22,18 @@ export const calculateTotals = (
   shipping,
   shippingType
 ) => {
-  let grandTotal = currentProductData?.reduce(
+  const subtotal = currentProductData?.reduce(
     (accumulator, item) => accumulator + (parseFloat(item?.subtotal) || 0),
     0
   );
+
+  const returnSubtotal = currentProductData?.reduce(
+    (accumulator, item) =>
+      accumulator + (parseFloat(item?.return_subtotal) || 0),
+    0
+  );
+
+  let grandTotal = isReturnProduct ? subtotal - returnSubtotal : subtotal;
 
   let taxAmount = 0;
   if (orderTaxType === "%") {

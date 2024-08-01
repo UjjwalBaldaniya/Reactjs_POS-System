@@ -31,6 +31,8 @@ const Pos = () => {
 
   if (status !== "succeeded") return <Loader />;
 
+  const isReturnProduct = false;
+
   return (
     <div className="container-fluid">
       <div className="pos">
@@ -40,9 +42,9 @@ const Pos = () => {
           enableReinitialize
         >
           {({ setFieldValue, values }) => {
-            // console.log("🚀 ~ Pos ~ values:", values);
             const { grandTotal, taxAmount, discountAmount, shippingAmount } =
               calculateTotals(
+                isReturnProduct,
                 productTableData,
                 values?.orderTax,
                 values?.orderTaxType,

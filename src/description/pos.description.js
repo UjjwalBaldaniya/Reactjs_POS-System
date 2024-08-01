@@ -3,7 +3,10 @@ export const posColumns = [
     label: "Product",
     accessor: (row) => `${row?.product_name || row?.product_name_en}`,
   },
-  { label: "Variation", accessor: "variation_type_name" },
+  {
+    label: "Variation",
+    accessor: (row) => `${row?.variation_type_name || "-"}`,
+  },
   {
     label: "Price",
     accessor: (row) => `$ ${row?.product_price}`,

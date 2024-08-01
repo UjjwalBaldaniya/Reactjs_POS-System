@@ -116,7 +116,7 @@ const PosPurchaseItem = ({
                 return (
                   <div
                     key={index}
-                    className={`pos-product ${
+                    className={`pos-product cursor-pointer ${
                       productTableData?.some(
                         (dataItem) =>
                           dataItem?.formatted_name === item?.formatted_name

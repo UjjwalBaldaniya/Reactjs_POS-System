@@ -72,6 +72,8 @@ const AddPurchasesContainer = () => {
     ? productTableData?.items
     : productTableData;
 
+  const isReturnProduct = purchaseDataById?.returns?.length > 0;
+
   const setCountQty = (updatedData) => {
     if (isEdit)
       setProductTableData((prevData) => ({
@@ -278,6 +280,7 @@ const AddPurchasesContainer = () => {
     isEdit,
     purchaseDataById,
     editReturnProductBtn,
+    isReturnProduct,
     handleBack,
     handleSubmit,
     handleInputChange,

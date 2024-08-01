@@ -121,7 +121,7 @@ const AddPurchaseReturnContainer = () => {
     data?.filter((item) => item[key] !== value);
 
   const handleDelete = async (row) => {
-    const itemId = row?.item_id;
+    const return_id = row?._id;
     const rowId = row?.formatted_name;
 
     const addDeleteProduct = filterDataByKey(
@@ -131,12 +131,12 @@ const AddPurchaseReturnContainer = () => {
     );
 
     const isItemIdKeyPresent = (row) => {
-      return "item_id" in row;
+      return "_id" in row;
     };
     const isKeyPresent = isItemIdKeyPresent(row);
 
     if (isEdit) {
-      if (isKeyPresent) await deletePurchaseReturnByName(id, { itemId });
+      if (isKeyPresent) await deletePurchaseReturnByName(id, { return_id });
       setProductTableData((prevData) => ({
         ...prevData,
         returns: addDeleteProduct,
@@ -169,7 +169,7 @@ const AddPurchaseReturnContainer = () => {
             ?.map((item) => ({
               ...item,
               qty: 1,
-              purchase_limit: item?.qty,
+              item_qty: item?.qty,
               subtotal: item?.product_price,
             }))
         : [];

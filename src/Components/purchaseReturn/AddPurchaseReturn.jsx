@@ -108,10 +108,10 @@ const AddPurchaseReturn = () => {
                 </div>
 
                 <div className="purchase-table-container">
-                  <div className="purchase-table mt-4">
+                  <div className="purchase-table mt-4 w-30">
                     <div className="purchase-table-key col">
                       <div>
-                        <p>Grand Total</p>
+                        <p className="text-nowrap">Grand Total</p>
                       </div>
                     </div>
                     <div className="col purchase-table-key purchase-table-end">
@@ -123,7 +123,7 @@ const AddPurchaseReturn = () => {
                 </div>
 
                 <div className="row mt-3">
-                  <div className="col-6">
+                  <div className="col">
                     <label htmlFor="status" className="formField-label">
                       Status:
                     </label>

@@ -26,7 +26,10 @@ export const addPurchaseReturnColumns = [
     label: "Product",
     accessor: (row) => `${row?.product_name || row?.product_name_en}`,
   },
-  { label: "Variation", accessor: "variation_type_name" },
+  {
+    label: "Variation",
+    accessor: (row) => `${row?.variation_type_name || "-"}`,
+  },
   { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
   {
     label: "Price",
@@ -38,9 +41,7 @@ export const addPurchaseReturnColumns = [
     render: (row, handleQtyChange) => (
       <div>
         <button
-          onClick={() =>
-            handleQtyChange(row, row?.qty - 1, row?.purchase_limit)
-          }
+          onClick={() => handleQtyChange(row, row?.qty - 1, row?.item_qty)}
           className="dynamic-calc-count-btn me-3"
           type="button"
         >
@@ -48,9 +49,7 @@ export const addPurchaseReturnColumns = [
         </button>
         <span>{row?.qty}</span>
         <button
-          onClick={() =>
-            handleQtyChange(row, row?.qty + 1, row?.purchase_limit)
-          }
+          onClick={() => handleQtyChange(row, row?.qty + 1, row?.item_qty)}
           className="dynamic-calc-count-btn ms-3"
           type="button"
         >

@@ -13,9 +13,10 @@ import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import {
   addPurchaseColumns,
+  hasReturnColumn,
   purchaseReturnDetailsColumn,
   purchaseTableColumns,
-  PurchaseTableInputs,
+  purchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
 import { YYYY_MM_DD } from "../../utils/constants";
@@ -36,6 +37,7 @@ const AddPurchases = () => {
     isEdit,
     purchaseDataById,
     editReturnProductBtn,
+    isReturnProduct,
     handleBack,
     handleSubmit,
     handleInputChange,
@@ -63,6 +65,7 @@ const AddPurchases = () => {
         {({ isSubmitting, setFieldValue, values }) => {
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
+              isReturnProduct,
               currentProductData,
               values?.orderTax,
               values?.orderTaxType,
@@ -175,7 +178,9 @@ const AddPurchases = () => {
                 <div className="mt-4">
                   <label className="formField-label">Order Items:</label>
                   <DynamicCalculateTable
-                    columns={addPurchaseColumns}
+                    columns={
+                      isReturnProduct ? hasReturnColumn : addPurchaseColumns
+                    }
                     data={currentProductData}
                     setData={setCountQty}
                     actions={actionsBtn}
@@ -183,7 +188,7 @@ const AddPurchases = () => {
                 </div>
 
                 <div className="purchase-table-container">
-                  <div className="purchase-table mt-4">
+                  <div className="purchase-table mt-4 ">
                     <div className="purchase-table-key col">
                       {purchaseTableColumns?.map((data, index) => (
                         <div key={index}>
@@ -192,7 +197,7 @@ const AddPurchases = () => {
                       ))}
                     </div>
                     <div className="purchase-table-key col">
-                      {PurchaseTableInputs?.map((input, index) => (
+                      {purchaseTableInputs?.map((input, index) => (
                         <InputWithSelect
                           key={index}
                           fieldName={input?.fieldName}
@@ -218,7 +223,7 @@ const AddPurchases = () => {
                 </div>
 
                 <div className="row mt-3">
-                  <div className="col-6">
+                  <div className="col">
                     <label htmlFor="status" className="formField-label">
                       Status:
                     </label>
@@ -244,7 +249,7 @@ const AddPurchases = () => {
                   />
                 </div>
 
-                {purchaseDataById?.returns?.length > 0 && (
+                {isReturnProduct && (
                   <div className="mt-4">
                     <label className="formField-label">Return Items:</label>
                     <DynamicCalculateTable

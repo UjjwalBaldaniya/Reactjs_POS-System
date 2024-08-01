@@ -11,7 +11,7 @@ import Navbar from "../../common/Navbar";
 import AddSalesContainer from "../../container/sales/addSales.container";
 import {
   purchaseTableColumns,
-  PurchaseTableInputs,
+  purchaseTableInputs,
   statusOptions,
 } from "../../description/purchases.description";
 import { addSalesColumns } from "../../description/sales/sales.description";
@@ -41,6 +41,7 @@ const AddSales = () => {
   } = AddSalesContainer();
 
   if (loading !== "succeeded" && isEdit) return <Loader />;
+  const isReturnProduct = false;
 
   return (
     <div>
@@ -58,6 +59,7 @@ const AddSales = () => {
         {({ isSubmitting, setFieldValue, values }) => {
           const { grandTotal, taxAmount, discountAmount, shippingAmount } =
             calculateTotals(
+              isReturnProduct,
               currentProductData,
               values?.orderTax,
               values?.orderTaxType,
@@ -187,7 +189,7 @@ const AddSales = () => {
                       ))}
                     </div>
                     <div className="purchase-table-key col">
-                      {PurchaseTableInputs?.map((input, index) => (
+                      {purchaseTableInputs?.map((input, index) => (
                         <InputWithSelect
                           key={index}
                           fieldName={input?.fieldName}
@@ -213,7 +215,7 @@ const AddSales = () => {
                 </div>
 
                 <div className="row mt-3">
-                  <div className="col-6">
+                  <div className="col">
                     <label htmlFor="status" className="formField-label">
                       Status:
                     </label>
