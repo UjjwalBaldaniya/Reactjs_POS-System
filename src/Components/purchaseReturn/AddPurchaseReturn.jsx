@@ -5,6 +5,7 @@ import Select from "react-select";
 
 import CommonButton from "../../common/CommonButton";
 import DynamicCalculateTable from "../../common/DynamicCalculateTable";
+import Loader from "../../common/Loader";
 import Navbar from "../../common/Navbar";
 import AddPurchaseReturnContainer from "../../container/purchase/addPurchaseReturn.container";
 import { addPurchaseReturnColumns } from "../../description/purchaseReturn.description";
@@ -18,6 +19,8 @@ const AddPurchaseReturn = () => {
     initialValues,
     billNoSupplierOption,
     currentProductData,
+    loading,
+    isEdit,
     handleBack,
     setProductTableData,
     handleChange,
@@ -27,6 +30,8 @@ const AddPurchaseReturn = () => {
     getGrandTotal,
     setCountQty,
   } = AddPurchaseReturnContainer();
+
+  if (loading !== "succeeded" && isEdit) return <Loader />;
 
   return (
     <div>

@@ -129,7 +129,10 @@ const PosPurchaseItem = ({
                     <img src={cakeImage} alt="" className="img-fluid" />
                     <div className="pos-product-desc">
                       <p className="pos-product-title">
-                        {item?.formatted_name}
+                        {item?.variation_type_name
+                          ? `${item.variation_type_name} - `
+                          : ""}
+                        {item?.product_name_en}
                       </p>
                       <p className="pos-product-price">
                         {`$ ${item?.product_price}.00`}

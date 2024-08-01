@@ -2,18 +2,19 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { deletePurchaseReturn } from "../../api/services/purchaseReturnService";
 import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import {
   fetchPurchaseReturn,
-  resetInitialValues,
   setEdit,
 } from "../../redux/slice/purchaseReturnSlice";
+import { resetInitialValues } from "../../redux/slice/purchaseSlice";
 
 const PurchaseReturnContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { purchaseReturnData = [] } = useSelector(
+  const { purchaseReturnData = [], status } = useSelector(
     (state) => state?.purchaseReturn || {}
   );
 
@@ -32,7 +33,10 @@ const PurchaseReturnContainer = () => {
     navigate(`/purchase-return/edit/${row?.id}`);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async (row) => {
+    await deletePurchaseReturn(row?.id);
+    dispatch(fetchPurchaseReturn());
+  };
 
   const actionsBtn = [
     { name: "edit", icon: editIcon, handler: handleEdit },
@@ -42,6 +46,7 @@ const PurchaseReturnContainer = () => {
   return {
     actionsBtn,
     purchaseReturnData,
+    status,
     handleAdd,
   };
 };

@@ -3,13 +3,15 @@ export const addPurchaseColumns = [
     label: "Product",
     accessor: (row) => `${row?.product_name || row?.product_name_en}`,
   },
-  { label: "Variation", accessor: "variation_type_name" },
+  {
+    label: "Variation",
+    accessor: (row) => `${row?.variation_type_name || "-"}`,
+  },
   { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
   {
     label: "Price",
     accessor: (row) => `$ ${row?.product_price}`,
   },
-  // { label: "Stock", accessor: "stock" },
   {
     label: "QTY",
     accessor: "qty",
@@ -34,6 +36,27 @@ export const addPurchaseColumns = [
     ),
   },
   { label: "Subtotal", accessor: (row) => `$ ${row?.subtotal}` },
+];
+
+export const purchaseReturnDetailsColumn = [
+  {
+    label: "Product",
+    accessor: (row) => `${row?.product_name || row?.product_name_en}`,
+  },
+  { label: "Variation", accessor: "variation_type_name" },
+  { label: "Code", accessor: (row) => `${row?.product_code || row?.code}` },
+  {
+    label: "Price",
+    accessor: (row) => `$ ${row?.product_price}`,
+  },
+  {
+    label: "Return Qty",
+    accessor: "qty",
+  },
+  {
+    label: "Subtotal",
+    accessor: (row) => `$ ${row?.subtotal}`,
+  },
 ];
 
 export const options = [

@@ -8,7 +8,7 @@ import {
   deletePurchaseByName,
   editPurchase,
 } from "../../api/services/purchaseService";
-import { deleteIcon } from "../../assets/icons/tables";
+import { deleteIcon, editIcon } from "../../assets/icons/tables";
 import { getDropdownOptions } from "../../common/functions/getDropdownOptions";
 import {
   fetchProductByName,
@@ -115,6 +115,12 @@ const AddPurchasesContainer = () => {
 
   const actionsBtn = [
     { name: "delete", icon: deleteIcon, handler: handleDelete },
+  ];
+
+  const handleEdit = () => navigate(`/purchase-return/edit/${id}`);
+
+  const editReturnProductBtn = [
+    { name: "edit", icon: editIcon, handler: handleEdit },
   ];
 
   const handleInputChange = (newValue, setFieldValue) => {
@@ -263,20 +269,22 @@ const AddPurchasesContainer = () => {
   };
 
   return {
-    handleBack,
     actionsBtn,
     initialValues,
+    productTableData,
+    supplierOption,
+    currentProductData,
+    loading,
+    isEdit,
+    purchaseDataById,
+    editReturnProductBtn,
+    handleBack,
     handleSubmit,
     handleInputChange,
     handleChange,
-    productTableData,
     supplierNavigate,
-    supplierOption,
     getGrandTotal,
-    currentProductData,
-    loading,
     setCountQty,
-    isEdit,
   };
 };
 

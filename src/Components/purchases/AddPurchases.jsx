@@ -13,6 +13,7 @@ import Navbar from "../../common/Navbar";
 import AddPurchasesContainer from "../../container/purchase/addPurchases.container";
 import {
   addPurchaseColumns,
+  purchaseReturnDetailsColumn,
   purchaseTableColumns,
   PurchaseTableInputs,
   statusOptions,
@@ -26,20 +27,22 @@ import {
 
 const AddPurchases = () => {
   const {
-    handleBack,
     actionsBtn,
     initialValues,
+    productTableData,
+    supplierOption,
+    currentProductData,
+    loading,
+    isEdit,
+    purchaseDataById,
+    editReturnProductBtn,
+    handleBack,
     handleSubmit,
     handleInputChange,
     handleChange,
-    productTableData,
     supplierNavigate,
-    supplierOption,
     getGrandTotal,
-    currentProductData,
-    loading,
     setCountQty,
-    isEdit,
   } = AddPurchasesContainer();
 
   if (loading !== "succeeded" && isEdit) return <Loader />;
@@ -240,6 +243,17 @@ const AddPurchases = () => {
                     placeholder="Enter notes"
                   />
                 </div>
+
+                {purchaseDataById?.returns?.length > 0 && (
+                  <div className="mt-4">
+                    <label className="formField-label">Return Items:</label>
+                    <DynamicCalculateTable
+                      columns={purchaseReturnDetailsColumn}
+                      data={purchaseDataById?.returns}
+                      actions={editReturnProductBtn}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="my-5">

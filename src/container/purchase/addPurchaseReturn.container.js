@@ -24,7 +24,7 @@ const AddPurchaseReturnContainer = () => {
   const dispatch = useDispatch();
   const { purchaseData = [] } = useSelector((state) => state.purchase || {});
   const { suppliersData = [] } = useSelector((state) => state?.supplier || {});
-  const { purchaseDataById = {} } = useSelector(
+  const { purchaseDataById = {}, status: loading } = useSelector(
     (state) => state.purchase || {}
   );
   const { isEdit } = useSelector((state) => state?.purchaseReturn || {});
@@ -139,7 +139,7 @@ const AddPurchaseReturnContainer = () => {
       if (isKeyPresent) await deletePurchaseReturnByName(id, { itemId });
       setProductTableData((prevData) => ({
         ...prevData,
-        items: addDeleteProduct,
+        returns: addDeleteProduct,
       }));
     } else setProductTableData(addDeleteProduct);
   };
@@ -272,6 +272,8 @@ const AddPurchaseReturnContainer = () => {
     initialValues,
     billNoSupplierOption,
     currentProductData,
+    loading,
+    isEdit,
     handleBack,
     setProductTableData,
     handleChange,
