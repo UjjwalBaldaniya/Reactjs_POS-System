@@ -50,7 +50,7 @@ const SignIn = () => {
               onSubmit={async (values, { setSubmitting, setFieldError }) => {
                 setSubmitting(true);
                 const newValue = {
-                  usernameOrEmail: values.usernameOrEmail,
+                  emailOrUsername: values.usernameOrEmail,
                   password: values.password,
                 };
 

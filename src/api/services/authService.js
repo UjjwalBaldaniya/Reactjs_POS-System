@@ -4,7 +4,7 @@ import axiosInstance from "../interceptors/axiosInstance";
 
 export const signUp = async (userData) => {
   try {
-    const response = await axiosInstance.post("/users/add", userData);
+    const response = await axiosInstance.post("/users/register", userData);
     toast.success(response?.data?.msg);
     return response?.data;
   } catch (error) {

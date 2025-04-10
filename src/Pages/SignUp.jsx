@@ -40,8 +40,8 @@ const SignUp = () => {
                 const newValue = {
                   username: values.username,
                   email: values.email,
-                  countrycode: values.countryCode,
-                  phoneno: values.phoneNumber,
+                  countryCode: values.countryCode,
+                  phoneNumber: values.phoneNumber,
                   password: values.password,
                   confirmPassword: values.confirmPassword,
                 };
